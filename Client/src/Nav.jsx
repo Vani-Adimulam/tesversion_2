@@ -12,7 +12,7 @@ const Nav = () => {
     
   <div>
 <Link to="/login" className='navbar-brand' style={{marginRight:"150px"}}><h3>Evaluator</h3></Link>
-<Link to="/login" className='navbar-brand' style={{marginRight:"150px"}}><h3>Candidate</h3></Link>
+<Link to="/verify-email" className='navbar-brand' style={{marginRight:"150px"}}><h3>Candidate</h3></Link>
   </div>
    
    

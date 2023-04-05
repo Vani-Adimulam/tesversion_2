@@ -1,12 +1,12 @@
 // server.js
 
-
 const express = require('express');
 const mongoose = require('mongoose');
 const middleware = require('./middleware');
 const jwt = require('jsonwebtoken');
-const app = express()
+const app = express();
 const cors = require('cors');
+const dotenv = require('dotenv').config()
 const Candidate = require('./models/Candidate');
 const Evaluator = require('./models/Evaluator');
 const bodyParser = require('body-parser');
@@ -17,10 +17,10 @@ require('dotenv').config();
 mongoose.connect(process.env.MONGODB_URI,{
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    // useCreateIndex  : true
-}).then(
-    () => console.log('DB Connection established')
-)
+    // useCreateIndex: true
+  })
+  .then(() => console.log('DB Connection established'))
+  .catch((err) => console.log(`DB Connection error: ${err.message}`));
 
 app.use(express.json());
 
@@ -49,39 +49,31 @@ app.post('/addEvaluator', async (req, res) => {
 });
 
 // Route to authenticate an evaluator
-app.post('/loginEvaluator', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    // Find the evaluator in the database by email
-    const evaluator = await Evaluator.findOne({ email });
-    // If evaluator with provided email does not exist, return an error message
-    if (!evaluator) {
-      return res.status(400).send('Invalid email');
-    }
-    // Compare the hashed password with the password provided by the user
-    const isMatch = await bcrypt.compare(password, evaluator.password);
-    // If the password is incorrect, return an error message
-    if (!isMatch) {
-      return res.status(400).send('Invalid Password');
-    }
-    // Create a JWT token with the evaluator email and id as payload
-    let payload = {
-      user:{
-        email: evaluator.email,
-        id: evaluator._id
+app.post('/login',async (req, res) => {
+  try{
+      const {email,password} = req.body;
+      let exist = await Evaluator.findOne({email});
+      if(!exist) {
+          
+          return res.status(400).send('User Not Found');
+          
       }
-      
-    };
-    const jwtSecret = process.env.JWT_SECRET;
-    const token = jwt.sign(payload, jwtSecret);
-
-    // Return the JWT token as a response
-    return res.json({ token });
+      if(exist.password !== password) {
+         
+          return res.status(400).send('Invalid credentials');
+      }
+      let payload = {
+          user:{
+              id : exist.id
+          }
+      }
+    );
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('Server error');
+    console.log(err);
+    return res.status(500).send('Server Error');
   }
 });
+
 //candidate register route
 app.post('/register', async (req, res) => {
   try {
@@ -106,11 +98,45 @@ app.get('/myprofile',middleware,async(req, res)=>{
           return res.status(400).send('User not found');
       }
       res.json(exist);
+
+
+app.post('/verify-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+      return res.status(404).json({ status: 'Email not found' });
+    }
+    // email is verified, redirect to next page
+    res.status(200).json({ status: 'Email verified' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 'Internal server error' });
   }
-  catch(err){
-      console.log(err);
-      return res.status(500).send('Server Error')
-  }
+});
+
+
+app.listen(701,()=>{
+  console.log("server running")
 })
 
-app.listen(701, () => console.log('Server running on port 701'));
+
+app.post('/verify-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+      return res.status(404).json({ status: 'Email not found' });
+    }
+    // email is verified, redirect to next page
+    res.status(200).json({ status: 'Email verified' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 'Internal server error' });
+  }
+});
+
+
+app.listen(701,()=>{
+  console.log("server running")
+})
