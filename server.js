@@ -49,30 +49,30 @@ app.post('/addEvaluator', async (req, res) => {
 });
 
 // Route to authenticate an evaluator
-app.post('/login',async (req, res) => {
-  try{
-      const {email,password} = req.body;
-      let exist = await Evaluator.findOne({email});
-      if(!exist) {
+// app.post('/login',async (req, res) => {
+//   try{
+//       const {email,password} = req.body;
+//       let exist = await Evaluator.findOne({email});
+//       if(!exist) {
           
-          return res.status(400).send('User Not Found');
+//           return res.status(400).send('User Not Found');
           
-      }
-      if(exist.password !== password) {
+//       }
+//       if(exist.password !== password) {
          
-          return res.status(400).send('Invalid credentials');
-      }
-      let payload = {
-          user:{
-              id : exist.id
-          }
-      }
-    );
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send('Server Error');
-  }
-});
+//           return res.status(400).send('Invalid credentials');
+//       }
+      
+//       let payload = {
+//           user:{
+//               id : exist.id
+//           }
+//       }
+//   }catch (err) {
+//     console.log(err);
+//     return res.status(500).send('Server Error');
+//   }
+// });
 
 //candidate register route
 app.post('/register', async (req, res) => {
@@ -98,6 +98,10 @@ app.get('/myprofile',middleware,async(req, res)=>{
           return res.status(400).send('User not found');
       }
       res.json(exist);
+    }catch(err){
+      console.log(err);
+      return res.status(500).send("Server Error")    }
+    });
 
 
 app.post('/verify-email', async (req, res) => {
@@ -115,28 +119,40 @@ app.post('/verify-email', async (req, res) => {
   }
 });
 
-
-app.listen(701,()=>{
-  console.log("server running")
-})
-
-
-app.post('/verify-email', async (req, res) => {
+app.post('/loginEvaluator', async (req, res) => {
   try {
-    const { email } = req.body;
-    const candidate = await Candidate.findOne({ email });
-    if (!candidate) {
-      return res.status(404).json({ status: 'Email not found' });
+    const { email, password } = req.body;
+    // Find the evaluator in the database by email
+    const evaluator = await Evaluator.findOne({ email });
+    // If evaluator with provided email does not exist, return an error message
+    if (!evaluator) {
+      return res.status(400).send('Invalid email');
     }
-    // email is verified, redirect to next page
-    res.status(200).json({ status: 'Email verified' });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 'Internal server error' });
+    // Compare the hashed password with the password provided by the user
+    const isMatch = await bcrypt.compare(password, evaluator.password);
+    // If the password is incorrect, return an error message
+    if (!isMatch) {
+      return res.status(400).send('Invalid Password');
+    }
+    // Create a JWT token with the evaluator email and id as payload
+    let payload = {
+      user:{
+        email: evaluator.email,
+        id: evaluator._id
+      }
+      
+    };
+    const jwtSecret = process.env.JWT_SECRET;
+    const token = jwt.sign(payload, jwtSecret);
+
+    // Return the JWT token as a response
+    return res.json({ token });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Server error');
   }
 });
 
-
-app.listen(701,()=>{
+app.listen(701,()=>
   console.log("server running")
-})
+)
