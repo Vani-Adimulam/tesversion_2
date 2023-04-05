@@ -4,7 +4,7 @@ import CandidateForm from './CandidateForm';
 import EvaluatorForm from './EvaluatorForm';
 import Nav from "./Nav"
 import Myprofile from './Myprofile';
-export const store = createContext()
+export const store = createContext() 
 
 function App() {
   const [token,setToken] = useState(null);

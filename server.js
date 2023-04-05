@@ -77,6 +77,7 @@ app.post('/register', async (req, res) => {
     return res.status(500).send('Internal Server Error');
   }
 });
+
 app.get('/myprofile',middleware,async(req, res)=>{
   try{
       let exist = await Evaluator.findById(req.user.id);
