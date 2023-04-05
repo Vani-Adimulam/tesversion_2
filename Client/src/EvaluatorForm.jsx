@@ -18,7 +18,7 @@ const EvaluatorForm = () => {
 
     const submitHandler = (e) => {
       e.preventDefault();
-      axios.post('http://localhost:701/login', data)
+      axios.post('http://localhost:701/loginEvaluator', data)
         .then((res) => {
           if (res.data.token) {
             setToken(res.data.token);
@@ -28,7 +28,7 @@ const EvaluatorForm = () => {
         })
         .catch((error) => {
           console.log(error);
-          setErrorMessage('No Such User');
+          setErrorMessage('Email or password is not valid');
         });
     };
     

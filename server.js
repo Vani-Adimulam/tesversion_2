@@ -9,6 +9,9 @@ const app = express()
 const cors = require('cors');
 const Candidate = require('./models/Candidate');
 const Evaluator = require('./models/Evaluator');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs')
+require('dotenv').config();
 
 // Connect to MongoDB
 mongoose.connect("mongodb+srv://gorantlasantoshkumarreddy:assessment123@cluster0.fjz3f0l.mongodb.net/?retryWrites=true&w=majority",{
@@ -23,44 +26,62 @@ app.use(express.json());
 
 app.use(cors({origin:"*"}))
 
+app.use(bodyParser.json());
 
 
+app.post('/addEvaluator', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
+    // Generate a salt
+    const salt = await bcrypt.genSalt(10);
+
+    // Hash the password with the salt
+    const hashedPassword = await bcrypt.hash(password, salt)
+    // Save the hashed password and email to the database
+    await Evaluator.create({ email, password: hashedPassword });
+
+    return res.send('Evaluator added successfully');
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Server error');
+  }
+});
 
 // Route to authenticate an evaluator
-app.post('/login',async (req, res) => {
-  try{
-      const {email,password} = req.body;
-      let exist = await Evaluator.findOne({email});
-      if(!exist) {
-          
-          return res.status(400).send('User Not Found');
-          
+app.post('/loginEvaluator', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // Find the evaluator in the database by email
+    const evaluator = await Evaluator.findOne({ email });
+    // If evaluator with provided email does not exist, return an error message
+    if (!evaluator) {
+      return res.status(400).send('Invalid email');
+    }
+    // Compare the hashed password with the password provided by the user
+    const isMatch = await bcrypt.compare(password, evaluator.password);
+    // If the password is incorrect, return an error message
+    if (!isMatch) {
+      return res.status(400).send('Invalid Password');
+    }
+    // Create a JWT token with the evaluator email and id as payload
+    let payload = {
+      user:{
+        email: evaluator.email,
+        id: evaluator._id
       }
-      if(exist.password !== password) {
-         
-          return res.status(400).send('Invalid credentials');
-      }
-      let payload = {
-          user:{
-              id : exist.id
-          }
-      }
-      jwt.sign(payload,'jwtconfidential',{expiresIn:360000},
-        (err,token) =>{
-            if (err) throw err;
-            return res.json({token})
-        }  
-          )
+      
+    };
+    const jwtSecret = process.env.JWT_SECRET;
+    const token = jwt.sign(payload, jwtSecret);
 
+    // Return the JWT token as a response
+    return res.json({ token });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Server error');
   }
-  catch(err){
-      console.log(err);
-      return res.status(500).send('Server Error')
-  }
-})
-
-
+});
 //candidate register route
 app.post('/register', async (req, res) => {
   try {
@@ -80,7 +101,7 @@ app.post('/register', async (req, res) => {
 
 app.get('/myprofile',middleware,async(req, res)=>{
   try{
-      let exist = await Evaluator.findById(req.user.id);
+      let exist = await Evaluator.find({id: req.user.id,email : req.user.email});
       if(!exist){
           return res.status(400).send('User not found');
       }
