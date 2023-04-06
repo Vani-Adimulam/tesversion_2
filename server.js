@@ -31,7 +31,7 @@ app.use(cors({origin:"*"}))
 
 app.use(bodyParser.json());
 
-
+// API to add evaluator using Postman
 app.post('/addEvaluator', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -50,32 +50,6 @@ app.post('/addEvaluator', async (req, res) => {
     return res.status(500).send('Server error');
   }
 });
-
-// Route to authenticate an evaluator
-// app.post('/login',async (req, res) => {
-//   try{
-//       const {email,password} = req.body;
-//       let exist = await Evaluator.findOne({email});
-//       if(!exist) {
-          
-//           return res.status(400).send('User Not Found');
-          
-//       }
-//       if(exist.password !== password) {
-         
-//           return res.status(400).send('Invalid credentials');
-//       }
-      
-//       let payload = {
-//           user:{
-//               id : exist.id
-//           }
-//       }
-//   }catch (err) {
-//     console.log(err);
-//     return res.status(500).send('Server Error');
-//   }
-// });
 
 //candidate register route
 app.post('/register', async (req, res) => {
@@ -218,15 +192,59 @@ app.post('/addParagraphQuestion', async (req, res) => {
       });
 
 // a get api to fetch and send all questions and fields?
-app.get('/getMCQQuestions', async(req, res) => {
-  const questions = await MCQQuestion.find({});
-  res.json(questions);
+app.get('/getAllMCQQuestions', async(req, res) => {
+  try {
+    const questions = await MCQQuestion.find({});
+    res.json(questions);
+  } catch (error) {
+    console.error('Error getting questions from MongoDB:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
   });       
 
 // API to get Paragraph questions
-app.get('/getParagraphQuestions', async(req, res) => {
-  const questions = await ParagraphQuestion.find({});
-  res.json(questions);
+app.get('/getAllParagraphQuestions', async(req, res) => {
+  try {
+    const questions = await ParagraphQuestion.find({});
+    res.json(questions); 
+  } catch (error) {
+    console.error('Error getting questions from MongoDB:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+  });
+
+// create an API to get random MCQ Questions from Question Bank given area
+// and number
+app.get('/getMCQQuestionsforTest', async(req, res) => {
+  try {
+    const { area, number } = req.query;
+    const questions = await MCQQuestion.aggregate([
+      { $match: { area: area } },
+      { $sample: { size: Number(number) } },
+      { $sort: { _id: 1 } }
+    ]);
+    res.json({ questions }); 
+  } catch (error) {
+    console.log('Unable to create Test, Please select correct number of questions')
+    res.status(500).json({error:"Internal Server Error"})
+  }  
+});
+
+// create an API to get random PARAGRAPH Questions from Question Bank given area
+// subtype and number
+app.get('/getParagraphQuestionsforTest', async(req, res) => {
+  const { area, subtype, number } = req.query;
+  try {
+    const questions = await ParagraphQuestion.aggregate([
+      { $match: { area:area , subtype: subtype } },
+      { $sample: { size: Number(number) } },
+      { $sort: { _id: 1 } }
+      ]);
+      res.json({ questions });  
+  } catch (error) {
+    console.log('Unable to create Test, Please select correct number of questions')
+    res.status(500).json({error:"Internal Server Error"})
+  }  
   });
 
 app.listen(701, () => console.log('Server running on port 701'));
