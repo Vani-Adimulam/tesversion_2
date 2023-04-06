@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.0",
     "middleware-nodejs": "^1.0.0",
     "mongoose": "^7.0.3",
+    "natural": "^6.2.0",
     "nodemon": "^2.0.22",
     "web-vitals": "^3.3.1"
   },
