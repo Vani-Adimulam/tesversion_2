@@ -31,7 +31,7 @@ app.use(cors({origin:"*"}))
 
 app.use(bodyParser.json());
 
-
+// API to add evaluator using Postman
 app.post('/addEvaluator', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -50,32 +50,6 @@ app.post('/addEvaluator', async (req, res) => {
     return res.status(500).send('Server error');
   }
 });
-
-// Route to authenticate an evaluator
-// app.post('/login',async (req, res) => {
-//   try{
-//       const {email,password} = req.body;
-//       let exist = await Evaluator.findOne({email});
-//       if(!exist) {
-          
-//           return res.status(400).send('User Not Found');
-          
-//       }
-//       if(exist.password !== password) {
-         
-//           return res.status(400).send('Invalid credentials');
-//       }
-      
-//       let payload = {
-//           user:{
-//               id : exist.id
-//           }
-//       }
-//   }catch (err) {
-//     console.log(err);
-//     return res.status(500).send('Server Error');
-//   }
-// });
 
 //candidate register route
 app.post('/register', async (req, res) => {
