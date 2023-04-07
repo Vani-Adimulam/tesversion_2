@@ -14,7 +14,7 @@ const ParagraphQuestion = require('./models/ParagraphQuestions');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
 require('dotenv').config();
-const natural = require('natural');
+// const natural = require('natural');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI,{
@@ -132,7 +132,7 @@ app.post('/loginEvaluator', async (req, res) => {
 
 // API endpoint for adding a question to the "questions" collection
 app.post('/addQuestionMCQ', async (req, res) => {
-  const { question, area, choice1, choice2, choice3, choice4, correct_choice } = req.body;
+  const {area,question,choice1, choice2, choice3, choice4, correct_choice } = req.body;
 
   // Check if the question already exists
   // const existingQuestion = await MCQQuestion.findOne({ question: { $regex: question, $options: 'i' } });
@@ -154,8 +154,8 @@ app.post('/addQuestionMCQ', async (req, res) => {
 
   // Create a new question document
   const newQuestion = new MCQQuestion({
-    question,
     area,
+    question,
     choice1,
     choice2,
     choice3,
