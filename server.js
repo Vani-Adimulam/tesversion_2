@@ -68,17 +68,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.get('/myprofile',middleware,async(req, res)=>{
-  try{
-      let exist = await Evaluator.find({id: req.user.id,email : req.user.email});
-      if(!exist){
-          return res.status(400).send('User not found');
-      }
-      res.json(exist);
-    }catch(err){
-      console.log(err);
-      return res.status(500).send("Server Error")    }
-    });
 
 
 app.post('/verify-email', async (req, res) => {
@@ -121,7 +110,7 @@ app.post('/loginEvaluator', async (req, res) => {
     };
     const jwtSecret = process.env.JWT_SECRET;
     const token = jwt.sign(payload, jwtSecret);
-
+    
     // Return the JWT token as a response
     return res.json({ token });
   } catch (err) {
@@ -133,25 +122,25 @@ app.post('/loginEvaluator', async (req, res) => {
 // API endpoint for adding a question to the "questions" collection
 app.post('/addQuestionMCQ', async (req, res) => {
   const {area,question,choice1, choice2, choice3, choice4, correct_choice } = req.body;
-
+  
   // Check if the question already exists
   // const existingQuestion = await MCQQuestion.findOne({ question: { $regex: question, $options: 'i' } });
   // if (existingQuestion) {
-  //   return res.status(400).json({ error: 'Question already exists' });
+    //   return res.status(400).json({ error: 'Question already exists' });
   // }
-
+  
   // Check if a similar question exists using Levenshtein distance fuzzy search
   // const questions = await MCQQuestion.find({});
   // const tokenizedQuestion = natural.WordTokenizer().tokenize(question.toLowerCase());
   // const minimumDistance = Math.floor(tokenizedQuestion.length / 2);
   // for (let i = 0; i < questions.length; i++) {
-  //   const questionTokens = natural.WordTokenizer().tokenize(questions[i].question.toLowerCase());
-  //   const distance = natural.LevenshteinDistance(tokenizedQuestion.join(''), questionTokens.join(''));
-  //   if (distance <= minimumDistance) {
-  //     return res.status(400).json({ error: `Similar question already exists: ${questions[i].question}` });
+    //   const questionTokens = natural.WordTokenizer().tokenize(questions[i].question.toLowerCase());
+    //   const distance = natural.LevenshteinDistance(tokenizedQuestion.join(''), questionTokens.join(''));
+    //   if (distance <= minimumDistance) {
+      //     return res.status(400).json({ error: `Similar question already exists: ${questions[i].question}` });
   //   }
   // }
-
+  
   // Create a new question document
   const newQuestion = new MCQQuestion({
     area,
@@ -162,7 +151,7 @@ app.post('/addQuestionMCQ', async (req, res) => {
     choice4,
     correct_choice
   });
-
+  
   // Save the new question document to the "questions" collection
   try {
     const savedQuestion = await newQuestion.save();
@@ -181,26 +170,26 @@ app.post('/addParagraphQuestion', async (req, res) => {
   area,
   subtype,
   answer
-  });
+});
   try {
     const savedQuestion = await newQuestion.save();
     res.status(201).json(savedQuestion);
-    } catch (err) {
-      console.error('Error saving question to MongoDB:', err);
+  } catch (err) {
+    console.error('Error saving question to MongoDB:', err);
       res.status(500).json({ error: 'Internal server error' });
-      }
-      });
-
-// a get api to fetch and send all questions and fields?
-app.get('/getAllMCQQuestions', async(req, res) => {
-  try {
-    const questions = await MCQQuestion.find({});
-    res.json(questions);
-  } catch (error) {
-    console.error('Error getting questions from MongoDB:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
+  // a get api to fetch and send all questions and fields?
+  app.get('/getAllMCQQuestions', async(req, res) => {
+    try {
+      const questions = await MCQQuestion.find({});
+      res.json(questions);
+    } catch (error) {
+      console.error('Error getting questions from MongoDB:', error);
+      res.status(500).json({ error: 'Internal server error' });
   }
-  });       
+});       
 
 // API to get Paragraph questions
 app.get('/getAllParagraphQuestions', async(req, res) => {
@@ -211,7 +200,7 @@ app.get('/getAllParagraphQuestions', async(req, res) => {
     console.error('Error getting questions from MongoDB:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-  });
+});
 
 // create an API to get random MCQ Questions from Question Bank given area
 // and number
@@ -239,12 +228,25 @@ app.get('/getParagraphQuestionsforTest', async(req, res) => {
       { $match: { area:area , subtype: subtype } },
       { $sample: { size: Number(number) } },
       { $sort: { _id: 1 } }
-      ]);
-      res.json({ questions });  
+    ]);
+    res.json({ questions });  
   } catch (error) {
     console.log('Unable to create Test, Please select correct number of questions')
     res.status(500).json({error:"Internal Server Error"})
   }  
   });
-
-app.listen(701, () => console.log('Server running on port 701'));
+  
+app.get('/myprofile', middleware, async (req, res) => {
+  try {
+    let exist = await Evaluator.find({ id: req.user.id, email: req.user.email });
+    if (!exist) {
+      return res.status(400).send('User not found');
+    }
+    res.json(exist);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Server Error")
+  }
+});
+  app.listen(701, () => console.log('Server running on port 701'));
+  
