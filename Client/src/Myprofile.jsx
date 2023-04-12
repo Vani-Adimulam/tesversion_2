@@ -11,7 +11,7 @@ const MyProfile = () => {
   const [token, setToken] = useContext(store);
   const [data, setData] = useState(null);
   const [selectedQuestionType, setSelectedQuestionType] = useState(null);
-
+  
   useEffect(() => {
     axios
       .get("http://localhost:701/myprofile", {
