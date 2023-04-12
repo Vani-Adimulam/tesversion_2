@@ -4,26 +4,22 @@ import { store } from "./App";
 import { Navigate } from "react-router";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Dropdown, DropdownButton, Form, Button } from 'react-bootstrap';
-import McqForm from './McqForm';
+import { Form } from "react-bootstrap";
+import McqForm from "./McqForm";
+import AddParagraphQuestionForm from "./AddParagraphQuestionForm"
 
 const MyProfile = () => {
   const [token, setToken] = useContext(store);
   const [data, setData] = useState(null);
-  const [showMcqForm, setShowMcqForm] = useState(false);
-
-
-  //ADD QUESTION
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const navigate = useNavigate();
-
+  const [selectedQuestionType, setSelectedQuestionType] = useState(null);
+  
   useEffect(() => {
-    axios.get("http://localhost:701/myprofile", {
-      headers: {
-        "x-token": token,
-      },
-    })
+    axios
+      .get("http://localhost:701/myprofile", {
+        headers: {
+          "x-token": token,
+        },
+      })
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }, [token]);
@@ -32,19 +28,13 @@ const MyProfile = () => {
     return <Navigate to="/login" />;
   }
 
-
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
-    setShowDropdown(false);
+  const handleQuestionTypeChange = (e) => {
+    setSelectedQuestionType(e.target.value);
   };
 
-  const handleAddQuestion = () => {
-    setShowMcqForm(true);
-  };
-
-  function handleViewQuestions() {
-    navigate('./getAllMCQQuestions')
-  }
+  // const handleAddQuestion = () => {
+  //   setSelectedQuestionType(null); // reset selectedQuestionType to null
+  // };
 
   return (
     <div>
@@ -55,47 +45,53 @@ const MyProfile = () => {
             <div className="card-body">
               <h5 className="card-title">Welcome Evaluator</h5>
               <button
-                className="btn btn-primary"
-                onClick={() => setToken(null)}>
+                style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
+                className="btn"
+                onClick={() => setToken(null)}
+              >
                 Logout
               </button>
-              <Link to="/CandidateForm" className="btn btn-primary" style={{ marginLeft: "5px" }}>
+              <Link
+                to="/CandidateForm"
+                className="btn"
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#989898",
+                  fontFamily: "fantasy",
+                }}
+              >
                 Add Candidate
               </Link>
             </div>
           </div>
-          <Button variant="primary" onClick={() => setShowDropdown(!showDropdown)}>Add Question</Button>
-          {showDropdown && (
-            <DropdownButton id="dropdown-basic-button" title="Select a Category" style={{ marginTop: "" }}>
-              <Dropdown.Item onClick={() => handleCategorySelect('VLSI')}>VLSI</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleCategorySelect('Embedded')}>Embedded</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleCategorySelect('Software')}>Software</Dropdown.Item>
-            </DropdownButton>
-          )}
-          {selectedCategory && (
-            <div>
-              <h2>Add a question for {selectedCategory} category:</h2>
-              <Form>
-                <Form.Group controlId="questionTypeSelect">
-                  <Form.Label>Select Question Type</Form.Label>
-                  <Form.Control as="select">
-                    <option>MCQ</option>
-                    <option>TEXT</option>
-                    <option>CODING</option>
-                  </Form.Control>
-                </Form.Group>
-                <Button variant="primary" onClick={handleAddQuestion}>Add Question</Button>
-              </Form>
-            </div>
-          )}
-          {showMcqForm && (
-            <McqForm category={selectedCategory} setShowMcqForm={setShowMcqForm} handleAddQuestion={handleAddQuestion} />
-          )}
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Form style={{ width: "50rem" }}>
+              <Form.Group controlId="questionTypeSelect">
+                <Form.Label
+                  style={{ fontFamily: "sans-serif", fontWeight: "bold" }}
+                >
+                  Want To Add Question?
+                </Form.Label>
+                <Form.Control
+                  as="select"
+                  value={selectedQuestionType}
+                  onChange={handleQuestionTypeChange}
+                >
+                  <option value="">Select a question type</option>
+                  <option value="MCQ">MCQ</option>
+                  <option value="TEXT">Paragraph</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          </div>
+          {selectedQuestionType === "TEXT" && <AddParagraphQuestionForm />}
+          {selectedQuestionType === "MCQ" && <McqForm />}
+      
         </center>
       )}
-     <Button onClick={handleViewQuestions}>View Questions</Button>
     </div>
   );
 };
+
 
 export default MyProfile;

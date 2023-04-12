@@ -1,51 +1,76 @@
-import React, { useState } from 'react';
+import { useState,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { store } from './App';
 import axios from 'axios';
 
-const EmailVerification=()=> {
-  const [email, setEmail] = useState('');
-  const [verificationStatus, setVerificationStatus] = useState('');
-  const navigate = useNavigate();
+const CandidateLogin = () => {
+  const [token, setToken] = useContext(store);
+  const [data, setData] = useState({
+    email: ""
+  });
 
-  // function to handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // make a request to the backend to verify the email
-      const response = await axios.post('http://localhost:701/verify-email', { email });
-      setVerificationStatus(response.data.status);
-      // navigate to the "Instructions" component on successful verification
-      if (response.data.status === 'Email verified') {
-        navigate('/instructions');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+//errormessage handling
+  const [errorMessage, setErrorMessage] = useState("");
+
+//email changehandler
+  const changeHandler = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
   };
+//verifying the email and generate the token
+  const submitHandler = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:701/verify-email", data)
+      .then((res) => {
+        if (res.data.token) {
+          setToken(res.data.token)          
+        } else {
+          console.log("Email is not valid");
+          setErrorMessage("Email  not registered");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMessage("Email not registered");
+      });
+  }; 
+  
+//navigation to the instructions page
+  const navigate = useNavigate();
+  if (token) {
+    navigate("/instructions");
+  }
 
   return (
-    <div className="container">
-      <div className="row justify-content-center mt-5">
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow">
-            <div className="card-body">
-              <h2 className="card-title text-center">Verify Your Email</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
-                  <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div className="text-center">
-                  <button type="submit" className="btn btn-primary">Submit</button>
-                </div>
-              </form>
-              {verificationStatus && <p className="mt-3 text-center">{verificationStatus}</p>}
-            </div>
+    
+      <div className="card">
+      <div className="card-body">
+        <h5 className="card-title">Email Form</h5>
+        <form onSubmit={submitHandler}>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              value={data.email}
+              onChange={changeHandler}
+              required
+            />
           </div>
-        </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+          {errorMessage && (
+            <div className="mt-3 text-center text-danger">
+              {errorMessage}
+            </div>
+          )}
+        </form>
       </div>
     </div>
   );
 }
 
-export default EmailVerification;
+export default CandidateLogin;

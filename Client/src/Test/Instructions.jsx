@@ -1,16 +1,35 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React,{useState,useContext,useEffect}from 'react';
 
+import { store } from '../App';
+import { Navigate } from "react-router";
+import axios from 'axios';
 
 const Instructions = () => {
-  const navigate = useNavigate();
 
-  function handleStartClick() {
-    navigate('../getMCQQuestions')
+
+  const [token, setToken] = useContext(store);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:701/instructions", {
+        headers: {
+          "x-token": token,
+        },
+      })
+      .then((res) => setData(res.data))
+      .catch((err) => console.log(err));
+  }, [token]);
+
+  if (!token) {
+    return <Navigate to="/verify-email"/>;
   }
 
+  
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div>
+    {data && (
+        <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="text-center">
         <h2>Test Instructions</h2>
         <ul className="list-unstyled">
@@ -36,9 +55,19 @@ const Instructions = () => {
             Contact support if needed: If you encounter any technical difficulties or have questions during the test, contact the support team for assistance.
           </li>
         </ul>
-        <button className="btn btn-primary" onClick={handleStartClick}>Start</button>
+        <button className="btn btn-primary">Start</button>
+        <button
+                style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
+                className="btn"
+                onClick={() => setToken(null)}
+              >
+                Logout
+              </button>
       </div>
     </div>
+    )}
+    </div>
+
   );
 };
 

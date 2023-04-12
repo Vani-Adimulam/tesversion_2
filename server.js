@@ -69,7 +69,6 @@ app.post('/register', async (req, res) => {
 });
 
 
-
 app.post('/verify-email', async (req, res) => {
   try {
     const { email } = req.body;
@@ -77,9 +76,20 @@ app.post('/verify-email', async (req, res) => {
     if (!candidate) {
       return res.status(404).json({ status: 'Email not found' });
     }
-    // email is verified, redirect to next page
-    res.status(200).json({ status: 'Email verified' });
-  } catch (error) {
+    let payload = {
+      user:{
+        email: candidate.email,
+      }
+      
+    };
+    const jwtSecret = process.env.JWT_SECRET;
+    const token = jwt.sign(payload, jwtSecret);
+
+    // Return the JWT token as a response
+    return res.json({ token });
+  }
+   
+  catch (error) {
     console.log(error);
     res.status(500).json({ status: 'Internal server error' });
   }
@@ -255,5 +265,22 @@ app.get('/myprofile', middleware, async (req, res) => {
     return res.status(500).send("Server Error")
   }
 });
+
+
+//instructions page
+  app.get('/instructions',middleware,async(req,res)=>{
+      try{
+      let exist = await Candidate.find({email:req.user.email });
+    if(!exist){
+      return res.status(500).send('candidate not found')
+    }
+    res.json(exist)
+    } catch(err){
+      console.log(err)
+      return res.status(500).send('server error')
+    }
+    })
+
+
   app.listen(701, () => console.log('Server running on port 701'));
   
