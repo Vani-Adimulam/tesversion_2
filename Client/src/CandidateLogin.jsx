@@ -42,24 +42,33 @@ const CandidateLogin = () => {
   }
 
   return (
-    <div>
+    
+      <div className="card">
+      <div className="card-body">
+        <h5 className="card-title">Email Form</h5>
         <form onSubmit={submitHandler}>
-          <label>
-            Email:
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
             <input
               type="email"
-              name='email'
-              id='email'
+              className="form-control"
+              id="email"
+              name="email"
+              value={data.email}
               onChange={changeHandler}
+              required
             />
-          </label>
-          <button type="submit">Submit</button>
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
           {errorMessage && (
-                  <div className="mt-3 text-center text-danger">
-                    {errorMessage}
-                  </div>
-                )}
+            <div className="mt-3 text-center text-danger">
+              {errorMessage}
+            </div>
+          )}
         </form>
+      </div>
     </div>
   );
 }
