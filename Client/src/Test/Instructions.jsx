@@ -1,6 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Instructions = () => {
+  const navigate = useNavigate();
+
+  function handleStartClick() {
+    navigate('../getMCQQuestions')
+  }
+
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="text-center">
@@ -28,7 +36,7 @@ const Instructions = () => {
             Contact support if needed: If you encounter any technical difficulties or have questions during the test, contact the support team for assistance.
           </li>
         </ul>
-        <button className="btn btn-primary">Start</button>
+        <button className="btn btn-primary" onClick={handleStartClick}>Start</button>
       </div>
     </div>
   );

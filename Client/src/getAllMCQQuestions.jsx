@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import styles from './getMCQQuestions.module.css'
+import styles from './getAllMCQQuestions.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-const MCQQuestions = () => {
+const AllMCQQuestions = () => {
   
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   
   useEffect(() => {
-    axios.get('http://localhost:701/getMCQQuestionsforTest')
+    axios.get('http://localhost:701/getAllMCQQuestions')
       .then(response => {
         setQuestions(response.data.questions);
       })
@@ -55,12 +55,11 @@ const MCQQuestions = () => {
     </div>
   ))}
 </div>
-<div>
-      <button className="btn btn-primary" onClick={handleNextClick}>Next</button>
-</div>
-
+        <div>
+            <button className="btn btn-primary" onClick={handleNextClick}>Next</button>
+        </div>
     </div>
   );
 };
 
-export default MCQQuestions;
+export default AllMCQQuestions;
