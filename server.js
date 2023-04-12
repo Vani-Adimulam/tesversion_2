@@ -235,7 +235,10 @@ app.get('/getMCQQuestionsforTest', async(req, res) => {
 // create an API to get random PARAGRAPH Questions from Question Bank given area
 // subtype and number
 app.get('/getParagraphQuestionsforTest', async(req, res) => {
-  const { area, subtype, number } = req.query;
+  // const { area, subtype, number } = req.query;
+  const area="This is area 2";
+  const subtype="This is subtype 2";
+  const number=3;
   try {
     const questions = await ParagraphQuestion.aggregate([
       { $match: { area:area , subtype: subtype } },

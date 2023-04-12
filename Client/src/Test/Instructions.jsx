@@ -1,9 +1,12 @@
 import React,{useState,useContext,useEffect}from 'react';
+
 import { store } from '../App';
 import { Navigate } from "react-router";
 import axios from 'axios';
 
 const Instructions = () => {
+
+
   const [token, setToken] = useContext(store);
   const [data, setData] = useState(null);
 

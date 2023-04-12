@@ -5,7 +5,7 @@ import { Navigate } from "react-router";
 import axios from "axios";
 import { Form } from "react-bootstrap";
 import McqForm from "./McqForm";
-import AddParagraphQuestionForm from "./AddParagraphQuestionForm";
+import AddParagraphQuestionForm from "./AddParagraphQuestionForm"
 
 const MyProfile = () => {
   const [token, setToken] = useContext(store);
@@ -81,19 +81,16 @@ const MyProfile = () => {
                   <option value="TEXT">Paragraph</option>
                 </Form.Control>
               </Form.Group>
-              {/* <Button variant="primary" onClick={handleAddQuestion}>
-                Add Question
-              </Button> */}
             </Form>
           </div>
-          {selectedQuestionType === "TEXT" && <AddParagraphQuestionForm />}{" "}
-          {/* render AddParagraphQuestionForm component when selectedQuestionType is "TEXT" */}
-          {selectedQuestionType === "MCQ" && <McqForm />}{" "}
-          {/* render McqForm component when selectedQuestionType is "MCQ" */}
+          {selectedQuestionType === "TEXT" && <AddParagraphQuestionForm />}
+          {selectedQuestionType === "MCQ" && <McqForm />}
+      
         </center>
       )}
     </div>
   );
 };
+
 
 export default MyProfile;
