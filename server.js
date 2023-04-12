@@ -206,12 +206,15 @@ app.get('/getAllParagraphQuestions', async(req, res) => {
 // and number
 app.get('/getMCQQuestionsforTest', async(req, res) => {
   try {
-    const { area, number } = req.query;
+    let area  = "This is area 1";
+    let number  = 5;    
+
     const questions = await MCQQuestion.aggregate([
       { $match: { area: area } },
       { $sample: { size: Number(number) } },
-      { $sort: { _id: 1 } }
-    ]);
+      { $sort: { _id: 1 } },
+      { $project: { correct_choice: 0 } } // exclude correct_choice
+    ]);    
     res.json({ questions }); 
   } catch (error) {
     console.log('Unable to create Test, Please select correct number of questions')
@@ -227,7 +230,8 @@ app.get('/getParagraphQuestionsforTest', async(req, res) => {
     const questions = await ParagraphQuestion.aggregate([
       { $match: { area:area , subtype: subtype } },
       { $sample: { size: Number(number) } },
-      { $sort: { _id: 1 } }
+      { $sort: { _id: 1 } },
+      {$project : {answer: 0}} // exclude answer
     ]);
     res.json({ questions });  
   } catch (error) {
