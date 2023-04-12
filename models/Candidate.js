@@ -5,8 +5,8 @@ const Candidate = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true,
-    lowercase: true,
+    // trim: true,
+    // lowercase: true,
   }
 });
 
