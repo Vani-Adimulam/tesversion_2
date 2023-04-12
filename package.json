@@ -12,6 +12,7 @@
   "author": "santoshreddy",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.3.5",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.3",
     "concurrently": "^8.0.1",
