@@ -281,6 +281,52 @@ app.get('/myprofile', middleware, async (req, res) => {
     }
     })
 
+//update the candidate
+app.put('/edit/:id', async (req, res) => { 
+  try {
+    const { email } = req.body;
+    const candidate = await Candidate.findByIdAndUpdate(req.params.id);
+    if (!candidate) {
+      return res.status(404).send('Candidate not found');
+    }
+    candidate.email = email;
+     await candidate.save();
+    res.status(200).send('Candidate updated successfully');
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
+//delete the selected candidate
+app.delete('/delete/:id', async (req, res) => {
+  try {
+    const candidate = await Candidate.findByIdAndDelete(req.params.id);
+    if (!candidate) {
+      return res.status(404).send('Candidate not found');
+    }
+    // await candidate.remove();
+    res.status(200).send('Candidate deleted successfully');
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
+//get all candidate emails
+app.get('/all', async (req, res) => {
+  try {
+    const candidates = await Candidate.find({});
+    res.status(200).send(candidates);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send('Internal Server Error');
+      }
+      });
+      
+
+
+
 
   app.listen(701, () => console.log('Server running on port 701'));
   

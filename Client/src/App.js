@@ -5,6 +5,7 @@ import EvaluatorForm from './EvaluatorForm';
 import Nav from "./Nav"
 import Myprofile from './Myprofile';
 import CandidateLogin from './CandidateLogin';
+import CandidateList from './CandidateList';
 import Instructions from './Test/Instructions';
 export const store = createContext() 
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/myprofile' element={<Myprofile/>}/>
           <Route path='/CandidateForm' element={<CandidateForm/>}/>
           <Route path='/verify-email' element={<CandidateLogin/>}/>
+          <Route path='CandidateList' element={<CandidateList/>}/>
           <Route path='/instructions' element={<Instructions/>}/>
          
           

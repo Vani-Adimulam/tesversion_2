@@ -58,7 +58,7 @@ const AddQuestionForm = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Card style={{ width: "40rem" }}>
-        <Card.Header style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>
+        <Card.Header style={{ fontWeight: "bold", fontFamily: "sans-serif"}}>
           Add Question
         </Card.Header>
         <Card.Body>
