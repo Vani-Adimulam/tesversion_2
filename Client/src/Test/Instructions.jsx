@@ -1,7 +1,7 @@
 import React,{useState,useContext,useEffect}from 'react';
 
 import { store } from '../App';
-import { Navigate } from "react-router";
+import { Navigate } from 'react-router';
 import axios from 'axios';
 
 const Instructions = () => {
@@ -11,8 +11,7 @@ const Instructions = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:701/instructions", {
+    axios.get("http://localhost:701/instructions", {
         headers: {
           "x-token": token,
         },
@@ -22,7 +21,7 @@ const Instructions = () => {
   }, [token]);
 
   if (!token) {
-    return <Navigate to="/verify-email"/>;
+    return <Navigate to="/verify-emails"/>;
   }
 
   

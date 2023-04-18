@@ -47,6 +47,7 @@ const CandidateList = () => {
       setShowEditModal(false);
     } catch (error) {
       console.log(error);
+      console.log(testStatus)
     }
   };
 
@@ -103,7 +104,7 @@ const CandidateList = () => {
               <td>
                 <Button
                 
-                  style={{ backgroundColor: "#04A060",borderColor:"#dee2e6" }}
+                  style={{ backgroundColor: "#56C2AC",borderColor:"#dee2e6" }}
                   onClick={() => handleEditModalShow(candidate)}
                   >
                   <img src={pen} alt="edit" />
@@ -111,7 +112,7 @@ const CandidateList = () => {
               </td>
               <td>
                 <Button
-                 style={{ backgroundColor: "#9C0B38",borderColor:"#dee2e6"}}
+                 style={{ backgroundColor: "#DA3B44",borderColor:"#dee2e6"}}
                 className="btn"
                   onClick={() => handleDeleteModalShow(candidate)}>
                   <img src={trashIcon} alt="Delete" />
@@ -158,6 +159,7 @@ const CandidateList = () => {
       >
         <option value="pending">Pending</option>
         <option value="completed">Completed</option>
+        <option value="cancelled">cancelled</option>
       </Form.Control>
     </Form.Group>
           </Modal.Body>
