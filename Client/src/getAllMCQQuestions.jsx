@@ -8,19 +8,21 @@ const AllMCQQuestions = () => {
   
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
-  
-  useEffect(() => {
-    axios.get('http://localhost:701/getAllMCQQuestions')
-      .then(response => {
-        setQuestions(response.data.questions);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
 
+console.log('Initial value of questions:', questions);
+useEffect(() => {
+  axios.get('http://localhost:701/getAllMCQQuestions')
+    .then(response => {
+      setQuestions(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}, [questions]);
+
+console.log('Updated value of questions:', questions);
   function handleNextClick() {
-    navigate('../getParagraphQuestions')
+    navigate('../getAllParagraphQuestions')
   }
 
   return (
@@ -31,22 +33,27 @@ const AllMCQQuestions = () => {
     <div key={question._id} className="mcq-question">
       <h3>{question.question}</h3>
       <label>
-        <input type="radio" name={question._id} value={question.choice1} />
+        <input type="radio" name={question._id} value={question.choice1}
+        checked={question.correct_choice === question.choice1}
+        />
         {question.choice1}
       </label>
       <br />
       <label>
-        <input type="radio" name={question._id} value={question.choice2} />
+        <input type="radio" name={question._id} value={question.choice2} 
+        checked={question.correct_choice === question.choice2}/>
         {question.choice2}
       </label>
       <br />
       <label>
-        <input type="radio" name={question._id} value={question.choice3} />
+        <input type="radio" name={question._id} value={question.choice3} 
+        checked={question.correct_choice === question.choice3}/>
         {question.choice3}
       </label>
       <br />
       <label>
-        <input type="radio" name={question._id} value={question.choice4} />
+        <input type="radio" name={question._id} value={question.choice4} 
+        checked={question.correct_choice === question.choice4}/>
         {question.choice4}
       </label>
       <br />

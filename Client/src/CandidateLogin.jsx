@@ -19,6 +19,7 @@ const CandidateLogin = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    localStorage.setItem('email',JSON.stringify(data["email"]));
     axios
       .post("http://localhost:701/verify-emails", data)
       .then((res) => {
@@ -33,8 +34,9 @@ const CandidateLogin = () => {
         console.log(error);
         setErrorMessage("Email not registered");
       });
-  };
-
+  }; 
+  
+//navigation to the instructions page
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -11,6 +11,7 @@ const Candidate = require('./models/Candidate');
 const Evaluator = require('./models/Evaluator');
 const MCQQuestion = require('./models/MCQQuestions');
 const ParagraphQuestion = require('./models/ParagraphQuestions');
+const TestResults = require('./models/TestResults');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
 require('dotenv').config();
@@ -217,7 +218,7 @@ app.get('/getAllParagraphQuestions', async(req, res) => {
 // and number
 app.get('/getMCQQuestionsforTest', async(req, res) => {
   try {
-    let area  = "This is area 1";
+    let area  = "This is area 2";
     let number  = 5;    
 
     const questions = await MCQQuestion.aggregate([
@@ -282,6 +283,20 @@ app.get('/myprofile', middleware, async (req, res) => {
     }
     })
 
+app.post('/testresults', async(req, res) => {
+  try {
+    // Create a new instance of the TestResults model
+    const testresults = new TestResults(req.body);
+
+    // Save the new instance to the database
+    await testresults.save();
+    // Return the new instance as a JSON response
+    res.json(testresults);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Server Error");
+  }
+});
 //update the candidate
 app.put('/edit/:id', async (req, res) => { 
   try {

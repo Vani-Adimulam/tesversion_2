@@ -73,6 +73,17 @@ const MyProfile = () => {
               >
               Manage Candidate
               </Link>
+              <Link
+                to="/getAllMCQQuestions"
+                className="btn"
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#989898",
+                  fontFamily: "fantasy",
+                }}
+              >
+                View Questions
+              </Link>
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
