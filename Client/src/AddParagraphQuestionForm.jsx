@@ -68,6 +68,7 @@ const AddParagraphQuestionForm = () => {
               placeholder="Enter question"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
+              maxLength="150"
             />
           </Form.Group>
           <Form.Group controlId="subtype">

@@ -9,7 +9,7 @@ const Nav = () => {
       className="navbar navbar-expand-lg navbar-dark bg-dark"
       style={{ justifyContent: "space-between" }}
     >
-      <img src={logo} alt="" style={{ height: "40px", marginLeft: "20px" }} />
+      <img src={logo} alt="" style={{ height: "40px", marginLeft: "15px" }} />
       <span
         style={{
           float: "left",
@@ -21,19 +21,16 @@ const Nav = () => {
           MozBackgroundClip: "text",
           backgroundClip: "text",
           color: "transparent",
-          marginLeft:"150px"
+          marginLeft:"100px"
         }}
         className="navbar-brand"
       >
         P2F Online Assessment
       </span>
       <div className="d-flex">
-        <Link to="/login" className="navbar-brand mr-5">
-          <h3>Evaluator</h3>
-        </Link>
-        <Link to="/verify-email" className="navbar-brand">
-          <h3>Candidate</h3>
-        </Link>
+      <Link to="/" className="navbar-brand"><h3>Home</h3></Link>
+        <Link to="/login" className="navbar-brand mr-3"><h3>Evaluator</h3></Link>
+        <Link to="/verify-emails" className="navbar-brand"><h3>Candidate</h3></Link>
       </div>
     </div>
     // </div>

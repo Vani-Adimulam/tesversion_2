@@ -61,6 +61,17 @@ const MyProfile = () => {
                 }}
               >
                 Add Candidate
+              </Link><br/>
+              <Link to="/CandidateList"
+              className="btn"
+              style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#F1F2F4",
+                  fontFamily: "fantasy",
+                  marginTop:"2px"
+                }}
+              >
+              Manage Candidate
               </Link>
             </div>
           </div>
@@ -69,13 +80,13 @@ const MyProfile = () => {
               <Form.Group controlId="questionTypeSelect">
                 <Form.Label
                   style={{ fontFamily: "sans-serif", fontWeight: "bold" }}
-                >
-                  Want To Add Question?
+                >Want To Add Question?
                 </Form.Label>
                 <Form.Control
                   as="select"
                   value={selectedQuestionType}
                   onChange={handleQuestionTypeChange}
+                  style={{marginBottom:"10px"}}
                 >
                   <option value="">Select a question type</option>
                   <option value="MCQ">MCQ</option>
@@ -89,7 +100,9 @@ const MyProfile = () => {
       
         </center>
       )}
+      
     </div>
+    
   );
 };
 
