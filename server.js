@@ -32,7 +32,7 @@ app.use(cors({origin:"*"}))
 
 app.use(bodyParser.json());
 
-// API to add evaluator using Postman
+// API to add evaluator 
 app.post('/addEvaluator', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -70,29 +70,32 @@ app.post('/register', async (req, res) => {
 });
 
 
-app.post('/verify-email', async (req, res) => {
+app.post('/verify-emails', async (req, res) => {
   try {
     const { email } = req.body;
     const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ status: 'Email not found' });
     }
+
+    // Create and sign JWT
     let payload = {
       user:{
-        email: candidate.email,
+        id: candidate.id,
       }
-      
     };
-    const jwtSecret = process.env.JWT_SECRET;
-    const token = jwt.sign(payload, jwtSecret);
-
-    // Return the JWT token as a response
-    return res.json({ token });
-  }
-   
-  catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 'Internal server error' });
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET1,
+      { expiresIn: '1h' },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
 });
 
@@ -112,21 +115,19 @@ app.post('/loginEvaluator', async (req, res) => {
       return res.status(400).send('Invalid Password');
     }
     // Create a JWT token with the evaluator email and id as payload
-    let payload = {
-      user:{
-        email: evaluator.email,
-        id: evaluator._id
+    const payload = { user: { id: evaluator.id } };
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
       }
-      
-    };
-    const jwtSecret = process.env.JWT_SECRET;
-    const token = jwt.sign(payload, jwtSecret);
-    
-    // Return the JWT token as a response
-    return res.json({ token });
+    );
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('Server error');
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
 });
 
@@ -296,6 +297,68 @@ app.post('/testresults', async(req, res) => {
     return res.status(500).send("Server Error");
   }
 });
+//update the candidate
+app.put('/edit/:id', async (req, res) => { 
+  try {
+    const { email } = req.body;
+    const candidate = await Candidate.findByIdAndUpdate(req.params.id);
+    if (!candidate) {
+      return res.status(404).send('Candidate not found');
+    }
+    candidate.email = email;
+     await candidate.save();
+    res.status(200).send('Candidate updated successfully');
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
+//delete the selected candidate
+app.delete('/delete/:id', async (req, res) => {
+  try {
+    const candidate = await Candidate.findByIdAndDelete(req.params.id);
+    if (!candidate) {
+      return res.status(404).send('Candidate not found');
+    }
+    // await candidate.remove();
+    res.status(200).send('Candidate deleted successfully');
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
+//get all candidate emails
+app.get('/all', async (req, res) => {
+  try {
+    const candidates = await Candidate.find({});
+    res.status(200).send(candidates);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send('Internal Server Error');
+      }
+      });
+//status update api
+app.post('/submit-test/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const candidate = await Candidate.findById(id);
+    if (!candidate) {
+      return res.status(404).json({ message: 'Candidate not found' });
+    }
+    candidate.testStatus = 'completed';
+    await candidate.save();
+    res.status(200).json({ message: 'Test submitted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+      
+
+
+
 
   app.listen(701, () => console.log('Server running on port 701'));
   

@@ -1,47 +1,49 @@
-import { useState,useContext } from 'react';
+import { useState,useContext,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import CandidateToken, { store } from "./CandidateToken";
 import { store } from './App';
+
 import axios from 'axios';
 import "./index.css"
 
 const CandidateLogin = () => {
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({
-    email: ""
+    email: "",
   });
-
-//errormessage handling
   const [errorMessage, setErrorMessage] = useState("");
 
-//email changehandler
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-//verifying the email and generate the token
+
   const submitHandler = (e) => {
     e.preventDefault();
     localStorage.setItem('email',JSON.stringify(data["email"]));
     axios
-      .post("http://localhost:701/verify-email", data)
+      .post("http://localhost:701/verify-emails", data)
       .then((res) => {
         if (res.data.token) {
-          setToken(res.data.token)          
+          setToken(res.data.token);
         } else {
           console.log("Email is not valid");
-          setErrorMessage("Email  not registered");
+          setErrorMessage("Email not registered");
         }
       })
       .catch((error) => {
         console.log(error);
         setErrorMessage("Email not registered");
       });
-  };
+  }; 
   
 //navigation to the instructions page
   const navigate = useNavigate();
-  if (token) {
-    navigate("/instructions");
-  }
+
+  useEffect(() => {
+    if (token) {
+      navigate("/instructions");
+    }
+  }, [token]);  
 
   return (
     <div className='container'>
