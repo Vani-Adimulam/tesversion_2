@@ -20,6 +20,7 @@ const CandidateLogin = () => {
 //verifying the email and generate the token
   const submitHandler = (e) => {
     e.preventDefault();
+    localStorage.setItem('email',JSON.stringify(data["email"]));
     axios
       .post("http://localhost:701/verify-email", data)
       .then((res) => {
@@ -34,7 +35,7 @@ const CandidateLogin = () => {
         console.log(error);
         setErrorMessage("Email not registered");
       });
-  }; 
+  };
   
 //navigation to the instructions page
   const navigate = useNavigate();

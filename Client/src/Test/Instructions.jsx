@@ -1,7 +1,7 @@
 import React,{useState,useContext,useEffect}from 'react';
 
 import { store } from '../App';
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import axios from 'axios';
 
 const Instructions = () => {
@@ -9,6 +9,7 @@ const Instructions = () => {
 
   const [token, setToken] = useContext(store);
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -25,6 +26,9 @@ const Instructions = () => {
     return <Navigate to="/verify-email"/>;
   }
 
+  const handleStart = () =>{
+    navigate("/getMCQQuestions");
+  }
   
   return (
     <div>
@@ -55,7 +59,7 @@ const Instructions = () => {
             Contact support if needed: If you encounter any technical difficulties or have questions during the test, contact the support team for assistance.
           </li>
         </ul>
-        <button className="btn btn-primary">Start</button>
+        <button className="btn btn-primary" onClick={handleStart}>Start</button>
         <button
                 style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
                 className="btn"
@@ -63,6 +67,15 @@ const Instructions = () => {
               >
                 Logout
               </button>
+        {/* give me a drop down with items 'VLSI', 'Embedded' and 'Software' in html and css*/}
+        <div class="dropdown">
+          <select name="area">
+            <option value="vlsi">VLSI</option>
+            <option value="embedded">Embedded</option>
+            <option value="software">Software</option>
+          </select>
+        </div>
+ 
       </div>
     </div>
     )}
