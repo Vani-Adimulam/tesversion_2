@@ -18,7 +18,7 @@ useEffect(() => {
     .catch(error => {
       console.log(error);
     });
-}, [questions]);
+}, []);
 
 console.log('Updated value of questions:', questions);
   function handleNextClick() {
@@ -33,27 +33,27 @@ console.log('Updated value of questions:', questions);
     <div key={question._id} className="mcq-question">
       <h3>{question.question}</h3>
       <label>
-        <input type="radio" name={question._id} value={question.choice1}
-        checked={question.correct_choice === question.choice1}
+        <input type="radio" name={question._id} value={1}
+        checked={question.correct_choice==="1"}
         />
         {question.choice1}
       </label>
       <br />
       <label>
-        <input type="radio" name={question._id} value={question.choice2} 
-        checked={question.correct_choice === question.choice2}/>
+        <input type="radio" name={question._id} value={2} 
+        checked={question.correct_choice === "2"}/>
         {question.choice2}
       </label>
       <br />
       <label>
-        <input type="radio" name={question._id} value={question.choice3} 
-        checked={question.correct_choice === question.choice3}/>
+        <input type="radio" name={question._id} value={3} 
+        checked={question.correct_choice === "3"}/>
         {question.choice3}
       </label>
       <br />
       <label>
-        <input type="radio" name={question._id} value={question.choice4} 
-        checked={question.correct_choice === question.choice4}/>
+        <input type="radio" name={question._id} value={4} 
+        checked={question.correct_choice === "4"}/>
         {question.choice4}
       </label>
       <br />

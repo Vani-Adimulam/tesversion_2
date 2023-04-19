@@ -339,23 +339,80 @@ app.get('/all', async (req, res) => {
       return res.status(500).send('Internal Server Error');
       }
       });
-//status update api
-app.post('/submit-test/:id', async (req, res) => {
-  const { id } = req.params;
+ 
+// //status update api
+// app.post('/submit-test/:id', async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const candidate = await Candidate.findById(id);
+//     if (!candidate) {
+//       return res.status(404).json({ message: 'Candidate not found' });
+//     }
+//     candidate.testStatus = 'completed';
+//     await candidate.save();
+//     res.status(200).json({ message: 'Test submitted successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
+
+// app.post('/testresults', async(req, res) => {
+//   try {
+//     // Create a new instance of the TestResults model
+//     const testresults = new TestResults(req.body);
+
+//     // const candidate = await Candidate.findOne({email:req.body.email})
+    
+//     // if (!candidate) {
+//     //   return res.status(404).json({ message: 'Candidate not found' });
+//     // }
+//     // candidate.testStatus = 'completed';
+//     // await candidate.save();
+//     // Save the new instance to the database
+//     await testresults.save();
+
+//     // Return the new instance as a JSON response
+//     res.json(testresults);
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(500).send("Server Error");
+//   }
+// });
+
+app.patch('/updateCandidateTeststatus',async(req, res) => {
   try {
-    const candidate = await Candidate.findById(id);
+    const { email, testStatus } = req.body;
+    const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: 'Candidate not found' });
-    }
-    candidate.testStatus = 'completed';
-    await candidate.save();
-    res.status(200).json({ message: 'Test submitted successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-      
+      }
+      candidate.testStatus = testStatus;
+      await candidate.save();
+      res.status(200).json({ message: 'Test status updated successfully' });
+      } catch (err) {
+        console.log(err);
+        return res.status(500).send("Server Error");
+        }
+        });
+
+app.get('/getTestResults',async(req,res) => {
+  try {
+    // const { email } = req.query;
+    const email = 'prateek@gmail.com'
+    // console.log(req.query)
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+      return res.status(404).json({ message: 'Candidate not found' });
+      }
+      const testresults = await TestResults.find({ email: candidate.email });
+      res.status(200).json(testresults);
+      } catch (err) {
+        console.log(err);
+        return res.status(500).send("Server Error");
+        }
+        });
+
 
 
 

@@ -11,7 +11,7 @@ const MCQQuestions = () => {
     JSON.parse(localStorage.getItem('selectedAnswers')) || {}
   );
   const [hasFetched, setHasFetched] = useState(localStorage.getItem('hasFetched')||false);
-  const [providedAnswers, setProvidedAnswers] = useState(
+  const [providedAnswers] = useState(
     JSON.parse(localStorage.getItem("providedAnswers")) || {}
   );
   useEffect(() => {
