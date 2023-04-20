@@ -26,7 +26,7 @@ const Instructions = () => {
   }
 
   const handleStart = () =>{
-    navigate("/getMCQQuestions");
+    navigate("/MCQTest");
   }
   
   return (
@@ -67,14 +67,7 @@ const Instructions = () => {
                 Logout
               </button>
         {/* give me a drop down with items 'VLSI', 'Embedded' and 'Software' in html and css*/}
-        <div class="dropdown">
-          <select name="area">
-            <option value="vlsi">VLSI</option>
-            <option value="embedded">Embedded</option>
-            <option value="software">Software</option>
-          </select>
-        </div>
- 
+
       </div>
     </div>
     )}

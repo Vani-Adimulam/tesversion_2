@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const MCQTest = () => {
   const [areaIndex, setAreaIndex] = useState(0);
-  const [questions, setQuestions] = useState([]);
+  const navigate = useNavigate();
 
   const handleAreaChange = (event) => {
     setAreaIndex(event.target.value);
@@ -11,12 +11,12 @@ const MCQTest = () => {
 
   const handleButtonClick = async () => {
     try {
-      const response = await axios.get(`http://localhost:701/getMCQQuestionsforTest/:${areaIndex}`);
-      setQuestions(response.data.questions);
-      console.log(questions)
+      console.log(areaIndex);
     } catch (error) {
       console.error(error);
     }
+    localStorage.setItem('areaIndex',areaIndex);
+    navigate('/getMCQQuestions')
   };
 
   return (
@@ -30,16 +30,6 @@ const MCQTest = () => {
         </select>
       </label>
       <button onClick={handleButtonClick}>Start Test</button>
-      {questions.map((question) => (
-        <div key={question._id}>
-          <h3>{question.question}</h3>
-          <ul>
-            {questions.length>0 && questions.choices.map((choice, index) => (
-              <li key={index}>{choice}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
     </div>
   );
 };

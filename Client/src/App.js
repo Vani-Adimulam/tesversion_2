@@ -8,6 +8,8 @@ import CandidateLogin from './CandidateLogin';
 import CandidateList from './CandidateList';
 import Instructions from './Test/Instructions';
 import MCQQuestions from './Test/getMCQQuestions';
+import MCQTest from './MCQQuestions';
+
 import AllMCQQuestions from './getAllMCQQuestions';
 import AllParagraphQuestions from './getAllParagraphQuestions';
 import ParagraphQuestions from './Test/getParagraphQuestions';
@@ -40,6 +42,8 @@ function App() {
           <Route path='/getAllMCQQuestions' element={<AllMCQQuestions/>}/>
           <Route path='/getAllParagraphQuestions' element={<AllParagraphQuestions/>}/>
           <Route path='/EvalQuestions' element={<EvalQuestions/>}/>
+          <Route path='/MCQTest' element={<MCQTest/>}/>
+          
           
          
           
