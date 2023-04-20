@@ -135,24 +135,6 @@ app.post('/loginEvaluator', async (req, res) => {
 app.post('/addQuestionMCQ', async (req, res) => {
   const {area,question,choice1, choice2, choice3, choice4, correct_choice } = req.body;
   
-  // Check if the question already exists
-  // const existingQuestion = await MCQQuestion.findOne({ question: { $regex: question, $options: 'i' } });
-  // if (existingQuestion) {
-    //   return res.status(400).json({ error: 'Question already exists' });
-  // }
-  
-  // Check if a similar question exists using Levenshtein distance fuzzy search
-  // const questions = await MCQQuestion.find({});
-  // const tokenizedQuestion = natural.WordTokenizer().tokenize(question.toLowerCase());
-  // const minimumDistance = Math.floor(tokenizedQuestion.length / 2);
-  // for (let i = 0; i < questions.length; i++) {
-    //   const questionTokens = natural.WordTokenizer().tokenize(questions[i].question.toLowerCase());
-    //   const distance = natural.LevenshteinDistance(tokenizedQuestion.join(''), questionTokens.join(''));
-    //   if (distance <= minimumDistance) {
-      //     return res.status(400).json({ error: `Similar question already exists: ${questions[i].question}` });
-  //   }
-  // }
-  
   // Create a new question document
   const newQuestion = new MCQQuestion({
     area,
@@ -173,6 +155,11 @@ app.post('/addQuestionMCQ', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
+
+
 
 //add a post API for Paragraph question with subtype field and other fields as question, answer.
 app.post('/addParagraphQuestion', async (req, res) => {
@@ -247,13 +234,14 @@ app.get('/getParagraphQuestions', async(req, res) => {
 
 // create an API to get random MCQ Questions from Question Bank given area
 // and number
-app.get('/getMCQQuestionsforTest', async(req, res) => {
+app.get('/getMCQQuestionsforTest/:areaIndex', async(req, res) => {
   try {
-    let area  = "This is area 2";
-    let number  = 5;    
+    const area  = ["VLSI", "SOFTWARE", "EMBEDDED"];
+    const areaIndex = req.params.areaIndex;
+    const number  = 5;
 
     const questions = await MCQQuestion.aggregate([
-      { $match: { area: area } },
+      { $match: { area: area[areaIndex]} },
       { $sample: { size: Number(number) } },
       { $sort: { _id: 1 } },
       { $project: { correct_choice: 0 } } // exclude correct_choice
@@ -264,6 +252,24 @@ app.get('/getMCQQuestionsforTest', async(req, res) => {
     res.status(500).json({error:"Internal Server Error"})
   }  
 });
+
+// app.get('/getMCQQuestionsforTest/VLSI', async(req, res) => {
+//   try {
+//     let area  = "VLSI"
+//     let number  = 5;    
+
+//     const questions = await MCQQuestion.aggregate([
+//       { $match: { area: area[1]} },
+//       { $sample: { size: Number(number) } },
+//       { $sort: { _id: 1 } },
+//       { $project: { correct_choice: 0 } } // exclude correct_choice
+//     ]);    
+//     res.json({ questions }); 
+//   } catch (error) {
+//     console.log('Unable to create Test, Please select correct number of questions')
+//     res.status(500).json({error:"Internal Server Error"})
+//   }  
+// });
 
 // create an API to get random PARAGRAPH Questions from Question Bank given area
 // subtype and number
@@ -313,6 +319,8 @@ app.get('/myprofile', middleware, async (req, res) => {
       return res.status(500).send('server error')
     }
     })
+
+
 
 app.post('/testresults', async(req, res) => {
   try {
@@ -405,7 +413,27 @@ app.get('/getTestResults',async(req,res) => {
         });
 
 
+// app.get('/questions', async (req, res) => {
+//   // const { area, number } = req.query;
+//   let area  = ["VLSI","EMBEDDED","SOFTWARE"]
+//   let number  = 5; 
+//   const questions = await MCQQuestion.aggregate([
+//     { $match: { area } },
+//     { $sample: { size: Number(number) } }
+//   ]);
+//   res.json({ questions });
+// });
 
+app.get('/mcqquestions/:area', async (req, res) => {
+  try {
+    const area = req.params.area;
+    const mcqQuestions = await MCQQuestion.find({ area: area });
+    res.send(mcqQuestions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
 
 
   app.listen(701, () => console.log('Server running on port 701'));
