@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Table, Button, Modal, Form, FormControl } from "react-bootstrap";
 import axios from "axios";
 import trashIcon from "./assets/trash.svg"
 import pen from "./assets/pen.svg"
+import evalIcon from "./assets/checked.svg"
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -12,6 +14,7 @@ const CandidateList = () => {
   const [deleteCandidate, setDeleteCandidate] = useState({});
   const [searchText, setSearchText] = useState("");
   const [testStatus,setTestStatus]=useState("")
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios("http://localhost:701/all");
@@ -74,10 +77,14 @@ const CandidateList = () => {
     candidate.email.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  const handleEvaluateModalShow = () => {
+    navigate('/EvalQuestions')
+  }
+
   return (
     <>
     <center>
-   
+
       <h1>Candidates</h1>
       <FormControl
         type="text"
@@ -94,6 +101,7 @@ const CandidateList = () => {
             <th>Test Status</th>
             <th>Edit</th>
             <th>Delete</th>
+            <th>Evaluate</th>
           </tr>
         </thead>
         <tbody>
@@ -116,6 +124,13 @@ const CandidateList = () => {
                 className="btn"
                   onClick={() => handleDeleteModalShow(candidate)}>
                   <img src={trashIcon} alt="Delete" />
+                </Button>
+              </td>
+              <td>
+                <Button
+                style={{ backgroundColor: "#56C2AC",borderColor:"#dee2e6" }}
+                onClick={() => handleEvaluateModalShow(candidate)}>
+                  <img src={evalIcon} alt="Evaluate" />
                 </Button>
               </td>
             </tr>
@@ -150,12 +165,15 @@ const CandidateList = () => {
       <Form.Control
         as="select"
         value={editCandidate.Teststatus}
-        onChange={(event) =>
+        onChange={(event) =>{
           setEditCandidate({
             ...editCandidate,
             Teststatus: event.target.value,
-          })
+          }
+          )
         }
+        }
+        
       >
         <option value="pending">Pending</option>
         <option value="completed">Completed</option>

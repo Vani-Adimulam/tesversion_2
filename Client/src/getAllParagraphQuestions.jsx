@@ -8,7 +8,7 @@ const AllParagraphQuestions = () => {
   const navigate = useNavigate();
   const [questions,setquestions] = useState([])
   useEffect(() => {
-        axios.get("http://localhost:701/getAllParagraphQuestions")
+        axios.get("http://localhost:701/getParagraphQuestions")
           .then((response) => {
             setquestions(response.data)
           })
@@ -17,7 +17,7 @@ const AllParagraphQuestions = () => {
           });
       
 
-  }, [questions]);
+  }, []);
 
   const handleBackClick = () => {
     navigate('../getAllMCQQuestions')

@@ -85,7 +85,21 @@ const MyProfile = () => {
                 View Questions
               </Link>
             </div>
+            <div className="card-body">
+            <Link
+                to=""
+                className="btn"
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#989898",
+                  fontFamily: "fantasy",
+                }}
+              >
+              View Tests
+            </Link>
+            </div>
           </div>
+          
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Form style={{ width: "50rem" }}>
               <Form.Group controlId="questionTypeSelect">
