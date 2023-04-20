@@ -11,7 +11,7 @@ const AllMCQQuestions = () => {
 
 console.log('Initial value of questions:', questions);
 useEffect(() => {
-  axios.get('http://localhost:701/getAllMCQQuestions')
+  axios.get('http://localhost:701/getMCQQuestions')
     .then(response => {
       setQuestions(response.data);
     })

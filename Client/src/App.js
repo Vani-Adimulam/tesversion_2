@@ -11,6 +11,7 @@ import MCQQuestions from './Test/getMCQQuestions';
 import AllMCQQuestions from './getAllMCQQuestions';
 import AllParagraphQuestions from './getAllParagraphQuestions';
 import ParagraphQuestions from './Test/getParagraphQuestions';
+import EvalQuestions from './EvalQuestions';
 import Results from './Test/Results';
 import Home from './Home';
 export const store = createContext() 
@@ -38,7 +39,7 @@ function App() {
           <Route path='/Results' element={<Results/>}/>
           <Route path='/getAllMCQQuestions' element={<AllMCQQuestions/>}/>
           <Route path='/getAllParagraphQuestions' element={<AllParagraphQuestions/>}/>
-         
+          <Route path='/EvalQuestions' element={<EvalQuestions/>}/>
           
          
           

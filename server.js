@@ -193,18 +193,49 @@ app.post('/addParagraphQuestion', async (req, res) => {
   });
   
   // a get api to fetch and send all questions and fields?
-  app.get('/getAllMCQQuestions', async(req, res) => {
+  app.get('/getMCQQuestions', async (req, res) => {
     try {
-      const questions = await MCQQuestion.find({});
-      res.json(questions);
+      const { ids } = req.query;
+      if (ids) {
+        const idArr = ids.split(",");
+        const questions = await MCQQuestion.find({ _id: { $in: idArr } });
+        res.json(questions);
+      } else {
+        const questions = await MCQQuestion.find({});
+        res.json(questions);
+      }
     } catch (error) {
       console.error('Error getting questions from MongoDB:', error);
       res.status(500).json({ error: 'Internal server error' });
-  }
-});       
+    }
+  });  
+
+app.get('/getMCQQuestions', (req, res) => {
+  const selectedAnswersIds = req.query.ids.split(',') // Convert the comma-separated string to an array
+  const questions = [] // Placeholder for the requested MCQ questions
+  
+  // Code to retrieve the requested MCQ questions based on the selected answer IDs
+  // ...
+  
+  // Return the MCQ questions as a JSON response
+  res.json(questions)
+})
+
+app.listen(701, () => {
+  console.log('Server listening on port 701')
+})
+
+
+
+
+
+
+
+
+
 
 // API to get Paragraph questions
-app.get('/getAllParagraphQuestions', async(req, res) => {
+app.get('/getParagraphQuestions', async(req, res) => {
   try {
     const questions = await ParagraphQuestion.find({});
     res.json(questions); 
@@ -339,46 +370,6 @@ app.get('/all', async (req, res) => {
       return res.status(500).send('Internal Server Error');
       }
       });
- 
-// //status update api
-// app.post('/submit-test/:id', async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const candidate = await Candidate.findById(id);
-//     if (!candidate) {
-//       return res.status(404).json({ message: 'Candidate not found' });
-//     }
-//     candidate.testStatus = 'completed';
-//     await candidate.save();
-//     res.status(200).json({ message: 'Test submitted successfully' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-
-// app.post('/testresults', async(req, res) => {
-//   try {
-//     // Create a new instance of the TestResults model
-//     const testresults = new TestResults(req.body);
-
-//     // const candidate = await Candidate.findOne({email:req.body.email})
-    
-//     // if (!candidate) {
-//     //   return res.status(404).json({ message: 'Candidate not found' });
-//     // }
-//     // candidate.testStatus = 'completed';
-//     // await candidate.save();
-//     // Save the new instance to the database
-//     await testresults.save();
-
-//     // Return the new instance as a JSON response
-//     res.json(testresults);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(500).send("Server Error");
-//   }
-// });
 
 app.patch('/updateCandidateTeststatus',async(req, res) => {
   try {
