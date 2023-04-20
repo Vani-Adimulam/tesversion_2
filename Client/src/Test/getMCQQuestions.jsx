@@ -14,9 +14,11 @@ const MCQQuestions = () => {
   const [providedAnswers] = useState(
     JSON.parse(localStorage.getItem("providedAnswers")) || {}
   );
+
+  let areaIndex = JSON.parse(localStorage.getItem('areaIndex'))
   useEffect(() => {
     if(!hasFetched){
-      axios.get('http://localhost:701/getMCQQuestionsforTest')
+      axios.get(`http://localhost:701/getMCQQuestionsforTest/${areaIndex}`)
         .then(response => {
           localStorage.setItem('mcqquestions',
           JSON.stringify(response.data.questions));
