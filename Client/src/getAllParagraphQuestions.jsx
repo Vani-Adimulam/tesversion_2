@@ -17,7 +17,7 @@ const AllParagraphQuestions = () => {
           });
       
 
-  }, [questions]);
+  }, []);
 
   const handleBackClick = () => {
     navigate('../getAllMCQQuestions')
