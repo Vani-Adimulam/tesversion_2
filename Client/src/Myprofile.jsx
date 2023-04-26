@@ -6,14 +6,11 @@ import { Navigate } from "react-router";
 import axios from "axios";
 import { Form } from "react-bootstrap";
 import McqForm from "./McqForm";
-import "./Myprofile.css"
 import AddParagraphQuestionForm from "./AddParagraphQuestionForm"
-
 const MyProfile = () => {
   const [token, setToken] = useContext(store);
   const [data, setData] = useState(null);
   const [selectedQuestionType, setSelectedQuestionType] = useState(null);
-  
   useEffect(() => {
     axios
       .get("http://localhost:701/myprofile", {
@@ -24,19 +21,15 @@ const MyProfile = () => {
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }, [token]);
-
   if (!token) {
     return <Navigate to="/login" />;
   }
-
   const handleQuestionTypeChange = (e) => {
     setSelectedQuestionType(e.target.value);
   };
-
   // const handleAddQuestion = () => {
   //   setSelectedQuestionType(null); // reset selectedQuestionType to null
   // };
-
   return (
     <div>
       {data && (
@@ -53,18 +46,6 @@ const MyProfile = () => {
               >
                 Logout
               </button>
-              <Link
-                to="/CandidateForm"
-                className="btn"
-                style={{
-                  marginLeft: "10px",
-                  backgroundColor: "#989898",
-                  fontFamily: "fantasy",
-                }}
-              >
-                Add Candidate
-              </Link><br/>
-              <Link to="/CandidateList"
             </div>
             <div className="card-body">
             <Link to="/CandidateList"
@@ -73,7 +54,7 @@ const MyProfile = () => {
                   marginLeft: "5px",
                   backgroundColor: "#F1F2F4",
                   fontFamily: "fantasy",
-                  marginTop:"10px"
+                  marginTop:"2px"
                 }}
               >
               Manage Candidate
@@ -85,9 +66,8 @@ const MyProfile = () => {
                 className="btn"
                 style={{
                   marginLeft: "5px",
-                  backgroundColor: "#00B4FF",
+                  backgroundColor: "#989898",
                   fontFamily: "fantasy",
-                  marginTop:"10px"
                 }}
               >
                 Add Candidate
@@ -101,14 +81,12 @@ const MyProfile = () => {
                   marginLeft: "5px",
                   backgroundColor: "#989898",
                   fontFamily: "fantasy",
-                  marginTop:"10px"
                 }}
               >
                 View Questions
               </Link>
             </div>
           </div>
-          
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Form style={{ width: "50rem" }}>
               <Form.Group controlId="questionTypeSelect">
@@ -131,14 +109,9 @@ const MyProfile = () => {
           </div>
           {selectedQuestionType === "TEXT" && <AddParagraphQuestionForm />}
           {selectedQuestionType === "MCQ" && <McqForm />}
-      
         </center>
       )}
-      
     </div>
-    
   );
 };
-
-
 export default MyProfile;
