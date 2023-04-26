@@ -4,7 +4,8 @@ import { Table, Button, Modal, Form, FormControl } from "react-bootstrap";
 import axios from "axios";
 import trashIcon from "./assets/trash.svg"
 import pen from "./assets/pen.svg"
-import evalIcon from "./assets/checked.svg"
+import assessment from "./assets/assessment.png"
+// import evalIcon from "./assets/checked.svg"
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -129,9 +130,9 @@ const CandidateList = () => {
               </td>
               <td>
                 <Button
-                style={{ backgroundColor: "#56C2AC",borderColor:"#dee2e6" }}
+                 style={{backgroundColor:"#fff",borderColor:"#dee2e6"}}
                 onClick={() => handleEvaluateModalShow(candidate)}>
-                  <img src={evalIcon} alt="Evaluate" />
+                   <img src={assessment} alt="assessment" style={{width:"20px",height:"20px"}}/>
                 </Button>
               </td>
             </tr>

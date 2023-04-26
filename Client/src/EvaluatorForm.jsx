@@ -3,6 +3,7 @@ import axios from "axios";
 import { store } from "./App.js";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+//  
 
 const EvaluatorForm = () => {
   const [token, setToken] = useContext(store);
@@ -103,6 +104,17 @@ const EvaluatorForm = () => {
         </div>
       </div>
     </div>
+//     <div class="container mt-3">
+//   {/* <div class="container-close">&times;</div> */}
+//   <img src="https://www.gasofttech.com/wp-content/uploads/2019/04/nhance-Evaluator_cover.png" alt="image"/>
+//   <div class="container-text">
+//     <h2>P2F Semi Evaluator <br/>LogIn</h2>
+//     <p>Login to add candidates,manage candidates and more...</p>
+//     <input type="email" placeholder="Email address"/>
+//     <button type="submit">LogIn</button>
+//     <span>No spams included</span>
+//   </div>
+// </div>
   );
 };
 
