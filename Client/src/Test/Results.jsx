@@ -20,7 +20,7 @@ const Results = () => {
         <h1>Congratulations for submitting the test!</h1>
         <p>You have successfully submitted the test. Your results will be shared with you!</p>
         <br/>
-        <button onClick={buttonHandler}>Click here to finish</button>
+        <button onClick={buttonHandler} style={{width:"170px",backgroundColor:"#EAF3F2"}}>Click here to finish</button>
     </div>
   );
 };

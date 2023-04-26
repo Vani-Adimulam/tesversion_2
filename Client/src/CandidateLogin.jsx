@@ -1,10 +1,11 @@
-import { useState,useContext,useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // import CandidateToken, { store } from "./CandidateToken";
-import { store } from './App';
+import { store } from "./App";
+import "./CandidateLogin.css";
 
-import axios from 'axios';
-import "./index.css"
+import axios from "axios";
+import "./index.css";
 
 const CandidateLogin = () => {
   const [token, setToken] = useContext(store);
@@ -19,7 +20,7 @@ const CandidateLogin = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    localStorage.setItem('email',JSON.stringify(data["email"]));
+    localStorage.setItem("email", JSON.stringify(data["email"]));
     axios
       .post("http://localhost:701/verify-emails", data)
       .then((res) => {
@@ -34,39 +35,43 @@ const CandidateLogin = () => {
         console.log(error);
         setErrorMessage("Email not registered");
       });
-  }; 
-  
-//navigation to the instructions page
+  };
+
+  //navigation to the instructions page
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
       navigate("/instructions");
     }
-  }, [token]);  
+  }, [token]);
 
   return (
-    <div className='container'>
-       <div className="row justify-content-center mt-5">
+    <div className="container">
+      <div className="row justify-content-center mt-5">
         <div className="col-md-6 col-lg-4">
           <div className="card shadow">
             <div className="card-body">
               <h2 className="card-title text-center">CandidateLogin</h2>
-        {/* <h5 className="card-title">Email Form</h5> */}
-        <form onSubmit={submitHandler}>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={data.email}
-              onChange={changeHandler}
-              required
-            />
-          </div>
-          <div className="text-center">
+              {/* <h5 className="card-title">Email Form</h5> */}
+              <form onSubmit={submitHandler} className="form">
+                <span class="title">Welcome to our online assessment portal</span>
+                <p class="description">
+                We're excited that you've chosen to take this test and we
+                 hope you find it to be a valuable experience. This test is 
+                 designed to assess your skills and knowledge and is an important step in your professional development.</p>
+                {/* <label htmlFor="email">Email:</label> */}
+                  <input
+                  placeholder="Enter your email"
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={data.email}
+                    onChange={changeHandler}
+                    required
+                  />
+                <div className="text-center">
                   <button class="cta">
                     <span class="hover-underline-animation">Login</span>
                     <svg
@@ -85,18 +90,18 @@ const CandidateLogin = () => {
                     </svg>
                   </button>
                 </div>
-          {errorMessage && (
-            <div className="mt-3 text-center text-danger">
-              {errorMessage}
+                {errorMessage && (
+                  <div className="mt-3 text-center text-danger">
+                    {errorMessage}
+                  </div>
+                )}
+              </form>
             </div>
-          )}
-        </form>
+          </div>
+        </div>
       </div>
     </div>
-    </div>
-    </div>
-    </div>
   );
-}
+};
 
 export default CandidateLogin;

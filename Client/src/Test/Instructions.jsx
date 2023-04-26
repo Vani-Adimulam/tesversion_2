@@ -58,9 +58,12 @@ const Instructions = () => {
             <b>Contact support if needed:</b> If you encounter any technical difficulties or have questions during the test, contact the support team for assistance.
           </li>
         </ul>
-        <button className="btn btn-primary" onClick={handleStart}>Start</button>
+        <button className="btn"
+         onClick={handleStart}
+         style={{ backgroundColor: "#544CA4", fontFamily: "fantasy",marginLeft:"3px"}}
+         >Start</button>
         <button
-                style={{ backgroundColor: "#FD7800", fontFamily: "fantasy",marginLeft:"3px"}}
+                style={{ backgroundColor: "#D43E2D", fontFamily: "fantasy",marginLeft:"3px"}}
                 className="btn"
                 onClick={() => {
                   setToken(null)
