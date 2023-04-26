@@ -104,6 +104,7 @@ const CandidateList = () => {
             <th>Edit</th>
             <th>Delete</th>
             <th>Evaluate</th>
+            <th>Result</th>
           </tr>
         </thead>
         <tbody>
@@ -135,6 +136,7 @@ const CandidateList = () => {
                    <img src={assessment} alt="assessment" style={{width:"20px",height:"20px"}}/>
                 </Button>
               </td>
+              <td>{candidate.result}</td>
             </tr>
           ))}
         </tbody>

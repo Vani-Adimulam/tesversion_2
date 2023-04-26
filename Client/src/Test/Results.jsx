@@ -13,6 +13,7 @@ const Results = () => {
   const buttonHandler = () =>{
     navigate('/')
     window.location.reload();
+    localStorage.clear()
   }
 
   return (

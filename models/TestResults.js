@@ -12,6 +12,13 @@ const TestResultsSchema = new mongoose.Schema({
     providedAnswers:{
         type:Map,
         of:String
+    },
+    result : {
+        type : String, 
+      },
+    totalScore : 
+    {
+        type:Number,
     }
 })
 
