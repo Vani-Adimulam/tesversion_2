@@ -1,88 +1,51 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import {
-  Container,
-  Card,
-  ListGroup,
-  Form,
-  Modal,
-  Button,
-} from "react-bootstrap";
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styles from './getMCQQuestions.module.css';
 const MCQQuestions = () => {
   const navigate = useNavigate();
-  const [mcqquestions, setMCQQuestions] = useState(
-    JSON.parse(localStorage.getItem("mcqquestions")) || []
-  );
+  const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions'))||[])
   const [selectedAnswers, setSelectedAnswers] = useState(
-    JSON.parse(localStorage.getItem("selectedAnswers")) || {}
+    JSON.parse(localStorage.getItem('selectedAnswers')) || {}
   );
-  const [hasFetched, setHasFetched] = useState(
-    localStorage.getItem("hasFetched") || false
-  );
+  const [hasFetched, setHasFetched] = useState(localStorage.getItem('hasFetched')||false);
   const [providedAnswers] = useState(
     JSON.parse(localStorage.getItem("providedAnswers")) || {}
   );
-  const [show, setShow] = useState(false);
-  function handleModalDisplay() {
-    setShow(true);
-  }
-
-  let areaIndex = JSON.parse(localStorage.getItem("areaIndex"));
+  let areaIndex = JSON.parse(localStorage.getItem('areaIndex'))
   useEffect(() => {
-    if (!hasFetched) {
-      axios
-        .get(`http://localhost:701/getMCQQuestionsforTest/${areaIndex}`)
-        .then((response) => {
-          localStorage.setItem(
-            "mcqquestions",
-            JSON.stringify(response.data.questions)
-          );
+    if(!hasFetched){
+      axios.get(`http://localhost:701/getMCQQuestionsforTest/${areaIndex}`)
+        .then(response => {
+          localStorage.setItem('mcqquestions',
+          JSON.stringify(response.data.questions));
           setMCQQuestions(response.data.questions);
           setHasFetched(true);
-          localStorage.setItem("hasFetched", true);
+          localStorage.setItem('hasFetched',true)
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
-    }
-  }, [hasFetched]);
-
+      }
+  },[hasFetched])
   useEffect(() => {
-    console.log(mcqquestions);
-  });
-
+    console.log(mcqquestions)
+  })
   function handleNextClick() {
-    // check if all questions have been answered
-    const unansweredQuestions = mcqquestions.filter(
-      (question) => !selectedAnswers[question._id]
-    );
-    if (unansweredQuestions.length > 0) {
-      handleModalDisplay();
-      return;
-    }
-
-    navigate("../getParagraphQuestions", {
-      state: { selectedAnswers, providedAnswers },
-    });
+    console.log(mcqquestions);
+    navigate('../getParagraphQuestions',{ state: { selectedAnswers, providedAnswers } })
   }
-
   function handleRadioChange(event, questionId) {
     const selectedAnswer = event.target.value;
     setSelectedAnswers({
       ...selectedAnswers,
-      [questionId]: selectedAnswer,
+      [questionId]: selectedAnswer
     });
-    localStorage.setItem(
-      "selectedAnswers",
-      JSON.stringify({
-        ...selectedAnswers,
-        [questionId]: selectedAnswer,
-      })
-    );
+    localStorage.setItem('selectedAnswers', JSON.stringify({
+      ...selectedAnswers,
+      [questionId]: selectedAnswer
+    }));
   }
-
   return (
     <div className={styles.container}>
       <h2>MCQ Questions</h2>
@@ -141,21 +104,9 @@ const MCQQuestions = () => {
       <div>
         <button className="btn btn-primary" onClick={handleNextClick}>
           Next
-        </Button>
-        <Modal show={show} onHide={() => setShow(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Unanswered Questions</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Seems you have missed some questions</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShow(false)}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </Card>
-    </Container>
+        </button>
+      </div>
+    </div>
   );
 };
-
 export default MCQQuestions;
