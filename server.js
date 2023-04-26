@@ -228,8 +228,8 @@ app.get('/getParagraphQuestionsforTest/:areaIndex/', async(req, res) => {
   const areaIndex = req.params.areaIndex;
   
   // assign a random number between 1 & 2 to a variable
-  const number1 = Math.floor(Math.random() * 2) + 1;
-  const number2 = Math.floor(Math.random() * 3) + 1;
+  const number1 = 3
+  const number2 = 3
 
   try {
     const code_questions = await ParagraphQuestion.aggregate([
@@ -374,16 +374,42 @@ app.get('/getTestResults/:email', async (req, res) => {
 });
 
 // Create a put request to alter and update the candidate and add a field called result and give the value "Pass"
-app.put('/candidates/:email', async (req, res) => {
+app.put('/updateTestResult/:email', async (req, res) => {
   try {
     const email = req.params.email;
     const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: 'Candidate not found' });
     }
-    const result = req.body.result;
-    const newCandidate = await Candidate.findOneAndUpdate({ email }, { result: result }, { new: true });
-    res.status(200).json(newCandidate);
+    // console.log(req)
+    const result = req.body.body.result;
+    const totalScore = req.body.body.totalScore;
+    const testResult = await TestResults.findOneAndUpdate({ email }, { result, totalScore }, { new: true });
+    const candidateresult = await Candidate.findOneAndUpdate({ email }, { result }, { new: true });
+    
+    if (testResult && candidateresult) {
+      res.status(200).json(testResult);
+    } else {
+      res.status(400).json('Result storing failed');
+    }
+    
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Server Error");
+  }
+});
+
+// Write an API to get the Test Result of a Candidate by hitting the Test Result table
+app.get('/getTestResult/:email', async (req, res) => {
+  try {
+    const email = req.params.email;
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+      return res.status(404).json({ message: "Candidate not found" })
+    }
+    const testresults = await TestResults.find({ email: candidate.email });
+    console.log(testresults)
+    res.status(200).json(testresults);
   } catch (err) {
     console.log(err);
     return res.status(500).send("Server Error");

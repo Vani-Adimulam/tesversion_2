@@ -1,23 +1,36 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import './EvalQuestions.css'
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 
 const EvalQuestions = () => {
   const [testResults, setTestResults] = useState([]);
   const [mcqQuestions, setMCQQuestions] = useState([]);
   const [paragraphQuestions, setParagraphQuestions] = useState([]);
+  const [result,setResult] = useState([])
 
   const location = useLocation();
   const email = location.state.email;
   let totalScore = 0;
+  const [finalScore,setFinalScore] = useState("")
+  const navigate = useNavigate();
 
 
   useEffect(() => {
     axios.get(`http://localhost:701/getTestResults/${email}`)
       .then(response => {
         setTestResults(response.data)
+        if(response.data[0].totalScore){
+          setFinalScore(response.data[0].totalScore)
+          if(response.data[0].totalScore<15){
+            setResult("Fail")
+          }
+          else{
+            setResult("Pass")
+          }
+
+        }
       })
       .catch(error => console.error(error));
   }, []);
@@ -94,19 +107,26 @@ const EvalQuestions = () => {
     // console.log(totalScore);
   };
 
-  async function handlePass(){
-    // const candidate = await Candidate.find({ email:email })
-    // candidate.result = "Pass";
-    // await candidate.save();
+  function handleResult(result) {
+    console.log(result)
     
-  }
+    axios.put(`http://localhost:701/updateTestResult/${email}`, {
+      method: 'PUT',
+      body : { result , totalScore}
+    })
+      .then(response => response.json)
+      .then(data => {
+        console.log(data); // Handle the response from the server
+      })
+      .catch(error => {
+        console.error(error); // Handle any errors that occurred during the request
+      });
+    
+    const button = document.getElementById(`evaluate-all`)
+    button.disabled = true;
+    navigate('/CandidateList')
+    window.location.reload();
 
-  async function handleFail(){
-    // const candidate = await Candidate.find({ email:email })
-    // candidate.result = "Fail";
-    // await candidate.save();
-
-    axios.put('/candidate/:emai;l')
   }
   
   
@@ -119,6 +139,8 @@ const EvalQuestions = () => {
       <hr />
       <br />
       <h2>Evaluate MCQQuestions</h2>
+      <h2>Score : {finalScore}</h2>
+      <h2>Result : {result}</h2>
       <br />
       <ol>
         {mcqQuestions.map((question) => (
@@ -247,13 +269,15 @@ const EvalQuestions = () => {
               
               if(marks < 15){
                 alert("Fail");
+                const result = "Fail"
                 // alter the candiate table, add a field result and store result as "Pass"
-                handleFail();
+                handleResult(result);
               }
               else
               {
                 alert('Pass')
-                handlePass();
+                const result = "Pass"
+                handleResult(result);
               }
             }
           }

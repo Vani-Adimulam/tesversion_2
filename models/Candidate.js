@@ -12,6 +12,9 @@ const Candidate = new mongoose.Schema({
     type: String,
     // enum: ['not started', 'in progress', 'completed', 'cancelled'],
     default: 'not started'
+  },
+  result : {
+    type : String, 
   }
 });
 
