@@ -14,10 +14,10 @@ const ParagraphQuestions = () => {
     JSON.parse(localStorage.getItem("providedAnswers")) || {}
   );
   const [hasFetchedP, setHasFetchedP] = useState(localStorage.getItem('hasFetchedP')||false);
-
+  let areaIndex = localStorage.getItem('areaIndex')
   useEffect(() => {
     if (!hasFetchedP) {
-        axios.get("http://localhost:701/getParagraphQuestionsforTest")
+        axios.get(`http://localhost:701/getParagraphQuestionsforTest/${areaIndex}`)
           .then((response) => {
             localStorage.setItem('paragraphquestions',
             JSON.stringify(response.data.questions));

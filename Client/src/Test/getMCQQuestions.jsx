@@ -64,8 +64,8 @@ const MCQQuestions = () => {
               <input
                 type="radio"
                 name={question._id}
-                value={question.choice1}
-                checked={selectedAnswers[question._id] === question.choice1}
+                value={1}
+                checked={selectedAnswers[question._id] == 1}
                 onChange={(e) => handleRadioChange(e, question._id)}
               />
               {question.choice1}
@@ -75,8 +75,8 @@ const MCQQuestions = () => {
               <input
                 type="radio"
                 name={question._id}
-                value={question.choice2}
-                checked={selectedAnswers[question._id] === question.choice2}
+                value={2}
+                checked={selectedAnswers[question._id] == 2}
                 onChange={(e) => handleRadioChange(e, question._id)}
               />
               {question.choice2}
@@ -86,8 +86,8 @@ const MCQQuestions = () => {
               <input
                 type="radio"
                 name={question._id}
-                value={question.choice3}
-                checked={selectedAnswers[question._id] === question.choice3}
+                value={3}
+                checked={selectedAnswers[question._id] == 3}
                 onChange={(e) => handleRadioChange(e, question._id)}
               />
               {question.choice3}
@@ -97,8 +97,8 @@ const MCQQuestions = () => {
               <input
                 type="radio"
                 name={question._id}
-                value={question.choice4}
-                checked={selectedAnswers[question._id] === question.choice4}
+                value={4}
+                checked={selectedAnswers[question._id] == 4}
                 onChange={(e) => handleRadioChange(e, question._id)}
               />
               {question.choice4}

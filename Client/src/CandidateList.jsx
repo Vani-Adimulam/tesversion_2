@@ -77,8 +77,9 @@ const CandidateList = () => {
     candidate.email.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const handleEvaluateModalShow = () => {
-    navigate('/EvalQuestions')
+  const handleEvaluateModalShow = (candidate) => {
+    const state = { email: candidate.email };
+    navigate('/EvalQuestions',{ state })
   }
 
   return (
