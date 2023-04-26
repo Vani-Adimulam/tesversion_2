@@ -44,6 +44,7 @@ const MyProfile = () => {
           <div className="card" style={{ width: "18rem" }}>
             <div className="card-body">
               <h5 className="card-title">Welcome Evaluator</h5>
+              <br />
               <button
                 style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
                 className="btn"
@@ -51,18 +52,9 @@ const MyProfile = () => {
               >
                 Logout
               </button>
-              <Link
-                to="/CandidateForm"
-                className="btn"
-                style={{
-                  marginLeft: "5px",
-                  backgroundColor: "#989898",
-                  fontFamily: "fantasy",
-                }}
-              >
-                Add Candidate
-              </Link><br/>
-              <Link to="/CandidateList"
+            </div>
+            <div className="card-body">
+            <Link to="/CandidateList"
               className="btn"
               style={{
                   marginLeft: "5px",
@@ -73,7 +65,22 @@ const MyProfile = () => {
               >
               Manage Candidate
               </Link>
-              <Link
+            </div>
+            <div className="card-body">
+            <Link
+                to="/CandidateForm"
+                className="btn"
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#989898",
+                  fontFamily: "fantasy",
+                }}
+              >
+                Add Candidate
+              </Link>
+            </div>
+            <div className="card-body">
+            <Link
                 to="/getAllMCQQuestions"
                 className="btn"
                 style={{
@@ -84,19 +91,6 @@ const MyProfile = () => {
               >
                 View Questions
               </Link>
-            </div>
-            <div className="card-body">
-            <Link
-                to=""
-                className="btn"
-                style={{
-                  marginLeft: "5px",
-                  backgroundColor: "#989898",
-                  fontFamily: "fantasy",
-                }}
-              >
-              View Tests
-            </Link>
             </div>
           </div>
           

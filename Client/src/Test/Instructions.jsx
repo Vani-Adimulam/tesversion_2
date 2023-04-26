@@ -62,7 +62,11 @@ const Instructions = () => {
         <button
                 style={{ backgroundColor: "#FD7800", fontFamily: "fantasy",marginLeft:"3px"}}
                 className="btn"
-                onClick={() => setToken(null)}
+                onClick={() => {
+                  setToken(null)
+                  localStorage.clear()
+                  window.location.reload()
+                }}
               >
                 Logout
               </button>

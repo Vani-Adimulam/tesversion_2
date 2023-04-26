@@ -1,0 +1,9 @@
+.answer-wrapper {
+    display: flex;
+  }
+  
+  .correct-answer,
+  .given-answer {
+    margin-right: 20px;
+  }
+  

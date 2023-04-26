@@ -30,6 +30,10 @@ const MCQTest = () => {
         </select>
       </label>
       <button onClick={handleButtonClick}>Start Test</button>
+      <div>
+        <p>Currently fetching less than two questions for paragraph. </p>
+        <p>Please add more paragraph questions to increase the number of paragraph questions for test</p>
+      </div>
     </div>
   );
 };
