@@ -13,7 +13,7 @@ const EvalQuestions = () => {
   const location = useLocation();
   const email = location.state.email;
   let totalScore = 0;
-  const [finalScore,setFinalScore] = useState("")
+  const [finalScore,setFinalScore] = useState(0)
   const navigate = useNavigate();
 
 
@@ -21,23 +21,12 @@ const EvalQuestions = () => {
     axios.get(`http://localhost:701/getTestResults/${email}`)
       .then(response => {
         setTestResults(response.data)
-        if(response.data[0].totalScore){
-          setFinalScore(response.data[0].totalScore)
-          if(response.data[0].totalScore<15){
-            setResult("Fail")
-          }
-          else{
-            setResult("Pass")
-          }
-
-        }
       })
       .catch(error => console.error(error));
   }, []);
 
- 
   useEffect(() => {
-    
+    console.log(testResults)
     const selectedAnswersIds = testResults.map(result => Object.keys(result.selectedAnswers));
     axios.get('http://localhost:701/getMCQQuestions', {
       params: {
@@ -55,7 +44,6 @@ const EvalQuestions = () => {
   }, [testResults])
 
   useEffect(() => {
-
     const providedAnswersIds = testResults.map(result => Object.keys(result.providedAnswers))
     axios.get('http://localhost:701/getParagraphQuestions', {
       params: {
@@ -67,7 +55,20 @@ const EvalQuestions = () => {
       })
   }, [testResults])
 
-  const evaluateMCQQuestion = (question, correctChoice, selectedChoice) => {
+  useEffect(()=>{ 
+    if(testResults[0].totalScore){
+      setFinalScore(testResults[0].totalScore)
+      if(testResults[0].totalScore<15){
+        setResult("Fail")
+      }
+      else{
+        setResult("Pass")
+      }
+    }
+    console.log(testResults)
+  })
+
+  const evaluateMCQQuestion = (question, correctChoice, selectedChoice) => { 
 
     // your code to evaluate the question goes here
     if (selectedChoice === correctChoice) {
@@ -125,7 +126,7 @@ const EvalQuestions = () => {
     const button = document.getElementById(`evaluate-all`)
     button.disabled = true;
     navigate('/CandidateList')
-    window.location.reload();
+    window.location.reload()
 
   }
   
