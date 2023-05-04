@@ -15,6 +15,26 @@ const Candidate = new mongoose.Schema({
   },
   result : {
     type : String, 
+  },
+  name : {
+    type : String,
+    required: true,
+  },
+  area : {
+    type : String,
+    required : true,
+  },
+  mcqCount:{
+    type : Number,
+    required : true,
+  },
+  codeCount : {
+    type: Number,
+    required : true,
+  },
+  passPercentage : {
+    type : Number,
+    required : true,
   }
 });
 

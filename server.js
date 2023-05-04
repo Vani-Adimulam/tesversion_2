@@ -55,11 +55,16 @@ app.post('/addEvaluator', async (req, res) => {
 app.post('/register', async (req, res) => {
   try {
     const { email } = req.body;
+    const { name } = req.body;
+    const { area } = req.body;
+    const { mcqCount } = req.body;
+    const { codeCount } = req.body;
+    const { passPercentage } = req.body;
     let exist = await Candidate.findOne({ email });
     if (exist) {
       return res.send('Candidate Already Exist');
     }
-    let newUser = new Candidate({ email });
+    let newUser = new Candidate({ email, name, area, mcqCount, codeCount, passPercentage });
     await newUser.save();
     res.status(200).send('Registered Successfully');
   } catch (err) {
@@ -177,9 +182,20 @@ app.post('/addParagraphQuestion', async (req, res) => {
   app.get('/getMCQQuestions', async (req, res) => {
     try {
       const { ids } = req.query;
-      const idArr = ids ? ids.split(",") : [];
+      const idArr = ids ? ids.split(",") : null;
+      // console.log(idArr);
+      if(idArr){
       const questions = await MCQQuestion.find({ _id: { $in: idArr } });
+      // console.log(questions)
       res.json(questions);
+      }
+      else{
+        // console.log('I am in else')
+        const questions = await MCQQuestion.find({});
+        // console.log(questions)
+        res.json(questions);
+      }
+      
     } catch (error) {
       console.error('Error getting questions from MongoDB:', error);
       res.status(500).json({ error: 'Internal server error' });
@@ -191,9 +207,15 @@ app.post('/addParagraphQuestion', async (req, res) => {
 app.get('/getParagraphQuestions', async(req, res) => {
   try {
     const { ids } = req.query
-    const idArr = ids ? ids.split(",") : []
-    const questions = await ParagraphQuestion.find({_id: {$in:idArr}});
-    res.json(questions); 
+    const idArr = ids ? ids.split(",") : null
+    if(idArr){
+      const questions = await ParagraphQuestion.find({_id: {$in:idArr}});
+      res.json(questions); 
+    }
+    else{
+      const questions = await ParagraphQuestion.find({});
+      res.json(questions); 
+    }
   } catch (error) {
     console.error('Error getting questions from MongoDB:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -364,9 +386,14 @@ app.get('/getTestResults/:email', async (req, res) => {
     if (!candidate) {
       return res.status(404).json({ message: 'Candidate not found' });
     }
-    const testresults = await TestResults.find({ email: candidate.email });
-    console.log(testresults)
-    res.status(200).json(testresults);
+    console.log('email',email,typeof(email))
+    console.log('candidate.email',candidate.email,typeof(candidate.email))
+    // Get the test results of a candidate from the TestResults table
+    const testResults = await TestResults.find({email:email});
+
+    // const testresults = await TestResults.find({ email:candidate.email });
+    console.log(testResults)
+    res.status(200).json(testResults);
   } catch (err) {
     console.log(err);
     return res.status(500).send("Server Error");
