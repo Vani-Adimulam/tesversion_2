@@ -38,7 +38,7 @@ const AllMCQQuestions = () => {
   }
 
   return (
-    <Container>
+    <Container style={{marginTop:"90px"}}>
       <h2>MCQ Questions</h2>
       <Form.Group as={Row}>
         <Col sm={4}>

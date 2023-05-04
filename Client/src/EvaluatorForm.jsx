@@ -3,7 +3,7 @@ import axios from "axios";
 import { store } from "./App.js";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-//  
+//
 
 const EvaluatorForm = () => {
   const [token, setToken] = useContext(store);
@@ -37,11 +37,11 @@ const EvaluatorForm = () => {
 
   const navigate = useNavigate();
   if (token) {
-    navigate("/myprofile");
+    navigate("/myprofile", { state: { email: data.email } });
   }
 
   return (
-    <div className="container">
+    <div className="container" style={{ marginTop: "100px" }}>
       <div className="row justify-content-center mt-5">
         <div className="col-md-6 col-lg-4">
           <div className="card shadow">
@@ -75,8 +75,8 @@ const EvaluatorForm = () => {
                   />
                 </div>
                 <div className="text-center">
-                  <button class="cta">
-                    <span class="hover-underline-animation">Login</span>
+                  <button className="cta">
+                    <span className="hover-underline-animation">Login</span>
                     <svg
                       viewBox="0 0 46 16"
                       height="10"
@@ -104,17 +104,6 @@ const EvaluatorForm = () => {
         </div>
       </div>
     </div>
-//     <div class="container mt-3">
-//   {/* <div class="container-close">&times;</div> */}
-//   <img src="https://www.gasofttech.com/wp-content/uploads/2019/04/nhance-Evaluator_cover.png" alt="image"/>
-//   <div class="container-text">
-//     <h2>P2F Semi Evaluator <br/>LogIn</h2>
-//     <p>Login to add candidates,manage candidates and more...</p>
-//     <input type="email" placeholder="Email address"/>
-//     <button type="submit">LogIn</button>
-//     <span>No spams included</span>
-//   </div>
-// </div>
   );
 };
 

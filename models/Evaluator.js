@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const Evaluator = new mongoose.Schema({
+  role:{
+    type: String,
+    default:"evaluator"
+  },
   email: {
     type: String,
     required: true,

@@ -49,7 +49,7 @@ const CandidateForm = () => {
   return (
     <div className="container">
       <center>
-      <h2>Add Candidate</h2>
+      <h2 style={{marginTop:"90px"}}>Add Candidate</h2>
         <form onSubmit={submitHandler}>
         <div style={{ width: "250px" }}>
             <label htmlFor="email">Enter Name : </label>

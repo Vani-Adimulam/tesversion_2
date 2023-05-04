@@ -17,7 +17,7 @@ const Results = () => {
   }
 
   return (
-    <div>
+    <div style={{marginTop:"90px"}}>
         <h1>Congratulations for submitting the test!</h1>
         <p>You have successfully submitted the test. Your results will be shared with you!</p>
         <br/>

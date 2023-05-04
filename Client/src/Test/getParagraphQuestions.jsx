@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './getMCQQuestions.module.css';
+// import styles from './getMCQQuestions.module.css';
 
 const ParagraphQuestions = () => {
   const navigate = useNavigate();
@@ -91,8 +91,8 @@ const ParagraphQuestions = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Paragraph Questions</h2>
+    <div>
+      <h2 style={{marginTop:"90px"}}>Paragraph Questions</h2>
       <div className="paragraph-questions-list">
         {paragraphquestions.length > 0 ? (
           paragraphquestions.map((question) => (

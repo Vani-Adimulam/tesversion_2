@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styles from './getMCQQuestions.module.css';
 const MCQQuestions = () => {
   const navigate = useNavigate();
   const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions'))||[])
@@ -28,11 +27,11 @@ const MCQQuestions = () => {
         });
       }
   },[hasFetched])
-  useEffect(() => {
-    console.log(mcqquestions)
-  })
+  // useEffect(() => {
+  //   console.log(mcqquestions)
+  // })
   function handleNextClick() {
-    console.log(mcqquestions);
+    // console.log(mcqquestions);
     navigate('../getParagraphQuestions',{ state: { selectedAnswers, providedAnswers } })
   }
   function handleRadioChange(event, questionId) {
@@ -47,8 +46,8 @@ const MCQQuestions = () => {
     }));
   }
   return (
-    <div className={styles.container}>
-      <h2>MCQ Questions</h2>
+    <div>
+      <h2 style={{marginTop:"90px"}}>MCQ Questions</h2>
       <div className="mcq-questions-list">
         {mcqquestions.map((question) => (
           <div key={question._id} className="mcq-question">
