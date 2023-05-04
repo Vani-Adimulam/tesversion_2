@@ -59,14 +59,25 @@ app.post('/register', async (req, res) => {
     const { area } = req.body;
     const { mcqCount } = req.body;
     const { codeCount } = req.body;
+    const { paragraphCount } = req.body;
     const { passPercentage } = req.body;
     let exist = await Candidate.findOne({ email });
     if (exist) {
       return res.send('Candidate Already Exist');
     }
-    let newUser = new Candidate({ email, name, area, mcqCount, codeCount, passPercentage });
-    await newUser.save();
-    res.status(200).send('Registered Successfully');
+    const candidate = await Candidate.create({
+      email,
+      name,
+      area,
+      mcqCount,
+      codeCount,
+      paragraphCount,
+      passPercentage
+      });
+    return res.send('Candidate added successfully');
+    // let newUser = new Candidate({ email, name, area, mcqCount, codeCount, passPercentage });
+    // await newUser.save();
+    // res.status(200).send('Registered Successfully');
   } catch (err) {
     console.log(err);
     return res.status(500).send('Internal Server Error');
@@ -442,6 +453,21 @@ app.get('/getTestResult/:email', async (req, res) => {
     return res.status(500).send("Server Error");
   }
 });
+
+app.get('/getAllQuestions/:area', async (req, res) => {
+  try {
+    const area = req.params.area;
+    const mcqquestions = await MCQQuestion.find({ area: area }).lean().exec();
+    const paragraphquestions = await ParagraphQuestion.find({ area: area }).lean().exec();
+    const allquestions = [...mcqquestions.map(q => ({ ...q, type: 'MCQ' })), ...paragraphquestions.map(q => ({ ...q, type: 'Paragraph' }))];
+    console.log(allquestions);
+    res.status(200).json(allquestions);
+  } catch(err){
+    console.log(err)
+    return res.status(500).send("Server Error");
+  }
+})
+
 
 
   app.listen(701, () => console.log('Server running on port 701'));
