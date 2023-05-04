@@ -5,11 +5,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const CandidateForm = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [area, setArea] = useState("")
+  const [area, setArea] = useState("SOFTWARE")
   const [errorMessage, setErrorMessage] = useState("");
-  const [mcqCount, setMcqCount] = usestate(0);
-  cont [codeCount, setcodeCount] = useState(0);
-  const [passpercentage, setpassPercentage] = useState(0);
+  const [mcqCount, setMcqCount] = useState(0);
+  const [codeCount, setcodeCount] = useState(0);
+  const [paragraphCount, setParagraphcount] = useState(0)
+  const [passPercentage, setPassPercentage] = useState(0);
 
   const changeEmailHandler = (e) => {
     setEmail(e.target.value);
@@ -17,11 +18,26 @@ const CandidateForm = () => {
 
   const changeNameHandler = (e) => {
     setName(e.target.value);
-    console.log(e.target.value)
   }
 
   const changeAreaHandler = (e) => {
     setArea(e.target.value);
+  }
+
+  const changeMcqCountHandler = (e) => {
+    setMcqCount(e.target.value)
+  }
+
+  const changeCodeCountHandler = (e) => {
+    setcodeCount(e.target.value);
+  }
+  
+  const changeParagraphCountHandler = (e) => {
+    setParagraphcount(e.target.value)
+  }
+
+  const changePassPercentageHandler = (e) => {
+    setPassPercentage(e.target.value);
   }
 
   const submitHandler = (e) => {
@@ -34,7 +50,7 @@ const CandidateForm = () => {
     }
 
     axios
-      .post("http://localhost:701/register", { email , name, area, mcqCount, codeCount, passpercentage})
+      .post("http://localhost:701/register", { email, name, area, mcqCount, codeCount, paragraphCount, passPercentage})
       .then((res) => {
         alert(res.data);
         setEmail("");
@@ -77,7 +93,7 @@ const CandidateForm = () => {
           <br />
           <div style={{ width: "250px" }}>
           <label for="area">Select Area : </label>
-          <select name="area" id="area" onChange={changeAreaHandler}>
+          <select name="area" id="area" onChange={changeAreaHandler} defaultValue="SOFTWARE">
             <option value="SOFTWARE">SOFTWARE</option>
             <option value="EMBEDDED">EMBEDDED</option>
             <option value="VLSI">VLSI</option>
@@ -95,6 +111,7 @@ const CandidateForm = () => {
             // change min value and max value that can be entered
             min={5}
             max={10}
+            onChange={changeMcqCountHandler}
             />
           </div>
           <br />
@@ -107,6 +124,20 @@ const CandidateForm = () => {
             placeholder="Enter Code Questions count"
             min={5}
             max={10}
+            onChange={changeCodeCountHandler}
+            />
+          </div>
+          <br />
+          <div style={{ width: "250px" }}>
+            <label for="codecount">Set Paragraph Questions count:</label>
+            <input
+            type="number"
+            className="form-control"
+            id="codecount"
+            placeholder="Enter Paragraph Questions count"
+            min={5}
+            max={10}
+            onChange={changeParagraphCountHandler}
             />
           </div>
           <br />
@@ -119,6 +150,7 @@ const CandidateForm = () => {
             placeholder="Values between 0 and 100"
             min={0}
             max={100}
+            onChange={changePassPercentageHandler}
           />
           </div>
           <button type="submit" className="btn btn-dark mt-3">

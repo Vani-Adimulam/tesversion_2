@@ -33,6 +33,10 @@ const Candidate = new mongoose.Schema({
     type: Number,
     required : true,
   },
+  paragraphCount : {
+    type: Number,
+    required : true,
+  },
   passPercentage : {
     type : Number,
     required : true,
