@@ -87,7 +87,7 @@ const CandidateList = () => {
     <>
     <center>
 
-      <h1>Candidates</h1>
+      <h1 style={{marginTop:"100px"}}>Candidates</h1>
       <FormControl
         type="text"
         placeholder="Search by email"
@@ -105,6 +105,7 @@ const CandidateList = () => {
             <th>Delete</th>
             <th>Evaluate</th>
             <th>Result</th>
+            <th>Total Marks</th>
           </tr>
         </thead>
         <tbody>
@@ -112,6 +113,7 @@ const CandidateList = () => {
             <tr key={candidate._id}>
               <td>{candidate.email}</td>
               <td>{candidate.testStatus}</td>
+              
               <td>
                 <Button
                 

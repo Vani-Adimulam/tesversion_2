@@ -267,7 +267,7 @@ app.get('/getParagraphQuestionsforTest/:areaIndex/', async(req, res) => {
       {$project : {answer: 0}} // exclude answer
     ]);
     questions = code_questions.concat(text_questions)
-    console.log(questions)
+    // console.log(questions)
     res.json({ questions });  
   } catch (error) {
     console.log('Unable to create Test, Please select correct number of questions')

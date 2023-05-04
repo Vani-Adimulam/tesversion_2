@@ -98,7 +98,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter choice 1"
                 value={choice1}
                 onChange={(e) => setChoice1(e.target.value)}
-                maxlength="20"
+                maxLength="20"
               />
             </Form.Group>
             <Form.Group controlId="choice2">
@@ -111,7 +111,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter choice 2"
                 value={choice2}
                 onChange={(e) => setChoice2(e.target.value)}
-                maxlength="20"
+                maxLength="20"
               />
             </Form.Group>
             <Form.Group controlId="choice3">
@@ -135,7 +135,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter choice 4"
                 value={choice4}
                 onChange={(e) => setChoice4(e.target.value)}
-                maxlength="20"
+                maxLength="20"
               />
             </Form.Group>
             <Form.Group controlId="correct_choice">
@@ -162,7 +162,7 @@ const AddQuestionForm = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   viewBox="0 0 24 24"
-                  stroke-width="2"
+                  strokeWidth="2"
                   strokeLinejoin="round"
                   strokeLinecap="round"
                   stroke="currentColor"

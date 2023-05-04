@@ -32,7 +32,7 @@ const MCQTest = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center">
-      <Card style={{width:"500px",marginTop:"10px"}}>
+      <Card style={{width:"500px",marginTop:"100px"}}>
         <Card.Body>
           <Form>
             <Form.Group controlId="formArea">

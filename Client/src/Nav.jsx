@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "./assets/p2f-semi-logo-img.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHouse,
+  faRightToBracket
+} from "@fortawesome/free-solid-svg-icons";
 
 const Nav = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogInClick = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
-    // <div className="container">
     <div
-      className="navbar navbar-expand-lg navbar-dark bg-dark"
+      className="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed fixed-top"
       style={{ justifyContent: "space-between" }}
     >
       <img src={logo} alt="" style={{ height: "40px", marginLeft: "15px" }} />
@@ -21,19 +31,29 @@ const Nav = () => {
           MozBackgroundClip: "text",
           backgroundClip: "text",
           color: "transparent",
-          marginLeft:"100px"
+          marginLeft: "100px",
         }}
         className="navbar-brand"
       >
         P2F Online Assessment
       </span>
       <div className="d-flex">
-      <Link to="/" className="navbar-brand"><h3>Home</h3></Link>
-        <Link to="/login" className="navbar-brand mr-3"><h3>Evaluator</h3></Link>
-        <Link to="/verify-emails" className="navbar-brand"><h3>Candidate</h3></Link>
+        <Link to="/" className="navbar-brand">
+          <FontAwesomeIcon icon={faHouse} />
+          <span>Home</span>
+        </Link>
+        {!isLoggedIn && (
+          <Link
+            to="/Login"
+            className="navbar-brand"
+            onClick={handleLogInClick}
+          >
+            <FontAwesomeIcon icon={faRightToBracket} />
+            <span>LogIn</span>
+          </Link>
+        )}
       </div>
     </div>
-    // </div>
   );
 };
 

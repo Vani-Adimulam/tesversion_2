@@ -40,14 +40,15 @@ const CandidateLogin = () => {
   //navigation to the instructions page
   const navigate = useNavigate();
 
+ 
+
   useEffect(() => {
     if (token) {
       navigate("/instructions");
     }
   }, [token]);
-
   return (
-    <div className="container">
+    <div className="container" style={{marginTop:"100px"}}>
       <div className="row justify-content-center mt-5">
         <div className="col-md-6 col-lg-4">
           <div className="card shadow">
@@ -55,8 +56,8 @@ const CandidateLogin = () => {
               <h2 className="card-title text-center">CandidateLogin</h2>
               {/* <h5 className="card-title">Email Form</h5> */}
               <form onSubmit={submitHandler} className="form">
-                <span class="title">Welcome to our online assessment portal</span>
-                <p class="description">
+                <span className="title">Welcome to our online assessment portal</span>
+                <p className="description">
                 We're excited that you've chosen to take this test and we
                  hope you find it to be a valuable experience. This test is 
                  designed to assess your skills and knowledge and is an important step in your professional development.</p>
@@ -72,8 +73,8 @@ const CandidateLogin = () => {
                     required
                   />
                 <div className="text-center">
-                  <button class="cta">
-                    <span class="hover-underline-animation">Login</span>
+                  <button className="cta">
+                    <span className="hover-underline-animation">Login</span>
                     <svg
                       viewBox="0 0 46 16"
                       height="10"

@@ -7,8 +7,8 @@ import axios from 'axios';
 const Instructions = () => {
 
 
-  const [token, setToken] = useContext(store);
-  const [data, setData] = useState(null);
+  const [token] = useContext(store);
+  const [data, setData] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +17,7 @@ const Instructions = () => {
           "x-token": token,
         },
       })
+      
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }, [token]);
@@ -62,7 +63,7 @@ const Instructions = () => {
          onClick={handleStart}
          style={{ backgroundColor: "#544CA4", fontFamily: "fantasy",marginLeft:"3px"}}
          >Start</button>
-        <button
+        {/* <button
                 style={{ backgroundColor: "#D43E2D", fontFamily: "fantasy",marginLeft:"3px"}}
                 className="btn"
                 onClick={() => {
@@ -72,8 +73,7 @@ const Instructions = () => {
                 }}
               >
                 Logout
-              </button>
-        {/* give me a drop down with items 'VLSI', 'Embedded' and 'Software' in html and css*/}
+              </button> */}
 
       </div>
     </div>

@@ -1,16 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link ,useLocation} from "react-router-dom";
 import { store } from "./App";
 import { Navigate } from "react-router";
 // import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Form } from "react-bootstrap";
-import McqForm from "./McqForm";
-import AddParagraphQuestionForm from "./AddParagraphQuestionForm"
+// import { Form } from "react-bootstrap";
+// import McqForm from "./McqForm";
+// import AddParagraphQuestionForm from "./AddParagraphQuestionForm"
 const MyProfile = () => {
+  const location = useLocation();
+  const email = location.state.email;
   const [token, setToken] = useContext(store);
-  const [data, setData] = useState(null);
-  const [selectedQuestionType, setSelectedQuestionType] = useState(null);
+  const [data, setData] = useState({});
+  // const [selectedQuestionType, setSelectedQuestionType] = useState("");
   useEffect(() => {
     axios
       .get("http://localhost:701/myprofile", {
@@ -22,11 +24,11 @@ const MyProfile = () => {
       .catch((err) => console.log(err));
   }, [token]);
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login"/>;
   }
-  const handleQuestionTypeChange = (e) => {
-    setSelectedQuestionType(e.target.value);
-  };
+  // const handleQuestionTypeChange = (e) => {
+  //   setSelectedQuestionType(e.target.value);
+  // };
   // const handleAddQuestion = () => {
   //   setSelectedQuestionType(null); // reset selectedQuestionType to null
   // };
@@ -35,10 +37,10 @@ const MyProfile = () => {
       {data && (
         <center>
           <br />
-          <div className="card" style={{ width: "18rem" }}>
+          <div className="card" style={{ width: "18rem",marginTop:"90px" }}>
             <div className="card-body">
-              <h5 className="card-title">Welcome Evaluator</h5>
-              <br />
+            <h5 className="card-title">Welcome {email}</h5>
+            <br />
               <button
                 style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
                 className="btn"
@@ -52,7 +54,7 @@ const MyProfile = () => {
               className="btn"
               style={{
                   marginLeft: "5px",
-                  backgroundColor: "#F1F2F4",
+                  backgroundColor: "#6BD8BA",
                   fontFamily: "fantasy",
                   marginTop:"2px"
                 }}
@@ -66,7 +68,7 @@ const MyProfile = () => {
                 className="btn"
                 style={{
                   marginLeft: "5px",
-                  backgroundColor: "#989898",
+                  backgroundColor: "#01717B",
                   fontFamily: "fantasy",
                 }}
               >
@@ -79,15 +81,28 @@ const MyProfile = () => {
                 className="btn"
                 style={{
                   marginLeft: "5px",
-                  backgroundColor: "#989898",
+                  backgroundColor: "#B1D7E7",
                   fontFamily: "fantasy",
                 }}
               >
                 View Questions
               </Link>
             </div>
+            <div className="card-body">
+            <Link
+                to="/AddQuestions"
+                className="btn"
+                style={{
+                  marginLeft: "5px",
+                  backgroundColor: "#B1D7E7",
+                  fontFamily: "fantasy",
+                }}
+              >
+              Add Questions
+              </Link>
+            </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          {/* <div style={{ display: "flex", justifyContent: "center" }}>
             <Form style={{ width: "50rem" }}>
               <Form.Group controlId="questionTypeSelect">
                 <Form.Label
@@ -108,7 +123,7 @@ const MyProfile = () => {
             </Form>
           </div>
           {selectedQuestionType === "TEXT" && <AddParagraphQuestionForm />}
-          {selectedQuestionType === "MCQ" && <McqForm />}
+          {selectedQuestionType === "MCQ" && <McqForm />} */}
         </center>
       )}
     </div>

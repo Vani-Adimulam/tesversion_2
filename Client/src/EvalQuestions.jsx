@@ -21,12 +21,12 @@ const EvalQuestions = () => {
     axios.get(`http://localhost:701/getTestResults/${email}`)
       .then(response => {
         setTestResults(response.data)
+        // console.log(testResults)
       })
       .catch(error => console.error(error));
   }, []);
 
   useEffect(() => {
-    console.log(testResults)
     const selectedAnswersIds = testResults.map(result => Object.keys(result.selectedAnswers));
     axios.get('http://localhost:701/getMCQQuestions', {
       params: {
@@ -137,79 +137,79 @@ const EvalQuestions = () => {
   return (
     <div>
       <h1>Candidate : {email}</h1>
-      <hr />
-      <br />
-      <h2>Evaluate MCQQuestions</h2>
-      <h2>Score : {finalScore}</h2>
-      <h2>Result : {result}</h2>
-      <br />
-      <ol>
-        {mcqQuestions.map((question) => (
-          <li>
-            <div key={question._id} className="mcq-question">
-              <h3>{question.question}</h3>
-              <p>
-                correct answer : {question.correct_choice}
-              </p>
-              <label>
-                <input
-                  type="radio"
-                  name={question._id}
-                  value={1}
-                  checked={testResults[0].selectedAnswers[question._id] == 1}
-                />
-                {question.choice1}
-              </label>
-              <br />
-              <label>
-                <input
-                  type="radio"
-                  name={question._id}
-                  value={2}
-                  checked={testResults[0].selectedAnswers[question._id] == 2}
+<hr />
+<br />
+<h2>Evaluate MCQQuestions</h2>
+<br />
+<ol>
+  {mcqQuestions.map((question) => (
+    <li key={question._id}>
+      <div className="card">
+        <div className="card-body">
+          <h3>{question.question}</h3>
+          <p>
+            correct answer : {question.correct_choice}
+          </p>
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={1}
+              checked={testResults[0].selectedAnswers[question._id] == 1}
+            />
+            {question.choice1}
+          </label>
+          <br />
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={2}
+              checked={testResults[0].selectedAnswers[question._id] == 2}
 
-                />
-                {question.choice2}
-              </label>
-              <br />
-              <label>
-                <input
-                  type="radio"
-                  name={question._id}
-                  value={3}
-                  checked={testResults[0].selectedAnswers[question._id] == 3}
-                />
-                {question.choice3}
-              </label>
-              <br />
-              <label>
-                <input
-                  type="radio"
-                  name={question._id}
-                  value={4}
-                  checked={testResults[0].selectedAnswers[question._id] == 4}
+            />
+            {question.choice2}
+          </label>
+          <br />
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={3}
+              checked={testResults[0].selectedAnswers[question._id] == 3}
+            />
+            {question.choice3}
+          </label>
+          <br />
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={4}
+              checked={testResults[0].selectedAnswers[question._id] == 4}
 
-                />
-                {question.choice4}
-              </label>
-              <br />
-              <span id={`symbol-${question._id}`} className="symbol"></span>
-              <br />
-              <br />
-            </div>
-            <div className="col-md-4">
-              <button type="submit"
-                id={`evaluate-${question._id}`}
-                onClick={
-                  () => evaluateMCQQuestion(question, question.correct_choice, testResults[0].selectedAnswers[question._id])}
-              >
-                Evaluate
-              </button>
-            </div>
-            <br />
-          </li>
-        ))}
-      </ol>
+            />
+            {question.choice4}
+          </label>
+          <br />
+          <span id={`symbol-${question._id}`} className="symbol"></span>
+          <br />
+          <br />
+          <button type="submit"
+          // className="buttonE"
+            id={`evaluate-${question._id}`}
+            onClick={
+              () => evaluateMCQQuestion(question, question.correct_choice, testResults[0].selectedAnswers[question._id])}
+          >
+            Evaluate
+          </button>
+        </div>
+      </div>
+      <br />
+    </li>
+  ))}
+</ol>
+
       <hr />
       <h1>Evaluate Paragraph Questions</h1>
       <br />
@@ -243,6 +243,7 @@ const EvalQuestions = () => {
               <br />
               <br />
               <button type="submit"
+              // className="buttonE"
                 id={`evaluate-${question._id}`}
                 onClick={
                   
@@ -263,6 +264,7 @@ const EvalQuestions = () => {
       </ol>
       <div>
         <button type="submit"
+        // className="buttonE"
           id={`evaluate-all`}
           onClick={
             () => {
@@ -283,7 +285,7 @@ const EvalQuestions = () => {
             }
           }
         >
-          Display Result
+          Submit Evaluation
         </button>
       </div>
     </div>
