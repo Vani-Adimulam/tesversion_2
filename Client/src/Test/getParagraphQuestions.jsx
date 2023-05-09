@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Card, Button } from "react-bootstrap";
 
 // import styles from './getMCQQuestions.module.css';
 
@@ -71,7 +72,7 @@ const ParagraphQuestions = () => {
         // create a sample patch request using axios
     const requestBody2 = {
       email,
-      testStatus: "completed",
+      testStatus: "Test Taken",
     }
     axios.patch("http://localhost:701/updateCandidateTeststatus", requestBody2)
     .then((response) => {
@@ -91,30 +92,39 @@ const ParagraphQuestions = () => {
   };
 
   return (
+    <center>
     <div>
-      <h2 style={{marginTop:"90px"}}>Paragraph Questions</h2>
-      <div className="paragraph-questions-list">
-        {paragraphquestions.length > 0 ? (
-          paragraphquestions.map((question) => (
-            <div key={question._id} className="paragraph-question">
-              <h2>{question.question}</h2>
-              <textarea
-                rows="20"
-                cols="50"
-                value={providedAnswers[question._id]}
-                onChange={(event) =>
-                  handleTextAreaChange(event, question._id)
-                }
-              ></textarea>
-            </div>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
-        <button onClick={handleSubmitClick}>Submit</button>
-        <button onClick={handleBackClick}>Back</button>
-      </div>
-    </div>
+  <p style={{ marginTop: "90px"}} className='display-4'> Technical and Theory</p>
+  <div className="paragraph-questions-list">
+    {paragraphquestions.length > 0 ? (
+      paragraphquestions.map((question) => (
+       
+        <Card key={question._id} className="mb-3" style={{border:"1px solid gray",width:"800px"}}>
+          <Card.Header>{question.question}</Card.Header>
+          <Card.Body>
+            <textarea
+              rows="10"
+              cols="50"
+              value={providedAnswers[question._id]}
+              onChange={(event) =>
+                handleTextAreaChange(event, question._id)
+              }
+              style={{ width: "100%", border: "none", outline:"none"}}
+            ></textarea>
+          </Card.Body>
+        </Card>
+      
+      ))
+    ) : (
+      <p>Loading...</p>
+    )}
+    <Button onClick={handleSubmitClick} style={{ marginRight: "5px", marginLeft: "10px",marginTop:"-10px" }}>Submit</Button>
+    <Button variant="secondary" onClick={handleBackClick}
+    style={{marginTop:"-10px"}}>Back</Button>
+  </div>
+</div>
+  </center>
+
   );
 };
 

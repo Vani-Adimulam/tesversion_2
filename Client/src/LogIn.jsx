@@ -10,33 +10,35 @@ const LogIn = () => {
   };
 
   return (
-    <div style={{marginTop:"90px"}}>
-      <h2>Login</h2>
-      <div>
-        <input
-          type="radio"
-          id="evaluator"
-          name="login-option"
-          value="evaluator"
-          checked={selectedOption === "evaluator"}
-          onChange={handleOptionChange}
-        />
-        <label htmlFor="evaluator">Evaluator</label>
+    <center>
+      <div style={{ marginTop: "90px" }}>
+        <h1 className="display-3">Login</h1>
+        <div>
+          <input
+            type="radio"
+            id="evaluator"
+            name="login-option"
+            value="evaluator"
+            checked={selectedOption === "evaluator"}
+            onChange={handleOptionChange}
+          />
+          <label htmlFor="evaluator" className="lead">Evaluator</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="candidate"
+            name="login-option"
+            value="candidate"
+            checked={selectedOption === "candidate"}
+            onChange={handleOptionChange}
+          />
+          <label htmlFor="candidate" className="lead">Candidate</label>
+        </div>
+        {selectedOption === "evaluator" && <EvaluatorForm />}
+        {selectedOption === "candidate" && <CandidateLogin />}
       </div>
-      <div>
-        <input
-          type="radio"
-          id="candidate"
-          name="login-option"
-          value="candidate"
-          checked={selectedOption === "candidate"}
-          onChange={handleOptionChange}
-        />
-        <label htmlFor="candidate">Candidate</label>
-      </div>
-      {selectedOption === "evaluator" && <EvaluatorForm />}
-      {selectedOption === "candidate" && <CandidateLogin />}
-    </div>
+    </center>
   );
 };
 

@@ -1,9 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import CandidateToken, { store } from "./CandidateToken";
 import { store } from "./App";
 import "./CandidateLogin.css";
-
+import { toast } from 'react-toastify'
 import axios from "axios";
 import "./index.css";
 
@@ -26,14 +25,22 @@ const CandidateLogin = () => {
       .then((res) => {
         if (res.data.token) {
           setToken(res.data.token);
+          toast.success("Login Successfully")
+
         } else {
           console.log("Email is not valid");
           setErrorMessage("Email not registered");
+          
         }
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage("Email not registered");
+        setErrorMessage("Email not registered or Test Already Taken");
+        toast.error("Email not registered")
+        toast.warn("Test already taken")
+        toast("your test may have cancelled",{
+        className:"toast-message"})
+        
       });
   };
 

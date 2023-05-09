@@ -1,5 +1,4 @@
 // server.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const middleware = require('./middleware');
@@ -14,7 +13,6 @@ const TestResults = require('./models/TestResults');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
 require('dotenv').config();
-// const natural = require('natural');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI,{
@@ -59,31 +57,19 @@ app.post('/register', async (req, res) => {
     const { area } = req.body;
     const { mcqCount } = req.body;
     const { codeCount } = req.body;
-    const { paragraphCount } = req.body;
     const { passPercentage } = req.body;
     let exist = await Candidate.findOne({ email });
     if (exist) {
       return res.send('Candidate Already Exist');
     }
-    const candidate = await Candidate.create({
-      email,
-      name,
-      area,
-      mcqCount,
-      codeCount,
-      paragraphCount,
-      passPercentage
-      });
-    return res.send('Candidate added successfully');
-    // let newUser = new Candidate({ email, name, area, mcqCount, codeCount, passPercentage });
-    // await newUser.save();
-    // res.status(200).send('Registered Successfully');
+    let newUser = new Candidate({ email, name, area, mcqCount, codeCount, passPercentage });
+    await newUser.save();
+    res.status(200).send('Registered Successfully');
   } catch (err) {
     console.log(err);
     return res.status(500).send('Internal Server Error');
   }
 });
-
 
 app.post('/verify-emails', async (req, res) => {
   try {
@@ -91,6 +77,14 @@ app.post('/verify-emails', async (req, res) => {
     const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ status: 'Email not found' });
+    }
+    
+    if (candidate.testStatus !== "Test Not Taken") {
+      return res.status(401).json({ status: 'Test already taken' });
+    }
+
+    if (candidate.testStatus === "Test Cancelled") {
+      return res.status(401).json({ status: 'Test cancelled' });
     }
 
     // Create and sign JWT
@@ -194,16 +188,12 @@ app.post('/addParagraphQuestion', async (req, res) => {
     try {
       const { ids } = req.query;
       const idArr = ids ? ids.split(",") : null;
-      // console.log(idArr);
       if(idArr){
       const questions = await MCQQuestion.find({ _id: { $in: idArr } });
-      // console.log(questions)
       res.json(questions);
       }
       else{
-        // console.log('I am in else')
         const questions = await MCQQuestion.find({});
-        // console.log(questions)
         res.json(questions);
       }
       
@@ -212,7 +202,6 @@ app.post('/addParagraphQuestion', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-  
 
 // API to get Paragraph questions
 app.get('/getParagraphQuestions', async(req, res) => {
@@ -326,32 +315,29 @@ app.get('/myprofile', middleware, async (req, res) => {
     }
     })
 
-
-
-app.post('/testresults', async(req, res) => {
-  try {
-    // Create a new instance of the TestResults model
-    const testresults = new TestResults(req.body);
-
-    // Save the new instance to the database
-    await testresults.save();
-    // Return the new instance as a JSON response
-    res.json(testresults);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send("Server Error");
-  }
-});
+ app.post('/testresults', async(req, res) => {
+      try {
+        // Create a new instance of the TestResults model
+        const testresults = new TestResults(req.body);
+    
+        // Save the new instance to the database
+        await testresults.save();
+        // Return the new instance as a JSON response
+        res.json(testresults);
+      } catch (err) {
+        console.log(err); // log the error message
+        return res.status(500).send("Server Error");
+      }
+    });
+    
 //update the candidate
 app.put('/edit/:id', async (req, res) => { 
   try {
-    const { email } = req.body;
-    const candidate = await Candidate.findByIdAndUpdate(req.params.id);
+    const { email, testStatus } = req.body;
+    const candidate = await Candidate.findByIdAndUpdate(req.params.id, { email, testStatus }, { new: true });
     if (!candidate) {
       return res.status(404).send('Candidate not found');
     }
-    candidate.email = email;
-     await candidate.save();
     res.status(200).send('Candidate updated successfully');
   } catch (err) {
     console.log(err);
@@ -360,19 +346,19 @@ app.put('/edit/:id', async (req, res) => {
 });
 
 //delete the selected candidate
-app.delete('/delete/:id', async (req, res) => {
-  try {
-    const candidate = await Candidate.findByIdAndDelete(req.params.id);
-    if (!candidate) {
-      return res.status(404).send('Candidate not found');
-    }
-    // await candidate.remove();
-    res.status(200).send('Candidate deleted successfully');
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send('Internal Server Error');
-  }
-});
+// app.delete('/delete/:id', async (req, res) => {
+//   try {
+//     const candidate = await Candidate.findByIdAndDelete(req.params.id);
+//     if (!candidate) {
+//       return res.status(404).send('Candidate not found');
+//     }
+//     // await candidate.remove();
+//     res.status(200).send('Candidate deleted successfully');
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(500).send('Internal Server Error');
+//   }
+// });
 
 //get all candidate emails
 app.get('/all', async (req, res) => {
@@ -447,23 +433,38 @@ app.post('/updateTestResult/:email', async (req, res) => {
   }
 });
 
+// Write an API to get the Test Result of a Candidate by hitting the Test Result table
+app.get('/getTestResult/:email', async (req, res) => {
+  try {
+    const email = req.params.email;
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+      return res.status(404).json({ message: "Candidate not found" })
+    }
+    const testresults = await TestResults.find({ email: candidate.email });
+    console.log(testresults)
+    res.status(200).json(testresults);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Server Error");
+  }
+});
+
+app.get('/getAllQuestions/:area', async (req, res) => {
+  try {
+    const area = req.params.area;
+    const mcqquestions = await MCQQuestion.find({ area: area }).lean().exec();
+    const paragraphquestions = await ParagraphQuestion.find({ area: area }).lean().exec();
+    const allquestions = [...mcqquestions.map(q => ({ ...q, type: 'MCQ' })), ...paragraphquestions.map(q => ({ ...q, type: 'Paragraph' }))];
+    console.log(allquestions);
+    res.status(200).json(allquestions);
+  } catch(err){
+    console.log(err)
+    return res.status(500).send("Server Error");
+  }
+})
 
 
-// app.get('/getAllQuestions/:area', async (req, res) => {
-//   try {
-//     const area = req.params.area;
-//     const mcqquestions = await MCQQuestion.find({ area: area }).lean().exec();
-//     const paragraphquestions = await ParagraphQuestion.find({ area: area }).lean().exec();
-//     const allquestions = [...mcqquestions.map(q => ({ ...q, type: 'MCQ' })), ...paragraphquestions.map(q => ({ ...q, type: 'Paragraph' }))];
-//     console.log(allquestions);
-//     res.status(200).json(allquestions);
-//   } catch(err){
-//     console.log(err)
-//     return res.status(500).send("Server Error");
-//   }
-// })
 
-
-
-  app.listen(701, () => console.log('Server running on port 701'));
+app.listen(701, () => console.log('Server running on port 701'));
   
