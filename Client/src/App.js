@@ -9,6 +9,7 @@ import CandidateList from "./CandidateList";
 import Instructions from "./Test/Instructions";
 import MCQQuestions from "./Test/getMCQQuestions";
 import MCQTest from "./MCQQuestions";
+import Summary from "./Summary";
 
 import AllMCQQuestions from "./getAllMCQQuestions";
 import AllParagraphQuestions from "./getAllParagraphQuestions";
@@ -37,6 +38,7 @@ function App() {
             <Route path="/AddQuestions" element={<AddQuestions/>} />
             <Route path="/instructions" element={<Instructions />} />
             <Route path="/getMCQQuestions" element={<MCQQuestions />} />
+            <Route path="/summary" element={<Summary/>}/>
             
             <Route
               path="/getParagraphQuestions"

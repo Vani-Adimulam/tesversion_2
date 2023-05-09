@@ -14,10 +14,11 @@ const ParagraphQuestions = () => {
     JSON.parse(localStorage.getItem("providedAnswers")) || {}
   );
   const [hasFetchedP, setHasFetchedP] = useState(localStorage.getItem('hasFetchedP')||false);
-  let areaIndex = localStorage.getItem('areaIndex')
+  const email = JSON.parse(localStorage.getItem("email"));
+  
   useEffect(() => {
     if (!hasFetchedP) {
-        axios.get(`http://localhost:701/getParagraphQuestionsforTest/${areaIndex}`)
+        axios.get(`http://localhost:701/getParagraphQuestionsforTest/${email}`)
           .then((response) => {
             localStorage.setItem('paragraphquestions',
             JSON.stringify(response.data.questions));
@@ -51,7 +52,6 @@ const ParagraphQuestions = () => {
 
   const handleSubmitClick = () => {
     // make a post request to /testresults and define a request body with email from localStorage and selectedAnswers and providedAnswers
-    const email = JSON.parse(localStorage.getItem("email"));
     const selectedAnswers = JSON.parse(localStorage.getItem("selectedAnswers"));
     const providedAnswers = JSON.parse(localStorage.getItem("providedAnswers"))
     const requestBody = {
