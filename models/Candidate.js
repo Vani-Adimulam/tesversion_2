@@ -11,7 +11,6 @@ const Candidate = new mongoose.Schema({
   },
   testStatus: {
     type: String,
-    // enum: ['not started', 'in progress', 'completed', 'cancelled'],
     default: 'Test Not Taken'
   },
   result : {

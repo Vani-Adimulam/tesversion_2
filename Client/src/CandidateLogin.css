@@ -6,7 +6,7 @@
     background: linear-gradient(to right, #3f4c6b, #606c88);
     padding: 20px;
     border-radius: 10px;
-    max-width: 350px;
+    max-width: 375px;
   }
   
   .title {
@@ -62,3 +62,11 @@
     border: none;
     outline: none;
   }
+
+  .toast-message {
+    background: darkblue;
+    color: #fff;
+    font-size: 20px;
+    width: 34vw;
+    padding: 30px 20px;
+}

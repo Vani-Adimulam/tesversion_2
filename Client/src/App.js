@@ -19,12 +19,15 @@ import Results from "./Test/Results";
 import Home from "./Home";
 import LogIn from "./LogIn";
 import AddQuestions from "./AddQuestions";
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const store = createContext();
 
 function App() {
   const [token, setToken] = useState(null);
   return (
     <div>
+      <ToastContainer />
       <store.Provider value={[token, setToken]}>
         <Nav />
           <Routes>

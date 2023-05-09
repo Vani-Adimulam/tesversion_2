@@ -1,0 +1,4 @@
+.choice-label input[type="radio"]:checked + span {
+    background-color: green;
+  }
+  

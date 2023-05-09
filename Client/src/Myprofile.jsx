@@ -2,17 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link ,useLocation} from "react-router-dom";
 import { store } from "./App";
 import { Navigate } from "react-router";
-// import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { Form } from "react-bootstrap";
-// import McqForm from "./McqForm";
-// import AddParagraphQuestionForm from "./AddParagraphQuestionForm"
 const MyProfile = () => {
   const location = useLocation();
   const email = location.state.email;
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({});
-  // const [selectedQuestionType, setSelectedQuestionType] = useState("");
   useEffect(() => {
     axios
       .get("http://localhost:701/myprofile", {
@@ -26,14 +21,8 @@ const MyProfile = () => {
   if (!token) {
     return <Navigate to="/login"/>;
   }
-  // const handleQuestionTypeChange = (e) => {
-  //   setSelectedQuestionType(e.target.value);
-  // };
-  // const handleAddQuestion = () => {
-  //   setSelectedQuestionType(null); // reset selectedQuestionType to null
-  // };
   return (
-    <div>
+    <div style={{ backgroundColor: "#F0F1F4" }}>
       {data && (
         <center>
           <br />
@@ -81,7 +70,7 @@ const MyProfile = () => {
                 className="btn"
                 style={{
                   marginLeft: "5px",
-                  backgroundColor: "#B1D7E7",
+                  backgroundColor: "#1E5BB6",
                   fontFamily: "fantasy",
                 }}
               >
@@ -102,28 +91,6 @@ const MyProfile = () => {
               </Link>
             </div>
           </div>
-          {/* <div style={{ display: "flex", justifyContent: "center" }}>
-            <Form style={{ width: "50rem" }}>
-              <Form.Group controlId="questionTypeSelect">
-                <Form.Label
-                  style={{ fontFamily: "sans-serif", fontWeight: "bold" }}
-                >Want To Add Question?
-                </Form.Label>
-                <Form.Control
-                  as="select"
-                  value={selectedQuestionType}
-                  onChange={handleQuestionTypeChange}
-                  style={{marginBottom:"10px"}}
-                >
-                  <option value="">Select a question type</option>
-                  <option value="MCQ">MCQ</option>
-                  <option value="TEXT">Paragraph</option>
-                </Form.Control>
-              </Form.Group>
-            </Form>
-          </div>
-          {selectedQuestionType === "TEXT" && <AddParagraphQuestionForm />}
-          {selectedQuestionType === "MCQ" && <McqForm />} */}
         </center>
       )}
     </div>

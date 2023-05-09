@@ -47,66 +47,71 @@ const MCQQuestions = () => {
     }));
   }
   return (
-    <div>
-      <h2 style={{marginTop:"90px"}}>MCQ Questions</h2>
-      <div className="mcq-questions-list">
-        {mcqquestions.map((question) => (
-          <div key={question._id} className="mcq-question">
-            <h3>{question.question}</h3>
-            <label>
-              <input
-                type="radio"
-                name={question._id}
-                value={1}
-                checked={selectedAnswers[question._id] == 1}
-                onChange={(e) => handleRadioChange(e, question._id)}
-              />
-              {question.choice1}
-            </label>
-            <br />
-            <label>
-              <input
-                type="radio"
-                name={question._id}
-                value={2}
-                checked={selectedAnswers[question._id] == 2}
-                onChange={(e) => handleRadioChange(e, question._id)}
-              />
-              {question.choice2}
-            </label>
-            <br />
-            <label>
-              <input
-                type="radio"
-                name={question._id}
-                value={3}
-                checked={selectedAnswers[question._id] == 3}
-                onChange={(e) => handleRadioChange(e, question._id)}
-              />
-              {question.choice3}
-            </label>
-            <br />
-            <label>
-              <input
-                type="radio"
-                name={question._id}
-                value={4}
-                checked={selectedAnswers[question._id] == 4}
-                onChange={(e) => handleRadioChange(e, question._id)}
-              />
-              {question.choice4}
-            </label>
-            <br />
-            <hr />
-          </div>
-        ))}
+    <center>
+    <div style={{backgroundColor:"#BDCCDA"}}>
+  <h2 style={{ marginTop: "90px" }}>MCQ Questions</h2>
+  <div className="mcq-questions-list">
+    {mcqquestions.map((question) => (
+      <div key={question._id} className="card" style={{width:"30rem",marginTop:"10px"}}>
+        <div className="card-header">
+          <h3>{question.question}</h3>
+        </div>
+        <div className="card-body">
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={1}
+              checked={selectedAnswers[question._id] == 1}
+              onChange={(e) => handleRadioChange(e, question._id)}
+            />
+            {question.choice1}
+          </label>
+          <br />
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={2}
+              checked={selectedAnswers[question._id] == 2}
+              onChange={(e) => handleRadioChange(e, question._id)}
+            />
+            {question.choice2}
+          </label>
+          <br />
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={3}
+              checked={selectedAnswers[question._id] == 3}
+              onChange={(e) => handleRadioChange(e, question._id)}
+            />
+            {question.choice3}
+          </label>
+          <br />
+          <label>
+            <input
+              type="radio"
+              name={question._id}
+              value={4}
+              checked={selectedAnswers[question._id] == 4}
+              onChange={(e) => handleRadioChange(e, question._id)}
+            />
+            {question.choice4}
+          </label>
+        </div>
       </div>
-      <div>
-        <button className="btn btn-primary" onClick={handleNextClick}>
-          Next
-        </button>
-      </div>
-    </div>
+    ))}
+  </div>
+  <div>
+    <button className="btn" style={{marginTop:"3px 0px 3px 0px",backgroundColor:"#FFFFFF"}} onClick={handleNextClick}>
+      Next
+    </button>
+  </div>
+</div>
+</center>
+
   );
 };
 export default MCQQuestions;
