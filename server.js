@@ -235,57 +235,69 @@ app.get('/getParagraphQuestions', async(req, res) => {
 
 // create an API to get random MCQ Questions from Question Bank given area
 // and number
-app.get('/getMCQQuestionsforTest/:areaIndex', async(req, res) => {
+app.get('/getMCQQuestionsforTest/:email', async (req, res) => {
   try {
-    const area  = ["VLSI", "SOFTWARE", "EMBEDDED"];
-    const areaIndex = req.params.areaIndex;
-    const number  = 5;
-
-    const questions = await MCQQuestion.aggregate([
-      { $match: { area: area[areaIndex]} },
-      { $sample: { size: Number(number) } },
-      { $sort: { _id: 1 } },
-      { $project: { correct_choice: 0 } } // exclude correct_choice
-    ]);    
-    res.json({ questions }); 
+    const email = req.params.email.replace(/['"]+/g, ''); // remove quotes from the string  
+    const candidate = await Candidate.find({email:email})
+    if (!candidate) {
+      res.status(500).json('Candidate not found');
+    }
+    else {
+      const area = candidate[0].area
+      const number = candidate[0].mcqCount
+      const questions = await MCQQuestion.aggregate([
+          { $match: { area: area } },
+          { $sample: { size: Number(number) } },
+          { $sort: { _id: 1 } },
+          { $project: { correct_choice: 0 } } // exclude correct_choice
+        ]);
+      res.json({ questions });
+    }
   } catch (error) {
-    console.log('Unable to create Test, Please select correct number of questions')
-    res.status(500).json({error:"Internal Server Error"})
-  }  
+    console.log(error)
+    console.log('Unable to create Test, Please select correct number of questions');
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 // create an API to get random PARAGRAPH Questions from Question Bank given area
 // subtype and number
-app.get('/getParagraphQuestionsforTest/:areaIndex/', async(req, res) => {
-  const area  = ["VLSI", "SOFTWARE", "EMBEDDED"];
-  const areaIndex = req.params.areaIndex;
-  
-  // assign a random number between 1 & 2 to a variable
-  const number1 = 3
-  const number2 = 3
+app.get('/getParagraphQuestionsforTest/:email/', async (req, res) => {
+  const email = req.params.email.replace(/['"]+/g, ''); // remove quotes from the string
+  const candidate = await Candidate.find({email:email})
+  console.log(candidate)
 
-  try {
-    const code_questions = await ParagraphQuestion.aggregate([
-      { $match: { area:area[areaIndex] , subtype: "code" } },
-      { $sample: { size: Number(number1) } },
-      { $sort: { _id: 1 } },
-      {$project : {answer: 0}} // exclude answer
-    ]);
-    const text_questions = await ParagraphQuestion.aggregate([
-      { $match: { area:area[areaIndex] , subtype: "text" } },
-      { $sample: { size: Number(number2) } },
-      { $sort: { _id: 1 } },
-      {$project : {answer: 0}} // exclude answer
-    ]);
-    questions = code_questions.concat(text_questions)
-    // console.log(questions)
-    res.json({ questions });  
-  } catch (error) {
-    console.log('Unable to create Test, Please select correct number of questions')
-    res.status(500).json({error:"Internal Server Error"})
-  }  
-  });
-  
+  if (!candidate) {
+    res.status(500).json('Candidate not found');
+    }
+    else {
+      try {
+        const area = candidate[0].area
+        const number1 = candidate[0].codeCount
+        const number2 = candidate[0].paragraphCount
+        const code_questions = await ParagraphQuestion.aggregate([
+          { $match: { area: area, subtype: "code" } },
+          { $sample: { size: Number(number1) } },
+          { $sort: { _id: 1 } },
+          { $project: { answer: 0 } } // exclude answer
+        ]);
+        const text_questions = await ParagraphQuestion.aggregate([
+          { $match: { area: area, subtype: "text" } },
+          { $sample: { size: Number(number2) } },
+          { $sort: { _id: 1 } },
+          { $project: { answer: 0 } } // exclude answer
+        ]);
+        questions = code_questions.concat(text_questions)
+        // console.log(questions)
+        res.json({ questions });
+      } catch (error) {
+        console.log(error)
+        console.log('Unable to create Test, Please select correct number of questions')
+        res.status(500).json({ error: "Internal Server Error" })
+      } 
+    }
+});
+
 app.get('/myprofile', middleware, async (req, res) => {
   try {
     let exist = await Evaluator.find({ id: req.user.id, email: req.user.email });
@@ -392,18 +404,14 @@ app.patch('/updateCandidateTeststatus',async(req, res) => {
 app.get('/getTestResults/:email', async (req, res) => {
   try {
     const email = req.params.email;
-    console.log(email)
     const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: 'Candidate not found' });
     }
-    console.log('email',email,typeof(email))
-    console.log('candidate.email',candidate.email,typeof(candidate.email))
     // Get the test results of a candidate from the TestResults table
-    const testResults = await TestResults.find({email:email});
-
+    const testResults = await TestResults.find({ email: email });
     // const testresults = await TestResults.find({ email:candidate.email });
-    console.log(testResults)
+    // console.log(testResults) 
     res.status(200).json(testResults);
   } catch (err) {
     console.log(err);
@@ -412,19 +420,21 @@ app.get('/getTestResults/:email', async (req, res) => {
 });
 
 // Create a put request to alter and update the candidate and add a field called result and give the value "Pass"
-app.put('/updateTestResult/:email', async (req, res) => {
+app.post('/updateTestResult/:email', async (req, res) => {
   try {
     const email = req.params.email;
     const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: 'Candidate not found' });
     }
-    // console.log(req)
-    const result = req.body.body.result;
-    const totalScore = req.body.body.totalScore;
-    const testResult = await TestResults.findOneAndUpdate({ email }, { result, totalScore }, { new: true });
+
+    const result = req.body.result;
+    const totalScore = req.body.totalScore;
+    const codeScore = req.body.codeScore;
+    const textScore = req.body.textScore;
+    const mcqScore = req.body.mcqScore;
+    const testResult = await TestResults.findOneAndUpdate({ email }, { result, mcqScore, codeScore, textScore,totalScore }, { new: true });
     const candidateresult = await Candidate.findOneAndUpdate({ email }, { result }, { new: true });
-    
     if (testResult && candidateresult) {
       res.status(200).json(testResult);
     } else {
@@ -437,36 +447,21 @@ app.put('/updateTestResult/:email', async (req, res) => {
   }
 });
 
-// Write an API to get the Test Result of a Candidate by hitting the Test Result table
-app.get('/getTestResult/:email', async (req, res) => {
-  try {
-    const email = req.params.email;
-    const candidate = await Candidate.findOne({ email });
-    if (!candidate) {
-      return res.status(404).json({ message: "Candidate not found" })
-    }
-    const testresults = await TestResults.find({ email: candidate.email });
-    console.log(testresults)
-    res.status(200).json(testresults);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send("Server Error");
-  }
-});
 
-app.get('/getAllQuestions/:area', async (req, res) => {
-  try {
-    const area = req.params.area;
-    const mcqquestions = await MCQQuestion.find({ area: area }).lean().exec();
-    const paragraphquestions = await ParagraphQuestion.find({ area: area }).lean().exec();
-    const allquestions = [...mcqquestions.map(q => ({ ...q, type: 'MCQ' })), ...paragraphquestions.map(q => ({ ...q, type: 'Paragraph' }))];
-    console.log(allquestions);
-    res.status(200).json(allquestions);
-  } catch(err){
-    console.log(err)
-    return res.status(500).send("Server Error");
-  }
-})
+
+// app.get('/getAllQuestions/:area', async (req, res) => {
+//   try {
+//     const area = req.params.area;
+//     const mcqquestions = await MCQQuestion.find({ area: area }).lean().exec();
+//     const paragraphquestions = await ParagraphQuestion.find({ area: area }).lean().exec();
+//     const allquestions = [...mcqquestions.map(q => ({ ...q, type: 'MCQ' })), ...paragraphquestions.map(q => ({ ...q, type: 'Paragraph' }))];
+//     console.log(allquestions);
+//     res.status(200).json(allquestions);
+//   } catch(err){
+//     console.log(err)
+//     return res.status(500).send("Server Error");
+//   }
+// })
 
 
 

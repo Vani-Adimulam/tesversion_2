@@ -16,6 +16,15 @@ const TestResultsSchema = new mongoose.Schema({
     result : {
         type : String, 
       },
+    mcqScore : {
+        type : Number,
+    },
+    codeScore : {
+        type : Number
+    },
+    textScore : {
+        type : Number
+    },
     totalScore : 
     {
         type:Number,
