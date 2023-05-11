@@ -35,10 +35,6 @@ const Candidate = new mongoose.Schema({
   paragraphCount : {
     type: Number,
     required : true,
-  },
-  passPercentage : {
-    type : Number,
-    required : true,
   }
 });
 

@@ -57,12 +57,12 @@ app.post('/register', async (req, res) => {
     const { area } = req.body;
     const { mcqCount } = req.body;
     const { codeCount } = req.body;
-    const { passPercentage } = req.body;
+    const { paragraphCount } = req.body;
     let exist = await Candidate.findOne({ email });
     if (exist) {
       return res.send('Candidate Already Exist');
     }
-    let newUser = new Candidate({ email, name, area, mcqCount, codeCount, passPercentage });
+    let newUser = new Candidate({ email, name, area, mcqCount, codeCount, paragraphCount });
     await newUser.save();
     res.status(200).send('Registered Successfully');
   } catch (err) {
@@ -419,8 +419,9 @@ app.post('/updateTestResult/:email', async (req, res) => {
     const codeScore = req.body.codeScore;
     const textScore = req.body.textScore;
     const mcqScore = req.body.mcqScore;
+    const testStatus = "Evaluated"
     const testResult = await TestResults.findOneAndUpdate({ email }, { result, mcqScore, codeScore, textScore,totalScore }, { new: true });
-    const candidateresult = await Candidate.findOneAndUpdate({ email }, { result }, { new: true });
+    const candidateresult = await Candidate.findOneAndUpdate({ email }, { result, testStatus: testStatus }, { new: true });
     if (testResult && candidateresult) {
       res.status(200).json(testResult);
     } else {
@@ -461,6 +462,21 @@ app.get('/getAllQuestions/:area', async (req, res) => {
   } catch(err){
     console.log(err)
     return res.status(500).send("Server Error");
+  }
+})
+
+app.get('/getCandidateDetails/:email', async (req, res) => {
+  try {
+    const email = req.params.email;
+    const candidate = await Candidate.find({email:email});
+    if(!candidate){
+      res.status(500).send('Candidate not found')
+    }
+    else{
+      res.status(200).json(candidate);
+    }
+  } catch (error) {
+    console.log(error);
   }
 })
 
