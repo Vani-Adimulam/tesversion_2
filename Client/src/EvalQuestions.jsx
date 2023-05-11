@@ -10,6 +10,8 @@ const EvalQuestions = () => {
   const [mcqQuestions, setMCQQuestions] = useState([]);
   const [paragraphQuestions, setParagraphQuestions] = useState([]);
   // const [result, setResult] = useState([])
+  const [total, setTotal] = useState(0);
+  const [candidate, setCandidate] = useState([])
   let mcqScore = 0;
 
   const [textScore,setTextScore] = useState(0)
@@ -19,7 +21,8 @@ const EvalQuestions = () => {
 
   const location = useLocation();
   const email = location.state.email;
-
+  const testStatus = location.state.testStatus;
+  const isEvaluated = testStatus === 'Evaluated';
 
   useEffect(() => {
     axios.get(`http://localhost:701/getTestResults/${email}`)
@@ -28,6 +31,19 @@ const EvalQuestions = () => {
       })
       .catch(error => console.error(error));
   }, []);
+
+  useEffect(()=>{
+    axios.get(`http://localhost:701/getCandidateDetails/${email}`)
+    .then(response => {
+      console.log(response.data[0])
+      setCandidate(response.data[0])
+      console.log(candidate)
+      setTotal(response.data[0].mcqCount*1 + response.data[0].codeCount*5 + response.data[0].paragraphCount*5)
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  },[])
 
   useEffect(() => {
     if (testResults.length > 0) {
@@ -75,8 +91,22 @@ const EvalQuestions = () => {
     }
   };
   
+  useEffect(() => {
+    if (isEvaluated) {
+      // Disable the Evaluate button
+      const evaluateButton = document.getElementById('evaluate-all');
+      evaluateButton.disabled = true;
+  
+      // Disable the dropdowns
+      const dropdowns = document.querySelectorAll(".paragraph-question select");
+      for (const dropdown of dropdowns) {
+        dropdown.disabled = true;
+      }
+    }
+  }, [isEvaluated, paragraphQuestions]);  
+  
   return (
-    <div>
+    <div style={{marginTop: '100px'}}>
       <h1>Candidate : {email}</h1>
       <hr />
       <br />
@@ -204,11 +234,13 @@ const EvalQuestions = () => {
           console.log('total marks', mcqScore+textScore+codeScore)
           
           // Navigate to the summary page
-          navigate('/summary', {state : { 
+          navigate('/summary', {state : {
+            email,
             mcqScore,
             textScore,
             codeScore,
-            totalScore: mcqScore + textScore + codeScore
+            totalScore: mcqScore + textScore + codeScore,
+            total : total
           }});
         }}
 >

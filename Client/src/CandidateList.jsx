@@ -11,12 +11,29 @@ const CandidateList = () => {
   const [editCandidate, setEditCandidate] = useState({});
   const [searchText, setSearchText] = useState("");
   const [testStatus, setTestStatus] = useState("");
+  let total = 0;
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios("http://localhost:701/all");
-      setCandidates(result.data);
-      setTestStatus(result.data.testStatus);
+      const candidates = result.data;
+      setTestStatus(candidates.testStatus);
+      const updatedCandidates = await Promise.all(candidates.map(async (candidate) => {
+        try {
+          const res = await axios.get(`http://localhost:701/getTestResults/${candidate.email}`);
+          if (res.data[0].totalScore) { // Check if totalScore exists
+            total = candidate.mcqCount*1 + candidate.codeCount*5 + candidate.paragraphCount*5;
+            return { ...candidate, totalScore: res.data[0].totalScore, total: total };
+          } else {
+            return candidate;
+          }
+        } catch (error) {
+          console.log(error);
+          return candidate;
+        }
+      }));
+      setCandidates(updatedCandidates);
+      console.log(updatedCandidates);
     };
     fetchData();
   }, []);
@@ -56,7 +73,7 @@ const CandidateList = () => {
   );
 
   const handleEvaluateModalShow = (candidate) => {
-    const state = { email: candidate.email };
+    const state = { email: candidate.email, testStatus : candidate.testStatus};
     navigate("/EvalQuestions", { state });
   };
 
@@ -122,6 +139,7 @@ const CandidateList = () => {
                     </Button>
                   </td>
                   <td>{candidate.result}</td>
+                  <td>{candidate.totalScore} / {candidate.total}</td>
                 </tr>
               ))}
             </tbody>

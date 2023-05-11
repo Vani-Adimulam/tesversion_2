@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {Modal} from "react-bootstrap";
 
-Modal.setAppElement("#root");
 
 const Results = () => {
   const navigate = useNavigate();
@@ -17,6 +16,9 @@ const Results = () => {
 
   const buttonHandler = () => {
     setModalIsOpen(true);
+    navigate("/");
+    window.location.reload();
+    localStorage.clear();
   };
 
   const closeModalHandler = () => {

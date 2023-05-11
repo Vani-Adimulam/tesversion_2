@@ -1,23 +1,14 @@
 import React from "react";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Summary = () => {
     const location = useLocation();
-    const { mcqScore, textScore, codeScore, totalScore } = location.state;
+    const { email, mcqScore, textScore, codeScore, totalScore, total } = location.state;
     const [result, setResult] = useState('')
     const [isButtonClicked, setIsButtonClicked] = useState(false);
-    console.log(mcqScore)
-    console.log(textScore)
-    console.log(codeScore)
-    console.log(totalScore)
-    const email = JSON.parse(localStorage.getItem('email'))
-    console.log(email)
-    console.log(typeof(email))
-    
-    
-    const name = email.split('@')[0].replace('"', '')
+    const navigate = useNavigate();
 
     async function updateCandidateResult(result, email) {
         try {
@@ -46,12 +37,13 @@ const Summary = () => {
     return (
         <div>
 
-            <h1 style={{ marginTop: "130px" }}>Candiate {name} Results </h1>
+            <h1 style={{ marginTop: "130px" }}>Candiate Results </h1>
             <br />
             <p>MCQ Marks: {mcqScore}</p>
             <p>Paragraph Marks: {textScore}</p>
             <p>Code Marks: {codeScore}</p>
-            <p>Total Marks: {totalScore}</p>
+            <p>Marks obtained: {totalScore}</p>
+            <p>Total Marks of test : {total}</p>
             <br />
             <hr />
 
@@ -62,6 +54,8 @@ const Summary = () => {
                 setResult('Pass');
                 updateCandidateResult('Pass', { email });
                 setIsButtonClicked(true);
+                navigate('/CandidateList')
+                window.location.reload()
             }} disabled={isButtonClicked}>
                 Pass
             </button>
@@ -70,6 +64,8 @@ const Summary = () => {
                 setResult('Fail');
                 updateCandidateResult('Fail', { email });
                 setIsButtonClicked(true);
+                navigate('/CandidateList')
+                window.location.reload()
             }} disabled={isButtonClicked}>
                 Fail
             </button>
