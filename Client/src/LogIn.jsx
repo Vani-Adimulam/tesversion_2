@@ -11,7 +11,10 @@ const LogIn = () => {
 
   return (
     <center>
-      <div style={{ marginTop: "90px" }}>
+      <div style={{ marginTop: "90px",
+      backgroundImage: "url('./assets/glenn-carstens-peters-npxXWgQ33ZQ-unsplash (1).jpg')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover" }}>
         <h1 className="display-3">Login</h1>
         <div>
           <input

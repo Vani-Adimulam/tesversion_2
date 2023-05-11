@@ -37,7 +37,7 @@ const CandidateList = () => {
     };
     fetchData();
   }, []);
-
+  //name,area,mcqCount,codeCount,paragraphCount
   const handleEditModalClose = () => setShowEditModal(false);
   const handleEditModalShow = (candidate) => {
     setEditCandidate(candidate);
@@ -47,15 +47,25 @@ const CandidateList = () => {
     event.preventDefault();
     try {
       await axios.put(`http://localhost:701/edit/${editCandidate._id}`, {
+        name: editCandidate.name,
         email: editCandidate.email,
         testStatus: editCandidate.testStatus,
+        area: editCandidate.area,
+        mcqCount: editCandidate.mcqCount,
+        codeCount: editCandidate.codeCount,
+        paragraphCount: editCandidate.paragraphCount,
       });
       const index = candidates.findIndex(
         (candidate) => candidate._id === editCandidate._id
       );
       const updatedCandidates = [...candidates];
+      updatedCandidates[index].name = editCandidate.name;
       updatedCandidates[index].email = editCandidate.email;
       updatedCandidates[index].testStatus = testStatus;
+      updatedCandidates[index].area = editCandidate.area;
+      updatedCandidates[index].mcqCount = editCandidate.mcqCount;
+      updatedCandidates[index].codeCount = editCandidate.codeCount;
+      updatedCandidates[index].paragraphCount = editCandidate.paragraphCount;
       setCandidates(updatedCandidates);
       setShowEditModal(false);
       window.location.reload();
@@ -99,9 +109,10 @@ const CandidateList = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Test Status</th>
-                <th>Edit</th>
+                <th>Edit Candidate Data</th>
                 <th>Evaluate</th>
                 <th>Result</th>
                 <th>Total Marks</th>
@@ -110,6 +121,7 @@ const CandidateList = () => {
             <tbody>
               {filteredCandidates.map((candidate) => (
                 <tr key={candidate._id}>
+                  <td>{candidate.name}</td>
                   <td>{candidate.email}</td>
                   <td>{candidate.testStatus}</td>
                   <td>
@@ -118,7 +130,12 @@ const CandidateList = () => {
                         backgroundColor: "#56C2AC",
                         borderColor: "#dee2e6",
                       }}
-                      onClick={() => handleEditModalShow(candidate)}
+                      onClick={
+                        candidate.testStatus === "Test Taken"
+                          ? null
+                          : () => handleEditModalShow(candidate)
+                      }
+                      disabled={candidate.testStatus === "Test Taken"}
                     >
                       <img src={pen} alt="edit" />
                     </Button>
@@ -154,6 +171,20 @@ const CandidateList = () => {
         <Form onSubmit={handleEditSubmit}>
           <Modal.Body>
             <Form.Group>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter Name"
+                value={editCandidate.name}
+                onChange={(event) =>
+                  setEditCandidate({
+                    ...editCandidate,
+                    name: event.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -170,7 +201,7 @@ const CandidateList = () => {
             <Form.Group>
               <Form.Label>Test Status</Form.Label>
               <Form.Control
-              as="select"
+                as="select"
                 value={editCandidate.testStatus}
                 onChange={(event) => {
                   setEditCandidate({
@@ -179,10 +210,67 @@ const CandidateList = () => {
                   });
                 }}
               >
-              <option value="">Select status</option>
-                 <option value="Test Cancelled">Cancel Test</option>
-                 <option value="Test Not Taken">Test Not Taken</option>
+                <option value="">Select status</option>
+                <option value="Test Cancelled">Cancel Test</option>
+                <option value="Test Not Taken">Test Not Taken</option>
               </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Area</Form.Label>
+              <FormControl
+                type="text"
+                placeholder="Enter Area"
+                value={editCandidate.area}
+                onChange={(event) =>
+                  setEditCandidate({
+                    ...editCandidate,
+                    area: event.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>MCQ Count</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter Count"
+                value={editCandidate.mcqCount}
+                onChange={(event) =>
+                  setEditCandidate({
+                    ...editCandidate,
+                    mcqCount: event.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Code Count</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter Count"
+                value={editCandidate.codeCount}
+                onChange={(event) =>
+                  setEditCandidate({
+                    ...editCandidate,
+                    codeCount: event.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Paragraph Count</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter email"
+                value={editCandidate.paragraphCount}
+                onChange={(event) =>
+                  setEditCandidate({
+                    ...editCandidate,
+                    paragraphCount: event.target.value,
+                  })
+                }
+              />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>

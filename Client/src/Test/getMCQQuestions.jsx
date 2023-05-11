@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const MCQQuestions = () => {
+const getMCQQuestions = () => {
   const navigate = useNavigate();
   const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions'))||[])
   const [selectedAnswers, setSelectedAnswers] = useState(
@@ -114,4 +114,4 @@ const MCQQuestions = () => {
 
   );
 };
-export default MCQQuestions;
+export default getMCQQuestions;

@@ -8,10 +8,10 @@ const AllParagraphQuestions = () => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [selectedArea, setSelectedArea] = useState("");
-  const [pageNumber, setPageNumber] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const questionsPerPage = 4;
-  const pagesVisited = pageNumber * questionsPerPage;
+  const pagesVisited = (pageNumber - 1) * questionsPerPage;
 
   useEffect(() => {
     axios
@@ -30,12 +30,12 @@ const AllParagraphQuestions = () => {
 
   const handleAreaChange = (event) => {
     setSelectedArea(event.target.value);
-    setPageNumber(0); // reset page number to 0 when area is changed
+    setPageNumber(1); // reset page number to 1 when area is changed
   };
 
-  const filteredQuestions = questions.filter(
-    (question) => question.area === selectedArea
-  );
+  const filteredQuestions = selectedArea
+    ? questions.filter((question) => question.area === selectedArea)
+    : questions;
 
   const displayQuestions = filteredQuestions
     .slice(pagesVisited, pagesVisited + questionsPerPage)
@@ -52,11 +52,12 @@ const AllParagraphQuestions = () => {
       </Col>
     ));
 
-  // const pageCount = Math.ceil(filteredQuestions.length / questionsPerPage);
+  const pageCount = Math.ceil(filteredQuestions.length / questionsPerPage);
 
-function handlePageChange(pageNumber) {
-  setCurrentPage(pageNumber);
-}
+  function handlePageChange(pageNumber) {
+    setCurrentPage(pageNumber);
+    setPageNumber(pageNumber);
+  }
 
   return (
     <Container className="mt-5">
@@ -83,18 +84,20 @@ function handlePageChange(pageNumber) {
           <p>No questions found.</p>
         )}
       </Row>
-      <div className="pagination-container">
-      < Pagination
-  activePage={currentPage}
-  itemsCountPerPage={questionsPerPage}
-  totalItemsCount={filteredQuestions.length}
-  pageRangeDisplayed={5}
-  onChange={handlePageChange}
-  itemClass="page-item"
-  linkClass="page-link"
-  style={{ marginTop: "30px" }}
-/>
-</div>
+      {pageCount > 1 && (
+        <div className="pagination-container">
+          <Pagination
+            activePage={currentPage}
+            itemsCountPerPage={questionsPerPage}
+            totalItemsCount={filteredQuestions.length}
+            pageRangeDisplayed={5}
+            onChange={handlePageChange}
+            itemClass="page-item"
+            linkClass="page-link"
+            style={{ marginTop: "30px" }}
+          />
+        </div>
+      )}
       <button
         className="btn"
         style={{ backgroundColor: "#BEBFC0", marginTop: "-15px" }}
