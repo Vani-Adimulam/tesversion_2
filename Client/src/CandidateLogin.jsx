@@ -1,13 +1,10 @@
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { store } from "./App";
-import "./CandidateLogin.css";
 import { toast } from 'react-toastify'
 import axios from "axios";
-import "./index.css";
+import "./CandidateLogin.css";
 
 const CandidateLogin = () => {
-  const [token, setToken] = useContext(store);
   const [data, setData] = useState({
     email: "",
   });
@@ -16,21 +13,19 @@ const CandidateLogin = () => {
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-
+  const navigate = useNavigate();
   const submitHandler = (e) => {
     e.preventDefault();
     localStorage.setItem("email", JSON.stringify(data["email"]));
     axios
       .post("http://localhost:701/verify-emails", data)
       .then((res) => {
-        if (res.data.token) {
-          setToken(res.data.token);
+        if (res.status === 200) {
           toast.success("Login Successfully")
-
+          navigate("/instructions");
         } else {
           console.log("Email is not valid");
           setErrorMessage("Email not registered");
-          
         }
       })
       .catch((error) => {
@@ -40,20 +35,12 @@ const CandidateLogin = () => {
         toast.warn("Test already taken")
         toast("your test may have cancelled",{
         className:"toast-message"})
-        
       });
   };
 
   //navigation to the instructions page
-  const navigate = useNavigate();
-
  
 
-  useEffect(() => {
-    if (token) {
-      navigate("/instructions");
-    }
-  }, [token]);
   return (
     <div className="container" style={{marginTop:"100px"}}>
       <div className="row justify-content-center mt-5">
@@ -61,24 +48,23 @@ const CandidateLogin = () => {
           <div className="card shadow">
             <div className="card-body">
               <h2 className="card-title text-center">CandidateLogin</h2>
-              {/* <h5 className="card-title">Email Form</h5> */}
               <form onSubmit={submitHandler} className="form">
                 <span className="title">Welcome to our online assessment portal</span>
                 <p className="description">
-                We're excited that you've chosen to take this test and we
-                 hope you find it to be a valuable experience. This test is 
-                 designed to assess your skills and knowledge and is an important step in your professional development.</p>
-                {/* <label htmlFor="email">Email:</label> */}
-                  <input
+                  We're excited that you've chosen to take this test and we
+                  hope you find it to be a valuable experience. This test is 
+                  designed to assess your skills and knowledge and is an important step in your professional development.
+                </p>
+                <input
                   placeholder="Enter your email"
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={data.email}
-                    onChange={changeHandler}
-                    required
-                  />
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  name="email"
+                  value={data.email}
+                  onChange={changeHandler}
+                  required
+                />
                 <div className="text-center">
                   <button className="cta">
                     <span className="hover-underline-animation">Login</span>

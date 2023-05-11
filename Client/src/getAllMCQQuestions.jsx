@@ -81,13 +81,15 @@ const AllMCQQuestions = () => {
           <div className="card-body" style={{backgroundColor:"#BDCCDA",borderRadius:"5px"}}>
             <h5 className="card-title">{question.question}</h5>
             <Form>
+            {/* //done changes in the defaultChecked property && Setting the readOnly prop on the Form.Check  */}
               <Form.Check
                 type="radio"
                 id={`${question._id}-1`}
                 label={<span className="choice-label">{question.choice1}</span>}
                 name={question._id}
                 value="1"
-                checked={question.correct_choice === "1"}
+                defaultChecked={question.correct_choice === "1"}
+                disabled
               />
               <Form.Check
                 type="radio"
@@ -95,7 +97,8 @@ const AllMCQQuestions = () => {
                 label={question.choice2}
                 name={question._id}
                 value="2"
-                checked={question.correct_choice === "2"}
+                defaultChecked={question.correct_choice === "2"}
+                disabled
               />
               <Form.Check
                 type="radio"
@@ -103,7 +106,8 @@ const AllMCQQuestions = () => {
                 label={question.choice3}
                 name={question._id}
                 value="3"
-                checked={question.correct_choice === "3"}
+                defaultChecked={question.correct_choice === "3"}
+                disabled
               />
               <Form.Check
                 type="radio"
@@ -111,7 +115,8 @@ const AllMCQQuestions = () => {
                 label={question.choice4}
                 name={question._id}
                 value="4"
-                checked={question.correct_choice === "4"}
+                defaultChecked={question.correct_choice === "4"}
+                disabled
               />
             </Form>
           </div>

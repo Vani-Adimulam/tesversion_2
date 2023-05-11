@@ -1,4 +1,5 @@
 // server.js
+const https = require('https');
 const express = require('express');
 const mongoose = require('mongoose');
 const middleware = require('./middleware');
@@ -85,34 +86,42 @@ app.post('/verify-emails', async (req, res) => {
 
     if (candidate.testStatus === "Test Cancelled") {
       return res.status(401).json({ status: 'Test cancelled' });
-    }
-
-    // Create and sign JWT
-    let payload = {
-      user:{
-        id: candidate.id,
-      }
-    };
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET1,
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    }  res.status(200).json({ status: 'Success' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
+
+    // Create and sign JWT
+  //   let payload = {
+  //     user:{
+  //       id: candidate.id,
+  //     }
+  //   };
+  //   jwt.sign(
+  //     payload,
+  //     process.env.JWT_SECRET1,
+  //     { expiresIn: '1h' },
+  //     (err, token) => {
+  //       if (err) throw err;
+  //       res.json({ token });
+  //     }
+  //   );
+  // } 
+
+//   catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
+
 app.post('/loginEvaluator', async (req, res) => {
   try {
     const { email, password } = req.body;
     // Find the evaluator in the database by email
-    const evaluator = await Evaluator.findOne({ email });
+    const evaluator = await Evaluator.findOne({ email});
     // If evaluator with provided email does not exist, return an error message
     if (!evaluator) {
       return res.status(400).send('Invalid email');
@@ -302,18 +311,18 @@ app.get('/myprofile', middleware, async (req, res) => {
 
 
 //instructions page
-  app.get('/instructions',middleware,async(req,res)=>{
-      try{
-      let exist = await Candidate.find({email:req.user.email });
-    if(!exist){
-      return res.status(500).send('candidate not found')
-    }
-    res.json(exist)
-    } catch(err){
-      console.log(err)
-      return res.status(500).send('server error')
-    }
-    })
+  // app.get('/instructions',middleware,async(req,res)=>{
+  //     try{
+  //     let exist = await Candidate.find({email:req.user.email });
+  //   if(!exist){
+  //     return res.status(500).send('candidate not found')
+  //   }
+  //   res.json(exist)
+  //   } catch(err){
+  //     console.log(err)
+  //     return res.status(500).send('server error')
+  //   }
+  //   })
 
  app.post('/testresults', async(req, res) => {
       try {
@@ -331,10 +340,11 @@ app.get('/myprofile', middleware, async (req, res) => {
     });
     
 //update the candidate
+//10-05-23 API modified to fetch total candidate data
 app.put('/edit/:id', async (req, res) => { 
   try {
-    const { email, testStatus } = req.body;
-    const candidate = await Candidate.findByIdAndUpdate(req.params.id, { email, testStatus }, { new: true });
+    const { email, testStatus,name,area,mcqCount,codeCount,paragraphCount } = req.body;
+    const candidate = await Candidate.findByIdAndUpdate(req.params.id, { email, testStatus, name, area, mcqCount, codeCount, paragraphCount }, { new: true });
     if (!candidate) {
       return res.status(404).send('Candidate not found');
     }
@@ -482,5 +492,5 @@ app.get('/getCandidateDetails/:email', async (req, res) => {
 
 
 
-app.listen(701, () => console.log('Server running on port 701'));
+https.createServer(app).listen(701);
   
