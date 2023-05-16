@@ -67,8 +67,6 @@ const ParagraphQuestions = () => {
         .catch((error) => {
             console.log(error);
         })
-        // Make a axios patch request to Candidate table to update the status of testStatus to "completed"
-        axios.patch()
         // create a sample patch request using axios
     const requestBody2 = {
       email,

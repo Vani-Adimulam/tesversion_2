@@ -15,19 +15,28 @@ const CandidateList = () => {
   const [testStatus, setTestStatus] = useState("");
   const [sortField, setSortField] = useState("");
   const [sortDirection, setSortDirection] = useState("");
-  let total = 0;
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("http://localhost:701/all");
-      const candidates = result.data;
-      setTestStatus(candidates.testStatus);
-      const updatedCandidates = await Promise.all(candidates.map(async (candidate) => {
+  const fetchData = async () => {
+    const result = await axios("http://localhost:701/all");
+    const candidates = result.data;
+    setTestStatus(candidates.testStatus);
+    const updatedCandidates = await Promise.all(
+      candidates.map(async (candidate) => {
         try {
-          const res = await axios.get(`http://localhost:701/getTestResults/${candidate.email}`);
-          if (res.data[0].totalScore) { // Check if totalScore exists
-            total = candidate.mcqCount*1 + candidate.codeCount*5 + candidate.paragraphCount*5;
-            return { ...candidate, totalScore: res.data[0].totalScore, total: total };
+          const res = await axios.get(
+            `http://localhost:701/getTestResults/${candidate.email}`
+          );
+          if (res.data[0] && res.data[0].totalScore) { // Check if res.data[0] and totalScore exist
+            const total =
+              candidate.mcqCount * 1 +
+              candidate.codeCount * 5 +
+              candidate.paragraphCount * 5;
+            return {
+              ...candidate,
+              totalScore: res.data[0].totalScore,
+              total: total,
+            };
           } else {
             return candidate;
           }
@@ -35,12 +44,14 @@ const CandidateList = () => {
           console.log(error);
           return candidate;
         }
-      }));
-      setCandidates(updatedCandidates);
-      console.log(updatedCandidates);
-    };
-    fetchData();
-  }, []);
+      })
+    );
+    setCandidates(updatedCandidates);
+    console.log(updatedCandidates);
+  };
+  fetchData();
+}, []);
+
   //name,area,mcqCount,codeCount,paragraphCount
   const handleEditModalClose = () => setShowEditModal(false);
   const handleEditModalShow = (candidate) => {

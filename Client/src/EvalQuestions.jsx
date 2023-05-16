@@ -126,7 +126,7 @@ const EvalQuestions = () => {
                     type="radio"
                     name={question._id}
                     value={1}
-                    checked={testResults[0].selectedAnswers[question._id] == 1}
+                    defaultChecked={testResults[0].selectedAnswers[question._id] == 1}
                   />
                   {question.choice1}
                 </label>
@@ -136,7 +136,7 @@ const EvalQuestions = () => {
                     type="radio"
                     name={question._id}
                     value={2}
-                    checked={testResults[0].selectedAnswers[question._id] == 2}
+                    defaultChecked={testResults[0].selectedAnswers[question._id] == 2}
 
                   />
                   {question.choice2}
@@ -147,7 +147,7 @@ const EvalQuestions = () => {
                     type="radio"
                     name={question._id}
                     value={3}
-                    checked={testResults[0].selectedAnswers[question._id] == 3}
+                    defaultChecked={testResults[0].selectedAnswers[question._id] == 3}
                   />
                   {question.choice3}
                 </label>
@@ -157,7 +157,7 @@ const EvalQuestions = () => {
                     type="radio"
                     name={question._id}
                     value={4}
-                    checked={testResults[0].selectedAnswers[question._id] == 4}
+                    defaultChecked={testResults[0].selectedAnswers[question._id] == 4}
 
                   />
                   {question.choice4}
@@ -181,7 +181,7 @@ const EvalQuestions = () => {
           
         ))}
         {mcqQuestions.map((question)=>{
-          testResults[0].selectedAnswers[question._id] == question.correct_choice ? mcqScore++ : console.log('')
+          testResults[0].selectedAnswers[question._id] == question.correct_choice ? mcqScore++ : null;
         })}
       </ol>  
       <hr />
@@ -191,7 +191,7 @@ const EvalQuestions = () => {
       <br />
       <ol>
         {paragraphQuestions.map((question) => (
-          <li>
+          <li key={question._id}>
             <div key={question._id} className="paragraph-question">
               <h3>{question.question} (Type : {question.subtype})</h3>
               <div className="answer-wrapper">

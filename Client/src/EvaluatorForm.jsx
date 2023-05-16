@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { store } from "./App.js";
 import { useNavigate } from "react-router-dom";
@@ -36,9 +36,11 @@ const EvaluatorForm = () => {
   };
 
   const navigate = useNavigate();
-  if (token) {
-    navigate("/myprofile", { state: { email: data.email } });
-  }
+  useEffect(() => {
+    if (token) {
+      navigate("/myprofile", { state: { email: data.email } });
+    }
+  }, [token, navigate, data.email]);
 
   return (
     <div className="container" style={{ marginTop: "100px" }}>
