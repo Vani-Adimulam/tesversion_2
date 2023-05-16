@@ -492,5 +492,7 @@ app.get('/getCandidateDetails/:email', async (req, res) => {
 
 
 
-https.createServer(app).listen(701);
+app.listen(701,()=>{
+  console.log('Server running on port 701');
+})
   

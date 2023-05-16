@@ -4,6 +4,8 @@ import { Table, Button, Modal, Form, FormControl } from "react-bootstrap";
 import axios from "axios";
 import pen from "./assets/pen.svg";
 import assessment from "./assets/assessment.png";
+import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -11,6 +13,8 @@ const CandidateList = () => {
   const [editCandidate, setEditCandidate] = useState({});
   const [searchText, setSearchText] = useState("");
   const [testStatus, setTestStatus] = useState("");
+  const [sortField, setSortField] = useState("");
+  const [sortDirection, setSortDirection] = useState("");
   let total = 0;
   const navigate = useNavigate();
   useEffect(() => {
@@ -78,6 +82,40 @@ const CandidateList = () => {
     setSearchText(event.target.value);
   };
 
+  const handleSort = (field) => {
+    let direction = "asc";
+    if (sortField === field && sortDirection === "asc") {
+      direction = "desc";
+    }
+    setSortField(field);
+    setSortDirection(direction);
+
+    const sortedCandidates = [...candidates].sort((a, b) => {
+      const aValue = a[field].toLowerCase();
+      const bValue = b[field].toLowerCase();
+      if (aValue < bValue) {
+        return direction === "asc" ? -1 : 1;
+      } else if (aValue > bValue) {
+        return direction === "asc" ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
+    setCandidates(sortedCandidates);
+  };
+
+  const getSortIcon = (field) => {
+    if (sortField === field) {
+      return sortDirection === "asc" ? (
+        <FontAwesomeIcon icon={faSortUp} />
+      ) : (
+        <FontAwesomeIcon icon={faSortDown} />
+      );
+    } else {
+      return <FontAwesomeIcon icon={faSort} />;
+    }
+  };
+
   const filteredCandidates = candidates.filter((candidate) =>
     candidate.email.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -109,9 +147,13 @@ const CandidateList = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Test Status</th>
+              <th onClick={() => handleSort("name")}>
+                  Name {getSortIcon("name")}
+                </th>
+                <th onClick={() => handleSort("email")}>
+                  Email {getSortIcon("email")}
+                </th>
+                <th onClick={()=> handleSort("testStatus")}>Test Status {getSortIcon("testStatus")}</th>
                 <th>Edit Candidate Data</th>
                 <th>Evaluate</th>
                 <th>Result</th>

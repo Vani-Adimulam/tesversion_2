@@ -13,6 +13,14 @@ const getMCQQuestions = () => {
   );
   let email = localStorage.getItem('email')
   console.log(email)
+
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+  }, []);
+
   useEffect(() => {
     if(!hasFetched){
       axios.get(`http://localhost:701/getMCQQuestionsforTest/${email}`)
