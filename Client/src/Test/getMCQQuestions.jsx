@@ -36,12 +36,18 @@ const getMCQQuestions = () => {
         });
       }
   },[hasFetched])
-  // useEffect(() => {
-  //   console.log(mcqquestions)
-  // })
   function handleNextClick() {
-    // console.log(mcqquestions);
-    navigate('../getParagraphQuestions',{ state: { selectedAnswers, providedAnswers } })
+    const missingAnswers = mcqquestions.some(
+      (question) => !selectedAnswers[question._id]
+    );
+
+    if (missingAnswers) {
+      alert('Please answer all questions before continuing.');
+    } else {
+      navigate('../getParagraphQuestions', {
+        state: { selectedAnswers, providedAnswers },
+      });
+    }
   }
   function handleRadioChange(event, questionId) {
     const selectedAnswer = event.target.value;

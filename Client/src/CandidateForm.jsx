@@ -6,17 +6,16 @@ import { toast } from "react-toastify";
 const CandidateForm = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [area, setArea] = useState("SOFTWARE");
+  const [area, setArea] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [mcqCount, setMcqCount] = useState(0);
   const [codeCount, setcodeCount] = useState(0);
   const [paragraphCount, setParagraphcount] = useState(0);
-  // const [passPercentage, setPassPercentage] = useState(0);
 
   const resetForm = () => {
     setName("");
     setEmail("");
-    setArea("SOFTWARE");
+    setArea("");
     setMcqCount("");
     setcodeCount("");
     setParagraphcount("");
@@ -46,10 +45,6 @@ const CandidateForm = () => {
     setParagraphcount(e.target.value);
   };
 
-  // const changePassPercentageHandler = (e) => {
-  //   setPassPercentage(e.target.value);
-  // }
-
   const submitHandler = (e) => {
     console.log(area);
     e.preventDefault();
@@ -69,7 +64,6 @@ const CandidateForm = () => {
         paragraphCount,
       })
       .then((res) => {
-        // alert(res.data);
         toast.success(res.data);
         resetForm();
       })
@@ -78,7 +72,6 @@ const CandidateForm = () => {
         setErrorMessage("Error occurred while registering");
       });
   };
-
   return (
     <center>
       <div className="container" style={{ marginTop: "90px" }}>
@@ -90,7 +83,6 @@ const CandidateForm = () => {
             boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
             width: "300px",
             height: "500px",
-          
           }}
         >
           <div className="card-body">
@@ -126,11 +118,13 @@ const CandidateForm = () => {
                   value={area}
                   onChange={changeAreaHandler}
                 >
+                  <option value="">Select Area</option>
                   <option value="SOFTWARE">Software</option>
                   <option value="EMBEDDED">Embedded</option>
                   <option value="VLSI">VLSI</option>
                 </select>
               </div>
+
               <div className="form-group">
                 <label htmlFor="mcqCount">MCQ Count</label>
                 <input

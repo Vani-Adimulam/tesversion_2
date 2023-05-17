@@ -1,5 +1,4 @@
 // server.js
-const https = require('https');
 const express = require('express');
 const mongoose = require('mongoose');
 const middleware = require('./middleware');
@@ -14,6 +13,19 @@ const TestResults = require('./models/TestResults');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
 require('dotenv').config();
+const logger = require('./Loggers/logger')
+const EvalLogger = require('./Loggers/evallogger.js')
+const addCandidateLogger = require('./Loggers/addcandidate.js')
+const addMCQLogger = require('./Loggers/addMCQLogger')
+const AddPara = require('./Loggers/addPara')
+const ViewMcq = require('./Loggers/ViewMCQLogger')
+const Viewpara = require('./Loggers/ViewPara')
+const editlog = require('./Loggers/editlog')
+const viewcandidate = require('./Loggers/ViewCandidate')
+const testresult = require('./Loggers/testresult')
+const TestStatus = require('./Loggers/testStatus')
+const getTest = require('./Loggers/getTest')
+const evaluated=require('./Loggers/Evaluationlog')
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI,{
@@ -66,8 +78,9 @@ app.post('/register', async (req, res) => {
     let newUser = new Candidate({ email, name, area, mcqCount, codeCount, paragraphCount });
     await newUser.save();
     res.status(200).send('Registered Successfully');
+    addCandidateLogger.addCandidateLogger.log('info',`request sent to MongoDB database checked with existing data, it is a new data so,added a candidate ${email}`)
   } catch (err) {
-    console.log(err);
+    addCandidateLogger.addCandidateLogger.log('error','error in adding candidate')
     return res.status(500).send('Internal Server Error');
   }
 });
@@ -76,8 +89,11 @@ app.post('/verify-emails', async (req, res) => {
   try {
     const { email } = req.body;
     const candidate = await Candidate.findOne({ email });
+    logger.Logger.log('info',`request sent to MongoDB database matched with the data ${email} login successfull`)
     if (!candidate) {
+      logger.Logger.log('error','Error in candidate login')
       return res.status(404).json({ status: 'Email not found' });
+      
     }
     
     if (candidate.testStatus !== "Test Not Taken") {
@@ -93,37 +109,15 @@ app.post('/verify-emails', async (req, res) => {
   }
 });
 
-
-    // Create and sign JWT
-  //   let payload = {
-  //     user:{
-  //       id: candidate.id,
-  //     }
-  //   };
-  //   jwt.sign(
-  //     payload,
-  //     process.env.JWT_SECRET1,
-  //     { expiresIn: '1h' },
-  //     (err, token) => {
-  //       if (err) throw err;
-  //       res.json({ token });
-  //     }
-  //   );
-  // } 
-
-//   catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// });
-
 app.post('/loginEvaluator', async (req, res) => {
   try {
     const { email, password } = req.body;
     // Find the evaluator in the database by email
     const evaluator = await Evaluator.findOne({ email});
+    EvalLogger.EvalLogger.log('info',`evaluator Request sent to database email and password are matched with the data ,${email} login successfull`)
     // If evaluator with provided email does not exist, return an error message
     if (!evaluator) {
+      EvalLogger.EvalLogger.log('error','Evaluator login error')
       return res.status(400).send('Invalid email');
     }
     // Compare the hashed password with the password provided by the user
@@ -167,9 +161,13 @@ app.post('/addQuestionMCQ', async (req, res) => {
   // Save the new question document to the "questions" collection
   try {
     const savedQuestion = await newQuestion.save();
+    addMCQLogger.addMCQLogger.log('info',`addQuestionMCQ is triggered to post,${newQuestion.area} question added in MCQuestions database`)
     res.status(201).json(savedQuestion);
+    
   } catch (err) {
     console.error('Error saving question to MongoDB:', err);
+    addMCQLogger.addMCQLogger.log('error',"Error in adding MCQ")
+
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -185,9 +183,11 @@ app.post('/addParagraphQuestion', async (req, res) => {
 });
   try {
     const savedQuestion = await newQuestion.save();
+    AddPara.addPara.log('info',`${newQuestion.area} Para question added and saved in the database`)
     res.status(201).json(savedQuestion);
   } catch (err) {
     console.error('Error saving question to MongoDB:', err);
+    AddPara.addPara.log('error','error occured while adding paragraph question')
       res.status(500).json({ error: 'Internal server error' });
     }
   });
@@ -197,20 +197,21 @@ app.post('/addParagraphQuestion', async (req, res) => {
     try {
       const { ids } = req.query;
       const idArr = ids ? ids.split(",") : null;
-      if(idArr){
-      const questions = await MCQQuestion.find({ _id: { $in: idArr } });
-      res.json(questions);
-      }
-      else{
+      if (idArr) {
+        const questions = await MCQQuestion.find({ _id: { $in: idArr } });
+        res.json(questions);
+      } else {
         const questions = await MCQQuestion.find({});
+        ViewMcq.ViewMCQLogger.log('info', 'View questions module triggered,MCQuestions are fetched from the database and displayed to the user sucessfully');
         res.json(questions);
       }
-      
     } catch (error) {
       console.error('Error getting questions from MongoDB:', error);
+      ViewMcq.ViewMCQLogger.log('error', 'Error in displaying MCQuestions');
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+  
 
 // API to get Paragraph questions
 app.get('/getParagraphQuestions', async(req, res) => {
@@ -223,10 +224,12 @@ app.get('/getParagraphQuestions', async(req, res) => {
     }
     else{
       const questions = await ParagraphQuestion.find({});
+      Viewpara.ViewPara.log('info','view paragraph questions button triggered,data fetched from the database and displayed to the user')
       res.json(questions); 
     }
   } catch (error) {
     console.error('Error getting questions from MongoDB:', error);
+    Viewpara.ViewPara.log('error','cannot display para questions')
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -251,8 +254,10 @@ app.get('/getMCQQuestionsforTest/:email', async (req, res) => {
         ]);
       res.json({ questions });
     }
+    getTest.GetTest.log('info',`getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB datatabse and created test for ${Candidate.email}`)
   } catch (error) {
     console.log(error)
+    getTest.GetTest.log('error',`Unable to create Test to the ${Candidate.email}`)
     console.log('Unable to create Test, Please select correct number of questions');
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -309,32 +314,18 @@ app.get('/myprofile', middleware, async (req, res) => {
   }
 });
 
-
-//instructions page
-  // app.get('/instructions',middleware,async(req,res)=>{
-  //     try{
-  //     let exist = await Candidate.find({email:req.user.email });
-  //   if(!exist){
-  //     return res.status(500).send('candidate not found')
-  //   }
-  //   res.json(exist)
-  //   } catch(err){
-  //     console.log(err)
-  //     return res.status(500).send('server error')
-  //   }
-  //   })
-
  app.post('/testresults', async(req, res) => {
       try {
         // Create a new instance of the TestResults model
         const testresults = new TestResults(req.body);
-    
         // Save the new instance to the database
         await testresults.save();
+        testresult.TestResult.log('info','Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API')
         // Return the new instance as a JSON response
         res.json(testresults);
       } catch (err) {
         console.log(err); // log the error message
+        testresult.TestResult.log('error','issue in saving testresults in to the database')
         return res.status(500).send("Server Error");
       }
     });
@@ -343,40 +334,29 @@ app.get('/myprofile', middleware, async (req, res) => {
 //10-05-23 API modified to fetch total candidate data
 app.put('/edit/:id', async (req, res) => { 
   try {
-    const { email, testStatus,name,area,mcqCount,codeCount,paragraphCount } = req.body;
-    const candidate = await Candidate.findByIdAndUpdate(req.params.id, { email, testStatus, name, area, mcqCount, codeCount, paragraphCount }, { new: true });
+    const { email, testStatus,name,mcqCount,codeCount,paragraphCount } = req.body;
+    const candidate = await Candidate.findByIdAndUpdate(req.params.id, { email, testStatus, name, mcqCount, codeCount, paragraphCount }, { new: true });
     if (!candidate) {
+      editlog.EditLog.log('error','cannot edit the candidate')
       return res.status(404).send('Candidate not found');
+      
     }
     res.status(200).send('Candidate updated successfully');
+    editlog.EditLog.log('info',` edit candidate api is triggered by the evaluator && ${candidate.name} is edited and updated data is saved to the database`)
   } catch (err) {
     console.log(err);
     return res.status(500).send('Internal Server Error');
   }
 });
 
-//delete the selected candidate
-// app.delete('/delete/:id', async (req, res) => {
-//   try {
-//     const candidate = await Candidate.findByIdAndDelete(req.params.id);
-//     if (!candidate) {
-//       return res.status(404).send('Candidate not found');
-//     }
-//     // await candidate.remove();
-//     res.status(200).send('Candidate deleted successfully');
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(500).send('Internal Server Error');
-//   }
-// });
-
-//get all candidate emails
 app.get('/all', async (req, res) => {
   try {
     const candidates = await Candidate.find({});
+    viewcandidate.ViewCandidate.log('info',"(all)API is triggered on selecting Manage candidate module and all the candidate data is fetched from the MongoDB Database and displayed to the user")
     res.status(200).send(candidates);
     } catch (err) {
       console.log(err);
+      viewcandidate.ViewCandidate.log('error','Error in the fetching the data from the databse')
       return res.status(500).send('Internal Server Error');
       }
       });
@@ -390,9 +370,11 @@ app.patch('/updateCandidateTeststatus',async(req, res) => {
       }
       candidate.testStatus = testStatus;
       await candidate.save();
+      TestStatus.TestStatus.log('info',`${email}took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`)
       res.status(200).json({ message: 'Test status updated successfully' });
       } catch (err) {
         console.log(err);
+        TestStatus.TestStatus.log('error',`Cannot update the teststatus of ${email}` )
         return res.status(500).send("Server Error");
         }
         });
@@ -434,12 +416,14 @@ app.post('/updateTestResult/:email', async (req, res) => {
     const candidateresult = await Candidate.findOneAndUpdate({ email }, { result, testStatus: testStatus }, { new: true });
     if (testResult && candidateresult) {
       res.status(200).json(testResult);
+      evaluated.Evaluation.log('info','Evaluation is done - triggered updateTestResult/:email API - posted the result in MongoDB database')
     } else {
       res.status(400).json('Result storing failed');
     }
     
   } catch (err) {
     console.log(err);
+    evaluated.Evaluation.log('error','error in evaluating and storing the result failed')
     return res.status(500).send("Server Error");
   }
 });

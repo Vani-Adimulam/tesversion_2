@@ -49,9 +49,7 @@ const ParagraphQuestions = () => {
     );
   };
 
-
-
-  const handleSubmitClick = () => {
+const handleSubmitClick = () => {
     // make a post request to /testresults and define a request body with email from localStorage and selectedAnswers and providedAnswers
     const selectedAnswers = JSON.parse(localStorage.getItem("selectedAnswers"));
     const providedAnswers = JSON.parse(localStorage.getItem("providedAnswers"))

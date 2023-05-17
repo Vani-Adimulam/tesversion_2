@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import {Modal} from "react-bootstrap";
-
+import { Modal } from "react-bootstrap";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -16,9 +15,6 @@ const Results = () => {
 
   const buttonHandler = () => {
     setModalIsOpen(true);
-    navigate("/");
-    window.location.reload();
-    localStorage.clear();
   };
 
   const closeModalHandler = () => {
@@ -32,8 +28,7 @@ const Results = () => {
     <center>
       <div style={{ marginTop: "90px" }}>
         <p className="display-6">
-          "Thank you for taking the test!
-          click the button to send your answers for grading. Good luck!"
+          "Thank you for taking the test! click the button to send your answers for grading. Good luck!"
         </p>
         <br />
         <button
@@ -61,10 +56,7 @@ const Results = () => {
           }}
         >
           <h2>Test Submission</h2>
-          <p>
-            Your test is submitted! Shortly, you will receive a mail regarding
-            your results and further process.
-          </p>
+          <p>Your test is submitted! Shortly, you will receive a mail regarding your results and further process.</p>
           <button onClick={closeModalHandler}>Close</button>
         </Modal>
       </div>

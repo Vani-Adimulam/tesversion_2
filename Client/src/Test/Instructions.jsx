@@ -1,30 +1,12 @@
 import React from "react";
-// import { store } from '../App';
 import { useNavigate } from "react-router";
-// import axios from 'axios';
+
 
 const Instructions = () => {
-  // const [token] = useContext(store);
-  // const [data, setData] = useState("");
   const navigate = useNavigate();
   const handleStart = () => {
     navigate("/getMCQQuestions");
   };
-
-  // useEffect(() => {
-  //   axios.get("http://localhost:701/instructions", {
-  //       headers: {
-  //         "x-token": token,
-  //       },
-  //     })
-
-  //     .then((res) => setData(res.data))
-  //     .catch((err) => console.log(err));
-  // }, [token]);
-
-  // if (!token) {
-  //   return <Navigate to="/verify-emails"/>;
-  // }
 
   return (
     <div>
@@ -77,17 +59,6 @@ const Instructions = () => {
           >
             Start
           </button>
-          {/* <button
-                style={{ backgroundColor: "#D43E2D", fontFamily: "fantasy",marginLeft:"3px"}}
-                className="btn"
-                onClick={() => {
-                  setToken(null)
-                  localStorage.clear()
-                  window.location.reload()
-                }}
-              >
-                Logout
-              </button> */}
         </div>
       </div>
     </div>

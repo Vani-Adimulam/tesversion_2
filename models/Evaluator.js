@@ -4,10 +4,6 @@ const Evaluator = new mongoose.Schema({
   name:{
     type: String
   },
-  role:{
-    type: String,
-    default:"evaluator"
-  },
   email: {
     type: String,
     required: true,

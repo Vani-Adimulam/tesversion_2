@@ -10,7 +10,7 @@ const AllParagraphQuestions = () => {
   const [selectedArea, setSelectedArea] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const questionsPerPage = 4;
+  const questionsPerPage = 6;
   const pagesVisited = (pageNumber - 1) * questionsPerPage;
 
   useEffect(() => {
