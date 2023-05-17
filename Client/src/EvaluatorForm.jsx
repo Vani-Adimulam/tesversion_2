@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify'
 import { store } from "./App.js";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
@@ -24,8 +25,10 @@ const EvaluatorForm = () => {
       .then((res) => {
         if (res.data.token) {
           setToken(res.data.token);
+          toast.success('Data Varified,Welcome Evaluator')
         } else {
           setErrorMessage("Email or password is not valid");
+          toast.error('Invalid Credentials')
         }
       })
       .catch((error) => {
