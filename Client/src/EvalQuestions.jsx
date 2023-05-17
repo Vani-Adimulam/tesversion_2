@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import './EvalQuestions.css'
 import { useLocation, useNavigate } from "react-router";
+import { ListGroup, Form, Row, Col } from "react-bootstrap";
 
 
 const EvalQuestions = () => {
@@ -106,127 +107,152 @@ const EvalQuestions = () => {
   }, [isEvaluated, paragraphQuestions]);  
   
   return (
-    <div style={{marginTop: '100px'}}>
-      <h1>Candidate : {email}</h1>
-      <hr />
-      <br />
-      <h2>Evaluate MCQQuestions</h2>
-      <br />
-        <ol>
-        {mcqQuestions.map((question) => (
-          <li key={question._id}>
-            <div className="card">
-              <div className="card-body">
-                <h3>{question.question}</h3>
-                <p>
-                  correct answer : {question.correct_choice}
-                </p>
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={1}
-                    defaultChecked={testResults[0].selectedAnswers[question._id] == 1}
-                  />
-                  {question.choice1}
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={2}
-                    defaultChecked={testResults[0].selectedAnswers[question._id] == 2}
-
-                  />
-                  {question.choice2}
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={3}
-                    defaultChecked={testResults[0].selectedAnswers[question._id] == 3}
-                  />
-                  {question.choice3}
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={4}
-                    defaultChecked={testResults[0].selectedAnswers[question._id] == 4}
-
-                  />
-                  {question.choice4}
-                </label>
-                <br />
-                <br />
-                <span id={`symbol-${question._id}`} className="symbol">
-                {testResults[0].selectedAnswers[question._id] == question.correct_choice ? 
-                (
-                  <>&#10004; Correct</>
-                )
-                : (
-                  <>&#10008; Wrong</>
-                )
-                }
+    <div style={{marginTop: '90px'}}>
+    <header className="bg-#D6D6D6 text-dark p-3">
+        <h1>Test Evaluation</h1>
+      </header>
+        <h1 style={{ backgroundColor: '#f8f9fa' }}>Candidate: {email}</h1>
+<ol style={{ paddingLeft: "0", marginTop: "30px" }}>
+  {mcqQuestions.map((question) => (
+    <li key={question._id} style={{ marginBottom: "30px" }}>
+      <div className="card">
+        <div className="card-body">
+          <h3>{question.question}</h3>
+          <p style={{ marginBottom: "10px" }}>
+            Correct answer: {question.correct_choice}
+          </p>
+          <div className="form-check" style={{ marginBottom: "10px" }}>
+            <input
+              className="form-check-input"
+              type="radio"
+              name={question._id}
+              value={1}
+              defaultChecked={testResults[0].selectedAnswers[question._id] == 1}
+            />
+            <label className="form-check-label">{question.choice1}</label>
+          </div>
+          <div className="form-check" style={{ marginBottom: "10px" }}>
+            <input
+              className="form-check-input"
+              type="radio"
+              name={question._id}
+              value={2}
+              defaultChecked={testResults[0].selectedAnswers[question._id] == 2}
+            />
+            <label className="form-check-label">{question.choice2}</label>
+          </div>
+          <div className="form-check" style={{ marginBottom: "10px" }}>
+            <input
+              className="form-check-input"
+              type="radio"
+              name={question._id}
+              value={3}
+              defaultChecked={testResults[0].selectedAnswers[question._id] == 3}
+            />
+            <label className="form-check-label">{question.choice3}</label>
+          </div>
+          <div className="form-check" style={{ marginBottom: "20px" }}>
+            <input
+              className="form-check-input"
+              type="radio"
+              name={question._id}
+              value={4}
+              defaultChecked={testResults[0].selectedAnswers[question._id] == 4}
+            />
+            <label className="form-check-label">{question.choice4}</label>
+          </div>
+          <span id={`symbol-${question._id}`} className="symbol">
+            {testResults[0].selectedAnswers[question._id] ==
+            question.correct_choice ? (
+              <span
+                style={{
+                  color: "#28a745",
+                  fontWeight: "bold",
+                  marginRight: "5px",
+                }}
+              >
+                &#10004; Correct
               </span>
-              </div>
-            </div>
-            <br />
-          </li>
-          
-        ))}
-        {mcqQuestions.map((question)=>{
+            ) : (
+              <span
+                style={{
+                  color: "#dc3545",
+                  fontWeight: "bold",
+                  marginRight: "5px",
+                }}
+              >
+                &#10008; Wrong
+              </span>
+            )}
+          </span>
+        </div>
+      </div>
+    </li>
+  ))}
+  {mcqQuestions.map((question)=>{
           testResults[0].selectedAnswers[question._id] == question.correct_choice ? mcqScore++ : null;
         })}
-      </ol>  
-      <hr />
-      <h3>MCQ Score : {mcqScore}</h3>
-      <hr />
-      <h1>Evaluate Paragraph Questions</h1>
-      <br />
-      <ol>
-        {paragraphQuestions.map((question) => (
-          <li key={question._id}>
-            <div key={question._id} className="paragraph-question">
-              <h3>{question.question} (Type : {question.subtype})</h3>
+        <h4>MCQ Score : {mcqScore}</h4>
+</ol>
+      <h1>Evaluate Theory And Technical Questions</h1>
+      <ListGroup>
+      {paragraphQuestions.map((question) => (
+        <ListGroup.Item key={question._id}>
+          <h3>{question.question} (Type : {question.subtype})</h3>
+          <Row>
+            <Col>
               <div className="answer-wrapper">
-                <div className="correct-answer">
+                <div className="correct-answer" style={{width:'400px'}}>
                   <p>Correct Answer:</p>
-                  <textarea name="correct-answer" value={question.answer} rows="15" cols="30" readOnly />
+                  <Form.Control
+                    as="textarea"
+                    name="correct-answer"
+                    value={question.answer}
+                    rows={5}
+                    readOnly
+                  />
                 </div>
-                <div className="given-answer">
+                <div className="given-answer" style={{width:'400px'}}>
                   <p>Given Answer:</p>
-                  <textarea name="given-answer" value={testResults[0].providedAnswers[question._id]} rows="15" cols="30" readOnly />
+                  <Form.Control
+                    as="textarea"
+                    name="given-answer"
+                    value={testResults[0].providedAnswers[question._id]}
+                    rows={5}
+                    readOnly
+                  />
                 </div>
-                <br />
               </div>
-              <br />
-              <p>Select marks zero to five : </p>
-              <select name="marks" id={`marks-${question._id}`}
-              onChange={handleParagraphQuestion}
-              >
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <br />
-            </div>
-            <br />
-          </li>
-
-        ))}
-      </ol>
+            </Col>
+            <Col>
+              <Form.Group>
+                <Form.Label>Select marks (0 to 5)</Form.Label>
+                <Form.Control
+                  as="select"
+                  name="marks"
+                  id={`marks-${question._id}`}
+                  // value={selectedMarks[question._id] || "0"}
+                  onChange={handleParagraphQuestion}
+                >
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+          </Row>
+        </ListGroup.Item>
+      ))}
+    </ListGroup>
+    <center>
       <div>
       <button type="submit"
+      className="btn"
         id={`evaluate-all`}
+        style={{backgroundColor:"#A4B3C4"}}
         onClick={() => {
           console.log('mcqscore:', mcqScore);
           console.log('code score:', codeScore);
@@ -248,6 +274,7 @@ const EvalQuestions = () => {
 </button>
 
       </div>
+      </center>
     </div>
   );
 };

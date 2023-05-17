@@ -3,7 +3,6 @@ import axios from "axios";
 import { store } from "./App.js";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-//
 
 const EvaluatorForm = () => {
   const [token, setToken] = useContext(store);
@@ -90,8 +89,7 @@ const EvaluatorForm = () => {
                         transform="translate(30)"
                         d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
                         data-name="Path 10"
-                        id="Path_10"
-                      ></path>
+                        id="Path_10"></path>
                     </svg>
                   </button>
                 </div>

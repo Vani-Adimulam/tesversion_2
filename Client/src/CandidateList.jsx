@@ -6,6 +6,7 @@ import pen from "./assets/pen.svg";
 import assessment from "./assets/assessment.png";
 import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from 'react-toastify'
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -54,10 +55,18 @@ const CandidateList = () => {
 
   //name,area,mcqCount,codeCount,paragraphCount
   const handleEditModalClose = () => setShowEditModal(false);
+  //modified this function to readonly data when status is testtaken or evaluated instead of disabling the button
   const handleEditModalShow = (candidate) => {
-    setEditCandidate(candidate);
+    const readOnlyFields =
+      candidate.testStatus === "Test Taken" ||
+      candidate.testStatus === "Evaluated";
+    setEditCandidate({
+      ...candidate,
+      readOnlyFields: readOnlyFields,
+    });
     setShowEditModal(true);
   };
+
   const handleEditSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -132,9 +141,15 @@ const CandidateList = () => {
   );
 
   const handleEvaluateModalShow = (candidate) => {
-    const state = { email: candidate.email, testStatus : candidate.testStatus};
+    if (candidate.testStatus === "Test Not Taken") {
+      // Display warning message here (e.g., using an alert or toast notification library)
+      toast.warn("Test is not taken. Evaluation cannot be performed.")
+      return;
+    }
+    const state = { email: candidate.email, testStatus: candidate.testStatus };
     navigate("/EvalQuestions", { state });
   };
+  
 
   return (
     <>
@@ -180,25 +195,17 @@ const CandidateList = () => {
                   <td>
                     <Button
                       style={{
-                        backgroundColor: "#56C2AC",
+                        backgroundColor: "#58FEDB",
                         borderColor: "#dee2e6",
                       }}
-                      onClick={
-                        candidate.testStatus === "Test Taken"
-                          ? null
-                          : () => handleEditModalShow(candidate)
-                      }
-                      disabled={candidate.testStatus === "Test Taken"}
+                      onClick={() => handleEditModalShow(candidate)}
                     >
                       <img src={pen} alt="edit" />
                     </Button>
                   </td>
                   <td>
                     <Button
-                      style={{
-                        backgroundColor: "#fff",
-                        borderColor: "#dee2e6",
-                      }}
+                      variant="light"
                       onClick={() => handleEvaluateModalShow(candidate)}
                     >
                       <img
@@ -209,14 +216,15 @@ const CandidateList = () => {
                     </Button>
                   </td>
                   <td>{candidate.result}</td>
-                  <td>{candidate.totalScore} / {candidate.total}</td>
+                  <td>
+                    {candidate.totalScore} / {candidate.total}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </div>
       </center>
-
       <Modal show={showEditModal} onHide={handleEditModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Candidate</Modal.Title>
@@ -235,6 +243,7 @@ const CandidateList = () => {
                     name: event.target.value,
                   })
                 }
+                readOnly={editCandidate.readOnlyFields}
               />
             </Form.Group>
             <Form.Group>
@@ -249,6 +258,7 @@ const CandidateList = () => {
                     email: event.target.value,
                   })
                 }
+                readOnly={editCandidate.readOnlyFields}
               />
             </Form.Group>
             <Form.Group>
@@ -262,6 +272,10 @@ const CandidateList = () => {
                     testStatus: event.target.value,
                   });
                 }}
+                disabled={
+                  editCandidate.testStatus === "Test Taken" ||
+                  editCandidate.testStatus === "Evaluated"
+                }
               >
                 <option value="">Select status</option>
                 <option value="Test Cancelled">Cancel Test</option>
@@ -271,18 +285,13 @@ const CandidateList = () => {
             <Form.Group>
               <Form.Label>Area</Form.Label>
               <FormControl
+                style={{ backgroundColor: "#7F8081" }}
                 type="text"
                 placeholder="Enter Area"
-                value={editCandidate.area}
-                onChange={(event) =>
-                  setEditCandidate({
-                    ...editCandidate,
-                    area: event.target.value,
-                  })
-                }
+                defaultValue={editCandidate.area}
+                readOnly
               />
             </Form.Group>
-
             <Form.Group>
               <Form.Label>MCQ Count</Form.Label>
               <Form.Control
@@ -295,6 +304,7 @@ const CandidateList = () => {
                     mcqCount: event.target.value,
                   })
                 }
+                readOnly={editCandidate.readOnlyFields}
               />
             </Form.Group>
             <Form.Group>
@@ -309,6 +319,7 @@ const CandidateList = () => {
                     codeCount: event.target.value,
                   })
                 }
+                readOnly={editCandidate.readOnlyFields}
               />
             </Form.Group>
             <Form.Group>
@@ -323,6 +334,7 @@ const CandidateList = () => {
                     paragraphCount: event.target.value,
                   })
                 }
+                readOnly={editCandidate.readOnlyFields}
               />
             </Form.Group>
           </Modal.Body>
