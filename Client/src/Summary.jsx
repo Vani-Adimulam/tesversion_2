@@ -1,80 +1,137 @@
 import React from "react";
-
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Button, Container, Row, Col, Card } from "react-bootstrap";
 
 const Summary = () => {
-    const location = useLocation();
-    const { email, mcqScore, textScore, codeScore, totalScore, total } = location.state;
-    const [result, setResult] = useState('')
-    const [isButtonClicked, setIsButtonClicked] = useState(false);
-    const navigate = useNavigate();
+  const location = useLocation();
+  const {
+    email,
+    mcqScore,
+    textScore,
+    codeScore,
+    totalScore,
+    total,
+  } = location.state;
+  const [result, setResult] = useState("");
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const navigate = useNavigate();
 
-    async function updateCandidateResult(result, email) {
-        try {
-          const response = await fetch(`http://localhost:701/updateTestResult/${email.email}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ result, mcqScore, codeScore, textScore, totalScore })
-          });
-      
-          const data = await response.json();
-      
-          if (!response.ok) {
-            throw new Error(data.message || 'Failed to update candidate result.');
-          }
-      
-          return data;
-        } catch (error) {
-          console.error(error);
-          throw error;
+  async function updateCandidateResult(result, email) {
+    try {
+      const response = await fetch(
+        `http://localhost:701/updateTestResult/${email.email}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            result,
+            mcqScore,
+            codeScore,
+            textScore,
+            totalScore,
+          }),
         }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update candidate result.");
       }
-    
 
-    return (
-        <div>
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 
-            <h1 style={{ marginTop: "130px" }}>Candiate Results </h1>
-            <br />
-            <p>MCQ Marks: {mcqScore}</p>
-            <p>Paragraph Marks: {textScore}</p>
-            <p>Code Marks: {codeScore}</p>
-            <p>Marks obtained: {totalScore}</p>
-            <p>Total Marks of test : {total}</p>
-            <br />
-            <hr />
+  return (
+    <Container>
+      <h1 style={{ marginTop: "130px" }}>Candidate Results</h1>
+      <br />
+      <Row>
+        <Col>
+          <Card>
+            <Card.Body>
+              <Card.Title>MCQ Marks</Card.Title>
+              <Card.Text>{mcqScore}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <Card.Body>
+              <Card.Title>Paragraph Marks</Card.Title>
+              <Card.Text>{textScore}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <Card.Body>
+              <Card.Title>Code Marks</Card.Title>
+              <Card.Text>{codeScore}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <Card.Body>
+              <Card.Title>Marks Obtained</Card.Title>
+              <Card.Text>{totalScore}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <Card.Body>
+              <Card.Title>Total Marks of Test</Card.Title>
+              <Card.Text>{total}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <br />
+      <hr />
 
-            {/* Add two buttons 'Pass' & 'Fail'. Update a state variable result based on the click  */}
-            
+      {/* Add two buttons 'Pass' & 'Fail'. Update a state variable result based on the click  */}
 
-            <button onClick={() => {
-                setResult('Pass');
-                updateCandidateResult('Pass', { email });
-                setIsButtonClicked(true);
-                navigate('/CandidateList')
-                window.location.reload()
-            }} disabled={isButtonClicked}>
-                Pass
-            </button>
+      <Button
+        variant="success"
+        style={{marginRight:"10px"}}
+        onClick={() => {
+          setResult("Pass");
+          updateCandidateResult("Pass", { email });
+          setIsButtonClicked(true);
+          navigate("/CandidateList");
+          window.location.reload();
+        }}
+        disabled={isButtonClicked}
+      >
+        Pass
+      </Button>
 
-            <button onClick={() => {
-                setResult('Fail');
-                updateCandidateResult('Fail', { email });
-                setIsButtonClicked(true);
-                navigate('/CandidateList')
-                window.location.reload()
-            }} disabled={isButtonClicked}>
-                Fail
-            </button>
-            <br />
-            <br />
-            <p>Result is {result}</p>
-        </div>
-
-    )
-}
+      <Button
+        variant="danger"
+        onClick={() => {
+          setResult("Fail");
+          updateCandidateResult("Fail", { email });
+          setIsButtonClicked(true);
+          navigate("/CandidateList");
+          window.location.reload();
+        }}
+        disabled={isButtonClicked}
+      >
+        Fail
+      </Button>
+      <br />
+      <p>{result}</p>
+    </Container>
+  );
+};
 
 export default Summary;

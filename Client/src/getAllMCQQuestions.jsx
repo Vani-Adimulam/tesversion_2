@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import "./getAllMCQQuestions.css"
 
+
 const AllMCQQuestions = () => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);

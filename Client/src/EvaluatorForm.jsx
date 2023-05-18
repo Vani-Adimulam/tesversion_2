@@ -5,6 +5,7 @@ import { store } from "./App.js";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
+
 const EvaluatorForm = () => {
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({
@@ -25,7 +26,7 @@ const EvaluatorForm = () => {
       .then((res) => {
         if (res.data.token) {
           setToken(res.data.token);
-          toast.success('Data Varified,Welcome Evaluator')
+          toast.success(`Data Verified, Welcome ${data.email}`)
         } else {
           setErrorMessage("Email or password is not valid");
           toast.error('Invalid Credentials')

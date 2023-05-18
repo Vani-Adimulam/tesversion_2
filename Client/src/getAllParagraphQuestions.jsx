@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import Pagination from "react-js-pagination";
 
+
 const AllParagraphQuestions = () => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
@@ -62,7 +63,7 @@ const AllParagraphQuestions = () => {
   return (
     <Container className="mt-5">
       <h2 style={{ marginTop: "90px" }}>Theory and Technical Questions</h2>
-      <Form className="mt-4 mb-4">
+      <Form className="mt-3 mb-4">
         <Form.Group controlId="areaSelect">
           <Form.Label>Select an area:</Form.Label>
           <Form.Control

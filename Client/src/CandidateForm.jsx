@@ -3,6 +3,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 
+
 const CandidateForm = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
