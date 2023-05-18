@@ -239,29 +239,29 @@ app.get('/getParagraphQuestions', async(req, res) => {
 app.get('/getMCQQuestionsforTest/:email', async (req, res) => {
   try {
     const email = req.params.email.replace(/['"]+/g, ''); // remove quotes from the string  
-    const candidate = await Candidate.find({email:email})
+    const candidate = await Candidate.find({email: email});
     if (!candidate) {
       res.status(500).json('Candidate not found');
-    }
-    else {
-      const area = candidate[0].area
-      const number = candidate[0].mcqCount
+    } else {
+      const area = candidate[0].area;
+      const number = candidate[0].mcqCount;
       const questions = await MCQQuestion.aggregate([
-          { $match: { area: area } },
-          { $sample: { size: Number(number) } },
-          { $sort: { _id: 1 } },
-          { $project: { correct_choice: 0 } } // exclude correct_choice
-        ]);
+        { $match: { area: area } },
+        { $sample: { size: Number(number) } },
+        { $sort: { _id: 1 } },
+        { $project: { correct_choice: 0 } } // exclude correct_choice
+      ]);
       res.json({ questions });
+      getTest.GetTest.log('info', `getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ${candidate[0].email}`);
     }
-    getTest.GetTest.log('info',`getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB datatabse and created test for ${Candidate.email}`)
   } catch (error) {
-    console.log(error)
-    getTest.GetTest.log('error',`Unable to create Test to the ${Candidate.email}`)
-    console.log('Unable to create Test, Please select correct number of questions');
+    console.log(error);
+    getTest.GetTest.log('error', `Unable to create Test for the ${candidate[0].email}`);
+    console.log('Unable to create Test, Please select the correct number of questions');
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 // create an API to get random PARAGRAPH Questions from Question Bank given area
 // subtype and number
@@ -342,7 +342,7 @@ app.put('/edit/:id', async (req, res) => {
       
     }
     res.status(200).send('Candidate updated successfully');
-    editlog.EditLog.log('info',` edit candidate api is triggered by the evaluator && ${candidate.name} is edited and updated data is saved to the database`)
+    editlog.EditLog.log('info',` edit candidate api is triggered by the evaluator && ${candidate.name} got edited and updated data is saved to the database`)
   } catch (err) {
     console.log(err);
     return res.status(500).send('Internal Server Error');
@@ -370,7 +370,7 @@ app.patch('/updateCandidateTeststatus',async(req, res) => {
       }
       candidate.testStatus = testStatus;
       await candidate.save();
-      TestStatus.TestStatus.log('info',`${email}took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`)
+      TestStatus.TestStatus.log('info',`${email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`)
       res.status(200).json({ message: 'Test status updated successfully' });
       } catch (err) {
         console.log(err);

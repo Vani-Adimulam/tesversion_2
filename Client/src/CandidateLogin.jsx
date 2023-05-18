@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import axios from "axios";
 import "./CandidateLogin.css";
 
+
 const CandidateLogin = () => {
   const [data, setData] = useState({
     email: "",

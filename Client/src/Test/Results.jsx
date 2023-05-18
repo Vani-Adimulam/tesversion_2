@@ -15,9 +15,13 @@ const Results = () => {
 
   const buttonHandler = () => {
     navigate("/");
-    window.location.reload();
-    localStorage.clear();
-    toast.info('Your test is submitted! Shortly, you will receive a mail regarding your results and further process.')
+    toast.info("Your test is submitted! Shortly, you will receive a mail regarding your results and further process.");
+   
+    setTimeout(() => {
+      window.location.reload();
+      localStorage.clear();
+      
+    }, 5000); // Delay of 3 seconds (3000 milliseconds)
   };
 
 
