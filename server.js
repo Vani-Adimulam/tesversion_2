@@ -30,7 +30,7 @@ const getTest = require('./Loggers/getTest')
 const evaluated=require('./Loggers/Evaluationlog')
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI,{
+mongoose.connect('mongodb+srv://gorantlasantoshkumarreddy:assessment123@cluster0.fjz3f0l.mongodb.net/?retryWrites=true&w=majority',{
     useUnifiedTopology: true,
     useNewUrlParser: true,
     // useCreateIndex: true
