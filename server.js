@@ -12,7 +12,7 @@ const ParagraphQuestion = require('./models/ParagraphQuestions');
 const TestResults = require('./models/TestResults');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
-const PORT = process.env.PORT || 701;
+const PORT = process.env.PORT || 7001;
 const path = require('path')
 require('dotenv').config();
 const logger = require('./Loggers/logger')
