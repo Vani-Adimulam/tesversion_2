@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, Form, Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import { BASE_URL } from "./Service/helper";
 
 
 
@@ -19,7 +20,7 @@ const AddParagraphQuestionForm = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:701/addParagraphQuestion",
+        `${BASE_URL}/addParagraphQuestion`,
         {
           question,
           area,

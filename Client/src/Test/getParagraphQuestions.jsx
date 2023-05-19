@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button } from "react-bootstrap";
+import { BASE_URL } from '../Service/helper';
 
 // import styles from './getMCQQuestions.module.css';
 
@@ -19,7 +20,7 @@ const ParagraphQuestions = () => {
   
   useEffect(() => {
     if (!hasFetchedP) {
-        axios.get(`http://localhost:701/getParagraphQuestionsforTest/${email}`)
+        axios.get(`${BASE_URL}/getParagraphQuestionsforTest/${email}`)
           .then((response) => {
             localStorage.setItem('paragraphquestions',
             JSON.stringify(response.data.questions));

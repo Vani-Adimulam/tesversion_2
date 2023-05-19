@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import "./getAllMCQQuestions.css"
+import { BASE_URL } from "./Service/helper";
 
 
 const AllMCQQuestions = () => {
@@ -24,7 +25,7 @@ const AllMCQQuestions = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:701/getMCQQuestions")
+      .get(`${BASE_URL}/getMCQQuestions`)
       .then((response) => {
         setQuestions(response.data);
         setFilteredQuestions(response.data);

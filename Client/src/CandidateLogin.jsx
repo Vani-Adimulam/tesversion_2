@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import axios from "axios";
 import "./CandidateLogin.css";
+import { BASE_URL } from "./Service/helper";
+
 
 
 const CandidateLogin = () => {
@@ -19,7 +21,7 @@ const CandidateLogin = () => {
     e.preventDefault();
     localStorage.setItem("email", JSON.stringify(data["email"]));
     axios
-      .post("http://localhost:701/verify-emails", data)
+      .post(`${BASE_URL}/verify-emails`, data)
       .then((res) => {
         if (res.status === 200) {
           toast.success("Login Successfully")

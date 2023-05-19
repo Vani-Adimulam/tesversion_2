@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../Service/helper';
 const getMCQQuestions = () => {
   const navigate = useNavigate();
   const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions'))||[])
@@ -23,7 +24,7 @@ const getMCQQuestions = () => {
 
   useEffect(() => {
     if(!hasFetched){
-      axios.get(`http://localhost:701/getMCQQuestionsforTest/${email}`)
+      axios.get(`${BASE_URL}/getMCQQuestionsforTest/${email}`)
         .then(response => {
           localStorage.setItem('mcqquestions',
           JSON.stringify(response.data.questions));

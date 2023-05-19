@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { store } from "./App.js";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import { BASE_URL } from "./Service/helper.js";
 
 
 const EvaluatorForm = () => {
@@ -22,7 +23,7 @@ const EvaluatorForm = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:701/loginEvaluator", data)
+      .post(`${BASE_URL}/loginEvaluator`, data)
       .then((res) => {
         if (res.data.token) {
           setToken(res.data.token);

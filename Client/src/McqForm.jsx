@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, Form, Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import "./McqForm.css";
+import { BASE_URL } from "./Service/helper";
 
 
 const AddQuestionForm = () => {
@@ -29,7 +30,7 @@ const AddQuestionForm = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:701/addQuestionMCQ", {
+      const response = await axios.post(`${BASE_URL}/addQuestionMCQ`, {
         area,
         question,
         choice1,

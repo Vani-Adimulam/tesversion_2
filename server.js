@@ -12,6 +12,7 @@ const ParagraphQuestion = require('./models/ParagraphQuestions');
 const TestResults = require('./models/TestResults');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
+const PORT = process.env.PORT || 701
 require('dotenv').config();
 const logger = require('./Loggers/logger')
 const EvalLogger = require('./Loggers/evallogger.js')
@@ -476,7 +477,7 @@ app.get('/getCandidateDetails/:email', async (req, res) => {
 
 
 
-app.listen(701,()=>{
-  console.log('Server running on port 701');
+app.listen(PORT,()=>{
+  console.log(`Server running on port ${PORT}`);
 })
   
