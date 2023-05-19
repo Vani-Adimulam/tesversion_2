@@ -7,6 +7,7 @@ import assessment from "./assets/assessment.png";
 import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from 'react-toastify'
+import { BASE_URL } from "./Service/helper";
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -19,14 +20,14 @@ const CandidateList = () => {
   const navigate = useNavigate();
   useEffect(() => {
   const fetchData = async () => {
-    const result = await axios("http://localhost:701/all");
+    const result = await axios(`${BASE_URL}/all`);
     const candidates = result.data;
     setTestStatus(candidates.testStatus);
     const updatedCandidates = await Promise.all(
       candidates.map(async (candidate) => {
         try {
           const res = await axios.get(
-            `http://localhost:701/getTestResults/${candidate.email}`
+            `${BASE_URL}/getTestResults/${candidate.email}`
           );
           if (res.data[0] && res.data[0].totalScore) { // Check if res.data[0] and totalScore exist
             const total =

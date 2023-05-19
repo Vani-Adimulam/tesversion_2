@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
+import { BASE_URL } from "./Service/helper";
 
 const Summary = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const Summary = () => {
   async function updateCandidateResult(result, email) {
     try {
       const response = await fetch(
-        `http://localhost:701/updateTestResult/${email.email}`,
+        `${BASE_URL}/updateTestResult/${email.email}`,
         {
           method: "POST",
           headers: {

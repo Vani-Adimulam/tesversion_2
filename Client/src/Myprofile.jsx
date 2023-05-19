@@ -3,6 +3,7 @@ import { Link ,useLocation} from "react-router-dom";
 import { store } from "./App";
 import { Navigate } from "react-router";
 import axios from "axios";
+import { BASE_URL } from "./Service/helper";
 const MyProfile = () => {
   const location = useLocation();
   const email = location.state.email;
@@ -10,7 +11,7 @@ const MyProfile = () => {
   const [data, setData] = useState({});
   useEffect(() => {
     axios
-      .get("http://localhost:701/myprofile", {
+      .get(`${BASE_URL}/myprofile`, {
         headers: {
           "x-token": token,
         },

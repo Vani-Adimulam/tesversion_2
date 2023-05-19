@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
-
+import { BASE_URL } from "./Service/helper";
 
 const CandidateForm = () => {
   const [email, setEmail] = useState("");
@@ -56,7 +56,7 @@ const CandidateForm = () => {
     }
 
     axios
-      .post("http://localhost:701/register", {
+      .post(`${BASE_URL}/register`, {
         email,
         name,
         area,

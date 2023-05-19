@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import './EvalQuestions.css'
 import { useLocation, useNavigate } from "react-router";
 import { ListGroup, Form, Row, Col } from "react-bootstrap";
+import { BASE_URL } from "./Service/helper";
 
 
 const EvalQuestions = () => {
@@ -26,7 +27,7 @@ const EvalQuestions = () => {
   const isEvaluated = testStatus === 'Evaluated';
 
   useEffect(() => {
-    axios.get(`http://localhost:701/getTestResults/${email}`)
+    axios.get(`${BASE_URL}/getTestResults/${email}`)
       .then(response => {
         setTestResults(response.data)
       })
@@ -34,7 +35,7 @@ const EvalQuestions = () => {
   }, []);
 
   useEffect(()=>{
-    axios.get(`http://localhost:701/getCandidateDetails/${email}`)
+    axios.get(`${BASE_URL}/getCandidateDetails/${email}`)
     .then(response => {
       console.log(response.data[0])
       setCandidate(response.data[0])
@@ -54,12 +55,12 @@ const EvalQuestions = () => {
       const providedAnswersIds = testResults.flatMap(result => Object.keys(result.providedAnswers))
       console.log('This is provided answers ids ',providedAnswersIds)
       axios.all([
-        axios.get('http://localhost:701/getMCQQuestions',{
+        axios.get(`${BASE_URL}/getMCQQuestions`,{
           params : {
             ids: selectedAnswersIds.join(",")
           }
         }),
-        axios.get('http://localhost:701/getParagraphQuestions',{
+        axios.get(`${BASE_URL}/getParagraphQuestions`,{
           params : {
             ids: providedAnswersIds.join(",")
           }

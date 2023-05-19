@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import Pagination from "react-js-pagination";
+import { BASE_URL } from "./Service/helper";
 
 
 const AllParagraphQuestions = () => {
@@ -16,7 +17,7 @@ const AllParagraphQuestions = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:701/getParagraphQuestions")
+      .get(`${BASE_URL}/getParagraphQuestions`)
       .then((response) => {
         setQuestions(response.data);
       })
