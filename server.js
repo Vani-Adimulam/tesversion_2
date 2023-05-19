@@ -12,7 +12,8 @@ const ParagraphQuestion = require('./models/ParagraphQuestions');
 const TestResults = require('./models/TestResults');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
-const PORT = process.env.PORT || 701
+const PORT = process.env.PORT || 701;
+const path = require('path')
 require('dotenv').config();
 const logger = require('./Loggers/logger')
 const EvalLogger = require('./Loggers/evallogger.js')
@@ -475,6 +476,20 @@ app.get('/getCandidateDetails/:email', async (req, res) => {
   }
 })
 
+const _dirname = path.dirname("")
+const builPath = path.join(_dirname, "./Client/build");
+// app.use(express.static(builPath))
+app.use(express.static(path.join(builPath)));
+app.get("/*", function (req, res) {
+    res.sendFile('index.html',
+        { root: path.join(_dirname, "./Client/build") },
+        function (err) {
+            if (err) {
+                res.status(500).send(err)
+            }
+        }
+    );
+})
 
 
 app.listen(PORT,()=>{

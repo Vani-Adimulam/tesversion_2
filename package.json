@@ -28,6 +28,7 @@
     "natural": "^6.2.0",
     "node-sass": "^8.0.0",
     "nodemon": "^2.0.22",
+    "path": "^0.12.7",
     "react-js-pagination": "^3.0.3",
     "react-modal": "^3.16.1",
     "scss": "^0.2.4",
