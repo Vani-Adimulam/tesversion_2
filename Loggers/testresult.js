@@ -22,6 +22,7 @@ const TestResult =  createLogger({
             logGroupName: 'P2F-onlineassessment-logs',
             logStreamName: 'online-assessment-logs-stream',
             awsRegion: 'ap-south-1', // Replace with your desired AWS region
+            region : 'ap-south-1',
             awsAccessKeyId: 'p2f-online-logger-user', // Replace with your AWS access key ID
             awsSecretKey: 'f7PS7}IP' // Replace with your AWS secret access key
           })
