@@ -6,9 +6,10 @@ import axios from "axios";
 import { BASE_URL } from "./Service/helper";
 const MyProfile = () => {
   const location = useLocation();
-  const email = location.state.email;
+  const email = location.state?.email; // Add a conditional check for email property
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({});
+
   useEffect(() => {
     axios
       .get(`${BASE_URL}/myprofile`, {
@@ -19,8 +20,9 @@ const MyProfile = () => {
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }, [token]);
+
   if (!token) {
-    return <Navigate to="/login"/>;
+    return <Navigate to="/login" />;
   }
   return (
     <div style={{ backgroundColor: "#F0F1F4" }}>

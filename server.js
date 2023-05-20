@@ -334,14 +334,13 @@ app.get('/myprofile', middleware, async (req, res) => {
     
 //update the candidate
 //10-05-23 API modified to fetch total candidate data
-app.put('/edit/:id', async (req, res) => { 
+app.put('/edit/:id', async (req, res) => {
   try {
     const { email, testStatus,name,mcqCount,codeCount,paragraphCount } = req.body;
     const candidate = await Candidate.findByIdAndUpdate(req.params.id, { email, testStatus, name, mcqCount, codeCount, paragraphCount }, { new: true });
     if (!candidate) {
       editlog.EditLog.log('error','cannot edit the candidate')
       return res.status(404).send('Candidate not found');
-      
     }
     res.status(200).send('Candidate updated successfully');
     editlog.EditLog.log('info',` edit candidate api is triggered by the evaluator && ${candidate.name} got edited and updated data is saved to the database`)

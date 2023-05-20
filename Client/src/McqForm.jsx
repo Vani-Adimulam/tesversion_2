@@ -57,9 +57,11 @@ const AddQuestionForm = () => {
     setShowModal(false);
   };
 
+ 
+
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Card style={{ width: "40rem" }}>
+      <Card style={{ width: "60rem",marginTop:"10px" }}>
         <Card.Header style={{ fontWeight: "bold", fontFamily: "sans-serif"}}>
           Add Question
         </Card.Header>
