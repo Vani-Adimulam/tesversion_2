@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BASE_URL } from "./Service/helper";
 
@@ -45,6 +46,10 @@ const CandidateForm = () => {
   const changeParagraphCountHandler = (e) => {
     setParagraphcount(e.target.value);
   };
+  const navigate = useNavigate()
+  function handleProfileClick() {
+    navigate("/myprofile");
+  }
 
   const submitHandler = (e) => {
     console.log(area);
@@ -82,12 +87,19 @@ const CandidateForm = () => {
             backgroundColor: "#f8f9fa",
             border: "none",
             boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-            width: "300px",
-            height: "500px",
+            width: "350px",
+            height: "550px",
           }}
         >
           <div className="card-body">
             <h2 className="card-title text-center mb-4">Add Candidate</h2>
+            <button
+            className="btn"
+          style={{ backgroundColor: "#6BD8BA",fontFamily:"fantasy"}}
+          onClick={handleProfileClick}
+        >
+          Back To Dashboard
+        </button>
             <form onSubmit={submitHandler}>
               <div className="form-group">
                 <label htmlFor="name">Name</label>

@@ -106,12 +106,25 @@ const EvalQuestions = () => {
       }
     }
   }, [isEvaluated, paragraphQuestions]);  
+
+  function handleProfileClick() {
+    navigate("/myprofile");
+  }
   
   return (
     <div style={{marginTop: '90px'}}>
     <header className="bg-#D6D6D6 text-dark p-3">
         <h1>Test Evaluation</h1>
       </header>
+      <div style={{display:"flex",justifyContent:"end"}}>
+      <button
+      className="btn"
+          style={{ backgroundColor: "#015D88",fontFamily:"fantasy"}}
+          onClick={handleProfileClick}
+        >
+          Back To Dashboard
+        </button>
+        </div>
         <h1 style={{ backgroundColor: '#f8f9fa' }}>Candidate: {email}</h1>
 <ol style={{ paddingLeft: "0", marginTop: "30px" }}>
   {mcqQuestions.map((question) => (

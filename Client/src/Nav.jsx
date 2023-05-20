@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "./assets/p2f-semi-logo-img.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouse,
-  faRightToBracket
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showHomeLink, setShowHomeLink] = useState(true);
 
   const handleLogInClick = () => {
     setIsLoggedIn(true);
+    setShowHomeLink(false);
   };
 
   return (
@@ -38,10 +37,12 @@ const Nav = () => {
         P2F Online Assessment
       </span>
       <div className="d-flex">
-        <Link to="/" className="navbar-brand">
-          <FontAwesomeIcon icon={faHouse} />
-          <span>Home</span>
-        </Link>
+        {showHomeLink && (
+          <Link to="/" className="navbar-brand">
+            <FontAwesomeIcon icon={faHouse} />
+            <span>Home</span>
+          </Link>
+        )}
         {!isLoggedIn && (
           <Link
             to="/Login"

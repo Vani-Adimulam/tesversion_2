@@ -71,7 +71,7 @@ const CandidateList = () => {
   const handleEditSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(`http://localhost:701/edit/${editCandidate._id}`, {
+      await axios.put(`${BASE_URL}/edit/${editCandidate._id}`, {
         name: editCandidate.name,
         email: editCandidate.email,
         testStatus: editCandidate.testStatus,
@@ -150,12 +150,24 @@ const CandidateList = () => {
     const state = { email: candidate.email, testStatus: candidate.testStatus };
     navigate("/EvalQuestions", { state });
   };
+  function handleProfileClick() {
+    navigate("/myprofile");
+  }
   
 
   return (
     <>
       <center>
         <h1 style={{ marginTop: "100px" }}>Candidates</h1>
+        <div style={{display:"flex",justifyContent:"space-evenly",marginBottom:"5px"}}>
+      <button
+      className="btn"
+          style={{ backgroundColor: "#E4E6EB",fontFamily:"fantasy"}}
+          onClick={handleProfileClick}
+        >
+          Back To Dashboard
+        </button>
+        </div>
         <FormControl
           type="text"
           placeholder="Search by email"

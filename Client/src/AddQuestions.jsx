@@ -2,21 +2,29 @@ import React, { useState } from "react";
 import McqForm from "./McqForm";
 import AddParagraphQuestionForm from "./AddParagraphQuestionForm";
 import { Form, Container, Row, Col} from "react-bootstrap";
-
+import { useNavigate } from "react-router-dom";
 
 const AddQuestions = () => {
+  const navigate = useNavigate();
+  
+  function handleProfileClick() {
+    navigate("/myprofile");
+  }
+  
   const [selectedQuestionType, setSelectedQuestionType] = useState("");
+  
   const handleQuestionTypeChange = (e) => {
     setSelectedQuestionType(e.target.value);
   };
+
   return (
     <Container className="mt-5">
-      <Row className="justify-content-center">
-        <Col lg="6">
-          <Form style={{marginTop:"70px"}}>
+      <Row className="justify-content-between">
+        <Col lg="9">
+          <Form style={{ marginTop: "70px" }}>
             <Form.Group controlId="questionTypeSelect">
-              <Form.Label style={{fontFamily:"revert-layer",fontWeight:"bold"}}>
-               Please Select Your Question Type
+              <Form.Label style={{ fontFamily: "revert-layer", fontWeight: "bold" }}>
+                Please Select Your Question Type
               </Form.Label>
               <Form.Control
                 as="select"
@@ -31,6 +39,15 @@ const AddQuestions = () => {
           </Form>
           {selectedQuestionType === "TEXT" && <AddParagraphQuestionForm />}
           {selectedQuestionType === "MCQ" && <McqForm />}
+        </Col>
+        <Col lg="3" className="text-right mt-5">
+          <button
+            className="btn"
+            onClick={handleProfileClick}
+            style={{ backgroundColor: "#6BD8BA", fontFamily: "fantasy" }}
+          >
+            Back To Dashboard
+          </button>
         </Col>
       </Row>
     </Container>

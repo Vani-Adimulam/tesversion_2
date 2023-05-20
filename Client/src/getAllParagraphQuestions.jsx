@@ -29,6 +29,9 @@ const AllParagraphQuestions = () => {
   const handleBackClick = () => {
     navigate("../getAllMCQQuestions");
   };
+  function handleProfileClick() {
+    navigate("/myprofile");
+  }
 
   const handleAreaChange = (event) => {
     setSelectedArea(event.target.value);
@@ -64,6 +67,15 @@ const AllParagraphQuestions = () => {
   return (
     <Container className="mt-5">
       <h2 style={{ marginTop: "90px" }}>Theory and Technical Questions</h2>
+      <div style={{display:"flex",justifyContent:"end"}}>
+      <button
+      className="btn"
+          style={{ backgroundColor: "#6BD8BA"}}
+          onClick={handleProfileClick}
+        >
+          Back To Dashboard
+        </button>
+        </div>
       <Form className="mt-3 mb-4">
         <Form.Group controlId="areaSelect">
           <Form.Label>Select an area:</Form.Label>
@@ -77,6 +89,7 @@ const AllParagraphQuestions = () => {
             <option value="SOFTWARE">SOFTWARE</option>
             <option value="EMBEDDED">EMBEDDED</option>
           </Form.Control>
+          
         </Form.Group>
       </Form>
       <Row>
@@ -107,6 +120,7 @@ const AllParagraphQuestions = () => {
       >
         Back
       </button>
+      
     </Container>
   );
 };
