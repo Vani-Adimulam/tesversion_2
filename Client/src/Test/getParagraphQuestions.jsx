@@ -59,7 +59,7 @@ const handleSubmitClick = () => {
         selectedAnswers,
         providedAnswers,
         };
-        axios.post("http://localhost:701/testresults", requestBody) 
+        axios.post(`${BASE_URL}/testresults`, requestBody) 
         .then((response) => {
             console.log(response);
         })
@@ -71,7 +71,7 @@ const handleSubmitClick = () => {
       email,
       testStatus: "Test Taken",
     }
-    axios.patch("http://localhost:701/updateCandidateTeststatus", requestBody2)
+    axios.patch(`${BASE_URL}/updateCandidateTeststatus`, requestBody2)
     .then((response) => {
       console.log(response);
       })

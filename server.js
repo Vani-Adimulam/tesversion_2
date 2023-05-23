@@ -380,17 +380,10 @@ app.patch('/updateCandidateTeststatus',async(req, res) => {
         }
         });
 
-app.get('/getTestResults/:email', async (req, res) => {
+app.get('/getTestResults', async (req, res) => {
   try {
-    const email = req.params.email;
-    const candidate = await Candidate.findOne({ email });
-    if (!candidate) {
-      return res.status(404).json({ message: 'Candidate not found' });
-    }
-    // Get the test results of a candidate from the TestResults table
-    const testResults = await TestResults.find({ email: email });
-    // const testresults = await TestResults.find({ email:candidate.email });
-    // console.log(testResults) 
+    const emails = req.query.emails.split(",");
+    const testResults = await TestResults.find({ email: { $in: emails } });
     res.status(200).json(testResults);
   } catch (err) {
     console.log(err);

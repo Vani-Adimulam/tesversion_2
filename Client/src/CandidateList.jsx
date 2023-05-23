@@ -19,40 +19,38 @@ const CandidateList = () => {
   const [sortDirection, setSortDirection] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-  const fetchData = async () => {
-    const result = await axios(`${BASE_URL}/all`);
-    const candidates = result.data;
-    setTestStatus(candidates.testStatus);
-    const updatedCandidates = await Promise.all(
-      candidates.map(async (candidate) => {
-        try {
-          const res = await axios.get(
-            `${BASE_URL}/getTestResults/${candidate.email}`
-          );
-          if (res.data[0] && res.data[0].totalScore) { // Check if res.data[0] and totalScore exist
-            const total =
-              candidate.mcqCount * 1 +
-              candidate.codeCount * 5 +
-              candidate.paragraphCount * 5;
-            return {
-              ...candidate,
-              totalScore: res.data[0].totalScore,
-              total: total,
-            };
-          } else {
-            return candidate;
-          }
-        } catch (error) {
-          console.log(error);
+    const fetchData = async () => {
+      const result = await axios(`${BASE_URL}/all`);
+      const candidates = result.data;
+      setTestStatus(candidates.testStatus);
+      
+      const emailList = candidates.map(candidate => candidate.email).join(",");
+      const res = await axios.get(`${BASE_URL}/getTestResults?emails=${emailList}`);
+      const testResultsMap = new Map(res.data.map(result => [result.email, result]));
+      
+      const updatedCandidates = candidates.map(candidate => {
+        const testResult = testResultsMap.get(candidate.email);
+        if (testResult && testResult.totalScore) {
+          const total =
+            candidate.mcqCount * 1 +
+            candidate.codeCount * 5 +
+            candidate.paragraphCount * 5;
+          return {
+            ...candidate,
+            totalScore: testResult.totalScore,
+            total: total,
+          };
+        } else {
           return candidate;
         }
-      })
-    );
-    setCandidates(updatedCandidates);
-    console.log(updatedCandidates);
-  };
-  fetchData();
-}, []);
+      });
+      
+      setCandidates(updatedCandidates);
+      console.log(updatedCandidates);
+    };
+    
+    fetchData();
+  }, []);
 
   //name,area,mcqCount,codeCount,paragraphCount
   const handleEditModalClose = () => setShowEditModal(false);
