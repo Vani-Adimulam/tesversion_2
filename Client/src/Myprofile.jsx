@@ -1,61 +1,84 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link ,useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { store } from "./App";
-import { Navigate } from "react-router";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "./Service/helper";
+
 const MyProfile = () => {
   const location = useLocation();
   const email = location.state?.email; // Add a conditional check for email property
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/myprofile`, {
-        headers: {
-          "x-token": token,
-        },
-      })
-      .then((res) => setData(res.data))
-      .catch((err) => console.log(err));
-  }, [token]);
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
 
-  if (!token) {
-    return <Navigate to="/login" />;
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token);
+      axios
+        .get(`${BASE_URL}/myprofile`, {
+          headers: {
+            "x-token": token,
+          },
+        })
+        .then((res) => setData(res.data))
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoading(false));
+    } else {
+      localStorage.removeItem("token");
+      setIsLoading(false);
+    }
+  }, [token]);
+const navigate = useNavigate()
+  const handleLogout = () => {
+    setToken("");
+    navigate("/login");
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Render a loading state while token is retrieved
   }
+
   return (
     <div style={{ backgroundColor: "#F0F1F4" }}>
-      {data && (
-        <center>
-          <br />
-          <div className="card" style={{ width: "18rem",marginTop:"90px" }}>
-            <div className="card-body">
+    {data && (
+      <center>
+        <br />
+        <div className="card" style={{ width: "18rem", marginTop: "90px" }}>
+          <div className="card-body">
             <h5 className="card-title">Welcome {email}</h5>
             <br />
-              <button
-                style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
-                className="btn"
-                onClick={() => setToken(null)}
-              >
-                Logout
-              </button>
-            </div>
-            <div className="card-body">
-            <Link to="/CandidateList"
+            <button
+              style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
               className="btn"
-              style={{
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
+            <div className="card-body">
+              <Link
+                to="/CandidateList"
+                className="btn"
+                style={{
                   marginLeft: "5px",
                   backgroundColor: "#6BD8BA",
                   fontFamily: "fantasy",
-                  marginTop:"2px"
+                  marginTop: "2px",
                 }}
               >
-              Manage Candidate
+                Manage Candidate
               </Link>
             </div>
             <div className="card-body">
-            <Link
+              <Link
                 to="/CandidateForm"
                 className="btn"
                 style={{
@@ -68,7 +91,7 @@ const MyProfile = () => {
               </Link>
             </div>
             <div className="card-body">
-            <Link
+              <Link
                 to="/getAllMCQQuestions"
                 className="btn"
                 style={{
@@ -81,7 +104,7 @@ const MyProfile = () => {
               </Link>
             </div>
             <div className="card-body">
-            <Link
+              <Link
                 to="/AddQuestions"
                 className="btn"
                 style={{
@@ -90,7 +113,7 @@ const MyProfile = () => {
                   fontFamily: "fantasy",
                 }}
               >
-              Add Questions
+                Add Questions
               </Link>
             </div>
           </div>
@@ -99,4 +122,5 @@ const MyProfile = () => {
     </div>
   );
 };
+
 export default MyProfile;
