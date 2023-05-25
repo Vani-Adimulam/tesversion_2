@@ -25,14 +25,13 @@ const EvalQuestions = () => {
   const email = location.state.email;
   const testStatus = location.state.testStatus;
   const isEvaluated = testStatus === 'Evaluated';
-
   useEffect(() => {
-    axios.get(`${BASE_URL}/getTestResults/${email}`)
+    axios.get(`${BASE_URL}/getTestResults?emails=${email}`)
       .then(response => {
-        setTestResults(response.data)
+        setTestResults(response.data);
       })
       .catch(error => console.error(error));
-  }, []);
+  }, []);  
 
   useEffect(()=>{
     axios.get(`${BASE_URL}/getCandidateDetails/${email}`)
