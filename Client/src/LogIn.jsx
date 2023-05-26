@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 
 import EvaluatorForm from "./EvaluatorForm";
 import CandidateLogin from "./CandidateLogin";
@@ -10,6 +10,12 @@ const LogIn = () => {
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+  }, []);
 
   return (
     <div

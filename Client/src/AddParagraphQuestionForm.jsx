@@ -45,8 +45,8 @@ const AddParagraphQuestionForm = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Card style={{ width: "50rem" }}>
-        <Card.Header style={{ fontFamily: "sans-serif" }}><h3>Add Question</h3></Card.Header>
+      <Card style={{ width: "70rem",marginTop:"10px" }}>
+        <Card.Header style={{ fontFamily: "sans-serif"}}><h3>Add Question</h3></Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="area">

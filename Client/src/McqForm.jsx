@@ -62,8 +62,8 @@ const AddQuestionForm = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Card style={{ width: "60rem",marginTop:"10px" }}>
-        <Card.Header style={{ fontWeight: "bold", fontFamily: "sans-serif"}}>
-          Add Question
+        <Card.Header style={{ fontFamily: "sans-serif"}}>
+          <h3>Add Question</h3>
         </Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
@@ -90,7 +90,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter question"
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
-                maxLength="100"
+                maxLength="150"
               />
             </Form.Group>
             <Form.Group controlId="choice1">
@@ -102,7 +102,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter choice 1"
                 value={choice1}
                 onChange={(e) => setChoice1(e.target.value)}
-                maxLength="20"
+                maxLength="50"
               />
             </Form.Group>
             <Form.Group controlId="choice2">
@@ -115,7 +115,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter choice 2"
                 value={choice2}
                 onChange={(e) => setChoice2(e.target.value)}
-                maxLength="20"
+                maxLength="50"
               />
             </Form.Group>
             <Form.Group controlId="choice3">
@@ -127,7 +127,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter choice 3"
                 value={choice3}
                 onChange={(e) => setChoice3(e.target.value)}
-                maxLength="20"
+                maxLength="50"
               />
             </Form.Group>
             <Form.Group controlId="choice4">
@@ -139,7 +139,7 @@ const AddQuestionForm = () => {
                 placeholder="Enter choice 4"
                 value={choice4}
                 onChange={(e) => setChoice4(e.target.value)}
-                maxLength="20"
+                maxLength="50"
               />
             </Form.Group>
             <Form.Group controlId="correct_choice">

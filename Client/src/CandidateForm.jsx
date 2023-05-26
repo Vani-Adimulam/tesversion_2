@@ -60,8 +60,7 @@ const CandidateForm = () => {
       return;
     }
 
-    axios
-      .post(`${BASE_URL}/register`, {
+    axios.post(`${BASE_URL}/register`, {
         email,
         name,
         area,
@@ -80,15 +79,15 @@ const CandidateForm = () => {
   };
   return (
     <center>
-      <div className="container" style={{ marginTop: "90px" }}>
+      <div className="container" style={{ marginTop: "90px"}}>
         <div
           className="card mt-5"
           style={{
             backgroundColor: "#f8f9fa",
             border: "none",
             boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-            width: "350px",
-            height: "550px",
+            width: "600px",
+            height: "560px",
           }}
         >
           <div className="card-body">

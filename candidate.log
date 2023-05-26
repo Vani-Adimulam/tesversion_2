@@ -7,3 +7,10 @@
 {"level":"info","message":"request sent to MongoDB database matched with the data wang@gmail.com login successfull","timestamp":"2023-05-17 16:02:05"}
 {"level":"info","message":"request sent to MongoDB database matched with the data ak@gmail.com login successfull","timestamp":"2023-05-25 12:03:19"}
 {"level":"info","message":"request sent to MongoDB database matched with the data ppk@gmail.com login successfull","timestamp":"2023-05-25 12:03:52"}
+{"level":"info","message":"request sent to MongoDB database matched with the data santosh@gmail.com login successfull","timestamp":"2023-05-25 17:52:58"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-05-25 17:52:58"}
+{"level":"info","message":"request sent to MongoDB database matched with the data santosh@p2fsemi.in login successfull","timestamp":"2023-05-25 17:53:08"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-05-25 17:53:08"}
+{"level":"info","message":"request sent to MongoDB database matched with the data santosh@gmail.in login successfull","timestamp":"2023-05-25 17:53:32"}
+{"level":"info","message":"request sent to MongoDB database matched with the data carlos@gmail.com login successfull","timestamp":"2023-05-26 11:37:19"}
+{"level":"info","message":"request sent to MongoDB database matched with the data logtest@gmail.com login successfull","timestamp":"2023-05-26 11:50:09"}

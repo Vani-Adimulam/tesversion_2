@@ -17,33 +17,39 @@ const MyProfile = () => {
     if (storedToken) {
       setToken(storedToken);
     }
-  }, []);
-
+  }, [setToken]);
+  
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
+      setIsLoading(true); // Start loading state
+  
       axios
         .get(`${BASE_URL}/myprofile`, {
           headers: {
             "x-token": token,
           },
         })
-        .then((res) => setData(res.data))
+        .then((res) => {
+          setData(res.data);
+        })
         .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false));
+        .finally(() => setIsLoading(false)); // Stop loading state
     } else {
       localStorage.removeItem("token");
       setIsLoading(false);
     }
-  }, [token]);
-const navigate = useNavigate()
+  }, []); // No dependencies here, so it runs only once
+  
+  const navigate = useNavigate();
+  
   const handleLogout = () => {
     setToken("");
     navigate("/login");
   };
-
+  
   if (isLoading) {
-    return <div>Loading...</div>; // Render a loading state while token is retrieved
+    return <div>Loading...</div>; // Render a loading state while profile data is fetched
   }
 
   return (
