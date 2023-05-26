@@ -184,7 +184,7 @@ const CandidateList = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            width: "70rem",
+            width: "90rem",
             marginTop: "5px",
           }}
         >
