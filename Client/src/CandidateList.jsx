@@ -184,12 +184,12 @@ const CandidateList = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            width: "40rem",
+            width: "90rem",
             marginTop: "5px",
           }}
         >
           <Table striped bordered hover>
-            <thead>
+            <thead style={{fontSize:"20px"}}>
               <tr>
               <th onClick={() => handleSort("name")}>
                   Name {getSortIcon("name")}
@@ -204,7 +204,7 @@ const CandidateList = () => {
                 <th>Total Marks</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style={{fontSize:"20px"}}>
               {filteredCandidates.map((candidate) => (
                 <tr key={candidate._id}>
                   <td>{candidate.name}</td>
