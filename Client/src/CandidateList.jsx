@@ -52,6 +52,13 @@ const CandidateList = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+  }, []);
+
   //name,area,mcqCount,codeCount,paragraphCount
   const handleEditModalClose = () => setShowEditModal(false);
   //modified this function to readonly data when status is testtaken or evaluated instead of disabling the button
