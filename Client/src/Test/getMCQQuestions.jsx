@@ -24,19 +24,21 @@ const getMCQQuestions = () => {
   }, []);
 
   useEffect(() => {
-    if (!hasFetched) {
-      axios.get(`${BASE_URL}/getMCQQuestionsforTest/${email}`)
-        .then(response => {
+    // Check if the MCQ questions have already been fetched
+    if (!hasFetched && mcqquestions.length === 0) {
+      axios
+        .get(`${BASE_URL}/getMCQQuestionsforTest/${email}`)
+        .then((response) => {
           localStorage.setItem('mcqquestions', JSON.stringify(response.data.questions));
           setMCQQuestions(response.data.questions);
           setHasFetched(true);
           localStorage.setItem('hasFetched', true);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
-  }, [hasFetched]);
+  }, [hasFetched, mcqquestions, email]);
 
   function handleBeforeUnload(event) {
     event.preventDefault();
@@ -70,71 +72,70 @@ const getMCQQuestions = () => {
   }
 
   return (
-    
-      <div style={{ backgroundColor: "#BDCCDA"}}>
-        <h2 style={{ marginTop: "90px" }}>MCQ Questions</h2>
-        <div className="mcq-questions-list">
-          {mcqquestions.map((question) => (
-            <div key={question._id} className="card" style={{ width: "100%", marginTop: "10px" }}>
-              <div className="card-header">
-                <h3>{question.question}</h3>
-              </div>
-              <div className="card-body">
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={1}
-                    checked={selectedAnswers[question._id] == 1}
-                    onChange={(e) => handleRadioChange(e, question._id)}
-                  />
-                  {question.choice1}
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={2}
-                    checked={selectedAnswers[question._id] == 2}
-                    onChange={(e) => handleRadioChange(e, question._id)}
-                  />
-                  {question.choice2}
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={3}
-                    checked={selectedAnswers[question._id] == 3}
-                    onChange={(e) => handleRadioChange(e, question._id)}
-                  />
-                  {question.choice3}
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    name={question._id}
-                    value={4}
-                    checked={selectedAnswers[question._id] == 4}
-                    onChange={(e) => handleRadioChange(e, question._id)}
-                  />
-                  {question.choice4}
-                </label>
-              </div>
+    <div style={{ backgroundColor: "#BDCCDA"}}>
+      <h2 style={{ marginTop: "90px" }}>MCQ Questions</h2>
+      <div className="mcq-questions-list">
+        {mcqquestions.map((question) => (
+          <div key={question._id} className="card" style={{ width: "100%", marginTop: "10px" }}>
+            <div className="card-header">
+              <h3>{question.question}</h3>
             </div>
-          ))}
-        </div>
-        <center>
+            <div className="card-body">
+              <label>
+                <input
+                  type="radio"
+                  name={question._id}
+                  value={1}
+                  checked={selectedAnswers[question._id] == 1}
+                  onChange={(e) => handleRadioChange(e, question._id)}
+                />
+                {question.choice1}
+              </label>
+              <br />
+              <label>
+                <input
+                  type="radio"
+                  name={question._id}
+                  value={2}
+                  checked={selectedAnswers[question._id] == 2}
+                  onChange={(e) => handleRadioChange(e, question._id)}
+                />
+                {question.choice2}
+              </label>
+              <br />
+              <label>
+                <input
+                  type="radio"
+                  name={question._id}
+                  value={3}
+                  checked={selectedAnswers[question._id] == 3}
+                  onChange={(e) => handleRadioChange(e, question._id)}
+                />
+                {question.choice3}
+              </label>
+              <br />
+              <label>
+                <input
+                  type="radio"
+                  name={question._id}
+                  value={4}
+                  checked={selectedAnswers[question._id] == 4}
+                  onChange={(e) => handleRadioChange(e, question._id)}
+                />
+                {question.choice4}
+              </label>
+            </div>
+          </div>
+        ))}
+      </div>
+      <center>
         <div>
           <button className="btn" style={{ marginTop: "3px", backgroundColor: "#FFFFFF" }} onClick={handleNextClick}>
             Next
           </button>
         </div>
-        </center>
-      </div>
+      </center>
+    </div>
   );
 };
 
