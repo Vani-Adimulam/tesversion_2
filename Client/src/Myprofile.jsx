@@ -14,10 +14,10 @@ const MyProfile = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (storedToken) {
+    if (storedToken && !token) { // Update token only if it is not set
       setToken(storedToken);
     }
-  }, [setToken]);
+  }, [setToken, token]);
   
   useEffect(() => {
     if (token) {
@@ -39,7 +39,7 @@ const MyProfile = () => {
       localStorage.removeItem("token");
       setIsLoading(false);
     }
-  }, []); // No dependencies here, so it runs only once
+  }, [token]); // Include token as a dependency here
   
   const navigate = useNavigate();
   
