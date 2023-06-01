@@ -24,3 +24,5 @@
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for test@test.com","timestamp":"2023-06-01 16:48:56"}
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for test@test.com","timestamp":"2023-06-01 22:39:52"}
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for test@test.com","timestamp":"2023-06-01 22:39:53"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for test@test.com","timestamp":"2023-06-02 00:09:14"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for test@test.com","timestamp":"2023-06-02 00:09:14"}

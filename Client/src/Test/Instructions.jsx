@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 const Instructions = () => {
   const navigate = useNavigate();
   const handleStart = () => {
-    navigate("/getMCQQuestions");
+    navigate("/getMCQQuestionsForTest");
   };
 
   return (

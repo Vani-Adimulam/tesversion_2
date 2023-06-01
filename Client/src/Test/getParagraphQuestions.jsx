@@ -103,7 +103,7 @@ const ParagraphQuestions = () => {
     event.returnValue = '';
   }
   const handleBackClick = () => {
-    navigate("../getMCQQuestions", {
+    navigate("../getMCQQuestionsForTest", {
       state: { selectedAnswers, providedAnswers },
     });
   };

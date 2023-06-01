@@ -39,7 +39,7 @@ function App() {
             <Route path="/CandidateList" element={<CandidateList />} />
             <Route path="/AddQuestions" element={<AddQuestions/>} />
             <Route path="/instructions" element={<Instructions />} />
-            <Route path="/getMCQQuestions" element={<MCQQuestions />} />
+            <Route path="/getMCQQuestionsForTest" element={<MCQQuestions />} />
             <Route path="/summary" element={<Summary/>}/>
             
             <Route
