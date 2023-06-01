@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { store } from "./App";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "./Service/helper";
 
 const MyProfile = () => {
@@ -11,19 +10,24 @@ const MyProfile = () => {
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const getTokenFromStorage = () => {
     const storedToken = localStorage.getItem("token");
-    if (storedToken && !token) { // Update token only if it is not set
+    if (storedToken && !token) {
       setToken(storedToken);
     }
-  }, [setToken, token]);
-  
+  };
+
+  useEffect(() => {
+    getTokenFromStorage();
+  }, []);
+
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
-      setIsLoading(true); // Start loading state
-  
+      setIsLoading(true);
+
       axios
         .get(`${BASE_URL}/myprofile`, {
           headers: {
@@ -34,41 +38,39 @@ const MyProfile = () => {
           setData(res.data);
         })
         .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false)); // Stop loading state
+        .finally(() => setIsLoading(false));
     } else {
       localStorage.removeItem("token");
       setIsLoading(false);
     }
-  }, [token]); // Include token as a dependency here
-  
-  const navigate = useNavigate();
-  
+  }, [token]);
+
   const handleLogout = () => {
     setToken("");
     navigate("/login");
   };
-  
+
   if (isLoading) {
-    return <div>Loading...</div>; // Render a loading state while profile data is fetched
+    return <div>Loading...</div>;
   }
 
   return (
     <div style={{ backgroundColor: "#F0F1F4" }}>
-    {data && (
-      <center>
-        <br />
-        <div className="card" style={{ width: "18rem", marginTop: "90px" }}>
-          <div className="card-body">
-            <h5 className="card-title">Welcome {email}</h5>
-            <br />
-            <button
-              style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
-              className="btn"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
+      {data && (
+        <center>
+          <br />
+          <div className="card" style={{ width: "18rem", marginTop: "90px" }}>
+            <div className="card-body">
+              <h5 className="card-title">Welcome {email}</h5>
+              <br />
+              <button
+                style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
+                className="btn"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
             <div className="card-body">
               <Link
                 to="/CandidateList"
