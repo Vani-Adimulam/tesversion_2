@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../Service/helper';
 
-const getMCQQuestions = () => {
+const getMCQQuestionsForTest = () => {
   const navigate = useNavigate();
   const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions')) || []);
   const [selectedAnswers, setSelectedAnswers] = useState(JSON.parse(localStorage.getItem('selectedAnswers')) || {});
@@ -139,4 +139,4 @@ const getMCQQuestions = () => {
   );
 };
 
-export default getMCQQuestions;
+export default getMCQQuestionsForTest;
