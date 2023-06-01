@@ -70,12 +70,12 @@ const getMCQQuestions = () => {
   }
 
   return (
-    <center>
-      <div style={{ backgroundColor: "#BDCCDA" }}>
+    
+      <div style={{ backgroundColor: "#BDCCDA"}}>
         <h2 style={{ marginTop: "90px" }}>MCQ Questions</h2>
         <div className="mcq-questions-list">
           {mcqquestions.map((question) => (
-            <div key={question._id} className="card" style={{ width: "30rem", marginTop: "10px" }}>
+            <div key={question._id} className="card" style={{ width: "100%", marginTop: "10px" }}>
               <div className="card-header">
                 <h3>{question.question}</h3>
               </div>
@@ -127,13 +127,14 @@ const getMCQQuestions = () => {
             </div>
           ))}
         </div>
+        <center>
         <div>
-          <button className="btn" style={{ marginTop: "3px 0px 3px 0px", backgroundColor: "#FFFFFF" }} onClick={handleNextClick}>
+          <button className="btn" style={{ marginTop: "3px", backgroundColor: "#FFFFFF" }} onClick={handleNextClick}>
             Next
           </button>
         </div>
+        </center>
       </div>
-    </center>
   );
 };
 
