@@ -7,7 +7,7 @@ import Myprofile from "./Myprofile";
 import CandidateLogin from "./CandidateLogin";
 import CandidateList from "./CandidateList";
 import Instructions from "./Test/Instructions";
-import MCQQuestions from "./Test/getMCQQuestions";
+import MCQQuestions from "./Test/getMCQQuestionsForTest";
 import Summary from "./Summary";
 
 import AllMCQQuestions from "./getAllMCQQuestions";
