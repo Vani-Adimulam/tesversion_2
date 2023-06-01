@@ -29,6 +29,18 @@ const ParagraphQuestions = () => {
     }
   }, [hasFetchedP]);
 
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   const handleTextAreaChange = (event, questionId) => {
     const providedAnswer = event.target.value;
     setProvidedAnswers({
@@ -86,6 +98,10 @@ const ParagraphQuestions = () => {
     }
   };
 
+  function handleBeforeUnload(event) {
+    event.preventDefault();
+    event.returnValue = '';
+  }
   const handleBackClick = () => {
     navigate("../getMCQQuestions", {
       state: { selectedAnswers, providedAnswers },
