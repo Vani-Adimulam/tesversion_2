@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "./assets/p2f-semi-logo-img.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
-
 const Nav = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showHomeLink, setShowHomeLink] = useState(true);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    JSON.parse(localStorage.getItem("isLoggedIn")) || false
+  );
+  const [showHomeLink, setShowHomeLink] = useState(
+    JSON.parse(localStorage.getItem("showHomeLink")) || true
+  );
   const handleLogInClick = () => {
     setIsLoggedIn(true);
     setShowHomeLink(false);
   };
-
+  const handleHomeClick = () => {
+    setShowHomeLink(true);
+    setIsLoggedIn(false);
+  };
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
+    localStorage.setItem("showHomeLink", JSON.stringify(showHomeLink));
+  }, [isLoggedIn, showHomeLink]);
   return (
     <div
       className="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed fixed-top"
@@ -38,24 +47,23 @@ const Nav = () => {
       </span>
       <div className="d-flex">
         {showHomeLink && (
-          <Link to="/" className="navbar-brand">
+          <Link to="/" className="navbar-brand" onClick={handleHomeClick}>
             <FontAwesomeIcon icon={faHouse} />
             <span>Home</span>
           </Link>
         )}
-        {!isLoggedIn && (
+        {!isLoggedIn && showHomeLink && (
           <Link
             to="/Login"
             className="navbar-brand"
             onClick={handleLogInClick}
           >
             <FontAwesomeIcon icon={faRightToBracket} />
-            <span>LogIn</span>
+            <span>Login</span>
           </Link>
         )}
       </div>
     </div>
   );
 };
-
 export default Nav;
