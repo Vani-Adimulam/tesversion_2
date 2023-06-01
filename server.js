@@ -303,7 +303,7 @@ app.get('/getParagraphQuestionsforTest/:email/', async (req, res) => {
     }
 });
 
-app.get('/myprofile', async (req, res) => {
+app.get('/myprofile', middleware ,async (req, res) => {
   try {
     let exist = await Evaluator.find({ id: req.user.id, email: req.user.email });
     if (!exist) {
