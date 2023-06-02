@@ -29,3 +29,44 @@
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-01 23:18:28"}
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-02 00:09:12"}
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-02 10:52:11"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 22:50:23"}
+{"level":"info","message":"request sent to MongoDB database matched with the data Candidate112@gmail.cpm login successfull","timestamp":"2023-06-02 22:51:09"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:09"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@gmail.cpm login successfull","timestamp":"2023-06-02 22:51:17"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:17"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@gmail.cpm login successfull","timestamp":"2023-06-02 22:51:19"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:19"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@gmail.cpm login successfull","timestamp":"2023-06-02 22:51:29"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:29"}
+{"level":"info","message":"request sent to MongoDB database matched with the data Candidate112@gmail.com login successfull","timestamp":"2023-06-02 22:51:40"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:40"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@gmail.com login successfull","timestamp":"2023-06-02 22:51:44"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:44"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@gmail.com login successfull","timestamp":"2023-06-02 22:51:45"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:45"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@gmail.com login successfull","timestamp":"2023-06-02 22:51:51"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:51:51"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 22:53:04"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 22:53:48"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 22:58:19"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@gmail.com login successfull","timestamp":"2023-06-02 22:58:57"}
+{"level":"error","message":"Error in candidate login","timestamp":"2023-06-02 22:58:57"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 22:59:01"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 22:59:59"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:01:36"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:02:29"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:03:32"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:04:26"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:05:50"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:07:16"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:08:25"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:11:17"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:19:58"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:22:10"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:26:58"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-02 23:28:49"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-03 00:47:40"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-03 01:14:17"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate112@email.com login successfull","timestamp":"2023-06-03 01:16:54"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate111@gmail.com login successfull","timestamp":"2023-06-03 01:53:01"}
+{"level":"info","message":"request sent to MongoDB database matched with the data candidate113@email.com login successfull","timestamp":"2023-06-03 01:56:02"}

@@ -39,9 +39,9 @@ const AllMCQQuestions = () => {
     navigate("/myprofiledashboard");
   }
 
-  function handleNextClick() {
-    navigate("../getAllParagraphQuestions");
-  }
+  // function handleNextClick() {
+  //   navigate("../getAllParagraphQuestions");
+  // }
 
   function handleAreaChange(event) {
     const selectedArea = event.target.value;
@@ -86,12 +86,12 @@ const AllMCQQuestions = () => {
         >
           Back To Dashboard
         </Button>
-        <Button
+        {/* <Button
           style={{ backgroundColor: "#2B4D9D" }}
           onClick={handleNextClick}
         >
           View Paragraph questions
-        </Button>
+        </Button> */}
       </div>
 
       <Row>

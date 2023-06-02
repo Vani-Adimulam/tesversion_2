@@ -33,7 +33,8 @@ const AddQuestions = () => {
               >
                 <option value="">Select a question type</option>
                 <option value="MCQ">MCQ</option>
-                <option value="TEXT">Paragraph</option>
+                <option value="">Other types coming soon</option>
+                {/* <option value="TEXT">Paragraph</option> */}
               </Form.Control>
             </Form.Group>
           </Form>

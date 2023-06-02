@@ -9,22 +9,22 @@ const TestResultsSchema = new mongoose.Schema({
         type:Map,
         of:String
     },
-    providedAnswers:{
-        type:Map,
-        of:String
-    },
+    // providedAnswers:{
+    //     type:Map,
+    //     of:String
+    // },
     result : {
         type : String, 
       },
-    mcqScore : {
-        type : Number,
-    },
-    codeScore : {
-        type : Number
-    },
-    textScore : {
-        type : Number
-    },
+    // mcqScore : {
+    //     type : Number,
+    // },
+    // codeScore : {
+    //     type : Number
+    // },
+    // textScore : {
+    //     type : Number
+    // },
     totalScore : 
     {
         type:Number,

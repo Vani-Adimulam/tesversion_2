@@ -246,16 +246,16 @@ app.get('/getMCQQuestionsforTest/:email', async (req, res) => {
       res.status(500).json('Candidate not found');
     } else {
       const area = candidate[0].area;
-      const number = candidate[0].mcqCount;
+      // const number = candidate[0].mcqCount;
       const questions = await MCQQuestion.aggregate([
         { $match: { area: area } },
-        { $sample: { size: Number(number) } },
+      //   // { $sample: { size: Number(number) } },
         { $sort: { _id: 1 } },
         { $project: { correct_choice: 0 } } // exclude correct_choice
       ]);
       res.json({ questions });
       getTest.GetTest.log('info', `getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ${candidate[0].email}`);
-    }
+    } 
   } catch (error) {
     console.log(error);
     getTest.GetTest.log('error', `Unable to create Test for the ${candidate[0].email}`);
@@ -401,12 +401,16 @@ app.post('/updateTestResult/:email', async (req, res) => {
     }
 
     const result = req.body.result;
-    const totalScore = req.body.totalScore;
-    const codeScore = req.body.codeScore;
-    const textScore = req.body.textScore;
-    const mcqScore = req.body.mcqScore;
+    // const totalScore = req.body.totalScore;
+    // const codeScore = req.body.codeScore;
+    // const textScore = req.body.textScore;
+    const totalScore = req.body.mcqScore;
     const testStatus = "Evaluated"
-    const testResult = await TestResults.findOneAndUpdate({ email }, { result, mcqScore, codeScore, textScore,totalScore }, { new: true });
+    const testResult = await TestResults.findOneAndUpdate({ email }, { result, totalScore, 
+      // codeScore, 
+      // textScore,
+      // totalScore
+     }, { new: true });
     const candidateresult = await Candidate.findOneAndUpdate({ email }, { result, testStatus: testStatus }, { new: true });
     if (testResult && candidateresult) {
       res.status(200).json(testResult);

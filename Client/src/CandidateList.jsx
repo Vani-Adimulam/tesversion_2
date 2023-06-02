@@ -31,14 +31,16 @@ const CandidateList = () => {
       const updatedCandidates = candidates.map(candidate => {
         const testResult = testResultsMap.get(candidate.email);
         if (testResult && testResult.totalScore) {
-          const total =
-            candidate.mcqCount * 1 +
-            candidate.codeCount * 5 +
-            candidate.paragraphCount * 5;
+          const selectedAnswers = testResult.selectedAnswers;
+          const totalQuestions = Object.keys(selectedAnswers).length;
+          // const total =
+          //   candidate.mcqCount * 1 +
+          //   candidate.codeCount * 5 +
+          //   candidate.paragraphCount * 5;
           return {
             ...candidate,
             totalScore: testResult.totalScore,
-            total: total,
+            total: totalQuestions,
           };
         } else {
           return candidate;
@@ -147,12 +149,12 @@ const CandidateList = () => {
   );
 
   const handleEvaluateModalShow = (candidate) => {
-    if (candidate.testStatus === "Test Not Taken") {
+    if (candidate.testStatus === "Test Not Taken" || candidate.testStatus === "Test Cancelled") {
       // Display warning message here (e.g., using an alert or toast notification library)
-      toast.warn("Test is not taken. Evaluation cannot be performed.")
+      toast.warn("Test is not taken or test has been cancelled. Evaluation cannot be performed.")
       return;
     }
-    const state = { email: candidate.email, testStatus: candidate.testStatus };
+    const state = { email: candidate.email, testStatus: candidate.testStatus, result: candidate.result };
     navigate("/EvalQuestions", { state });
   };
   function handleProfileClick() {
@@ -310,7 +312,7 @@ const CandidateList = () => {
                 readOnly
               />
             </Form.Group>
-            <Form.Group>
+            {/* <Form.Group>
               <Form.Label>MCQ Count</Form.Label>
               <Form.Control
                 type="number"
@@ -354,7 +356,7 @@ const CandidateList = () => {
                 }
                 readOnly={editCandidate.readOnlyFields}
               />
-            </Form.Group>
+            </Form.Group> */}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleEditModalClose}>

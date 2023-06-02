@@ -35,17 +35,17 @@ const CandidateForm = () => {
     setArea(e.target.value);
   };
 
-  const changeMcqCountHandler = (e) => {
-    setMcqCount(e.target.value);
-  };
+  // const changeMcqCountHandler = (e) => {
+  //   setMcqCount(e.target.value);
+  // };
 
-  const changeCodeCountHandler = (e) => {
-    setcodeCount(e.target.value);
-  };
+  // const changeCodeCountHandler = (e) => {
+  //   setcodeCount(e.target.value);
+  // };
 
-  const changeParagraphCountHandler = (e) => {
-    setParagraphcount(e.target.value);
-  };
+  // const changeParagraphCountHandler = (e) => {
+  //   setParagraphcount(e.target.value);
+  // };
   const navigate = useNavigate()
   function handleProfileClick() {
     navigate("/myprofiledashboard");
@@ -137,7 +137,7 @@ const CandidateForm = () => {
                 </select>
               </div>
 
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="mcqCount">MCQ Count</label>
                 <input
                   type="number"
@@ -177,7 +177,7 @@ const CandidateForm = () => {
                   value={paragraphCount}
                   onChange={changeParagraphCountHandler}
                 />
-              </div>
+              </div> */}
               <div className="form-group">
                 <button type="submit" className="btn btn-dark mt-2">
                   ADD
