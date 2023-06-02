@@ -29,6 +29,7 @@ function App() {
       
       <store.Provider value={[token, setToken]}>
         <Nav />
+        <ToastContainer/>
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/Login" element={<LogIn/>} />

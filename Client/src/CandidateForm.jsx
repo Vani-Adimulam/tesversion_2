@@ -52,18 +52,30 @@ const CandidateForm = () => {
   }
 
   const submitHandler = (e) => {
-    console.log(area);
     e.preventDefault();
+  
+    // Trim the input values to remove leading and trailing spaces
+    const trimmedEmail = email.trim();
+    const trimmedName = name.trim();
+    const trimmedArea = area.trim();
+    
+    // Check if any of the trimmed input values are empty strings
+    if (trimmedEmail === "" || trimmedName === "" || trimmedArea === "") {
+      setErrorMessage("Invalid input. Please fill in all fields.");
+      return;
+    }
+  
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(trimmedEmail)) {
       setErrorMessage("Invalid email address!");
       return;
     }
-
-    axios.post(`${BASE_URL}/register`, {
-        email,
-        name,
-        area,
+  
+    axios
+      .post(`${BASE_URL}/register`, {
+        email: trimmedEmail,
+        name: trimmedName,
+        area: trimmedArea,
         mcqCount,
         codeCount,
         paragraphCount,
@@ -109,6 +121,7 @@ const CandidateForm = () => {
                   placeholder="Enter name"
                   value={name}
                   onChange={changeNameHandler}
+                  required
                 />
               </div>
               <div className="form-group">
