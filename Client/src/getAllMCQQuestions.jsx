@@ -36,7 +36,7 @@ const AllMCQQuestions = () => {
   }, []);
 
   function handleProfileClick() {
-    navigate("/myprofile");
+    navigate("/myprofiledashboard");
   }
 
   function handleNextClick() {

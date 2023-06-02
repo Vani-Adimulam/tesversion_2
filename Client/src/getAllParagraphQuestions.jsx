@@ -30,7 +30,7 @@ const AllParagraphQuestions = () => {
     navigate("../getAllMCQQuestions");
   };
   function handleProfileClick() {
-    navigate("/myprofile");
+    navigate("/myprofiledashboard");
   }
 
   const handleAreaChange = (event) => {
