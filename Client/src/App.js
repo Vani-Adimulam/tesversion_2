@@ -39,11 +39,11 @@ function App() {
             <Route path="/CandidateList" element={<CandidateList />} />
             <Route path="/AddQuestions" element={<AddQuestions/>} />
             <Route path="/instructions" element={<Instructions />} />
-            <Route path="/getMCQQuestionsForTest" element={<MCQQuestions />} />
+            <Route path="/getMCQQuestionsForTest" element={<MCQQuestions/>}/>
             <Route path="/summary" element={<Summary/>}/>
             
             <Route
-              path="/getParagraphQuestions"
+              path="/getParagraphQuestionsForTest"
               element={<ParagraphQuestions />}
             />
             <Route path="/Results" element={<Results />} />

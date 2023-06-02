@@ -53,7 +53,7 @@ const getMCQQuestionsForTest = () => {
     if (missingAnswers) {
       alert('Please answer all questions before continuing.');
     } else {
-      navigate('../getParagraphQuestions', {
+      navigate('../getParagraphQuestionsForTest', {
         state: { selectedAnswers, providedAnswers },
       });
     }
