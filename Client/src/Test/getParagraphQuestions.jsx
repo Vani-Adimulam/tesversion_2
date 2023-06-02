@@ -131,7 +131,7 @@ const ParagraphQuestions = () => {
               </Card>
             ))
           ) : (
-            <p>Loading...</p>
+            <p>No Questions Found...</p>
           )}
           <Button onClick={handleSubmitClick} style={{ marginRight: "5px", marginLeft: "10px", marginTop: "-10px" }}>Submit</Button>
           <Button variant="secondary" onClick={handleBackClick} style={{ marginTop: "-10px" }}>Back</Button>
