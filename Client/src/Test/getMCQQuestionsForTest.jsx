@@ -8,8 +8,8 @@ const getMCQQuestionsForTest = () => {
   const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions')) || []);
   const [selectedAnswers, setSelectedAnswers] = useState(JSON.parse(localStorage.getItem('selectedAnswers')) || {});
   const [hasFetched, setHasFetched] = useState(localStorage.getItem('hasFetched') || false);
-  const [providedAnswers] = useState(JSON.parse(localStorage.getItem("providedAnswers")) || {});
-  const email = localStorage.getItem('email');
+  // const [providedAnswers] = useState(JSON.parse(localStorage.getItem("providedAnswers")) || {});
+  const email = JSON.parse(localStorage.getItem("email"));
 
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
@@ -52,10 +52,45 @@ const getMCQQuestionsForTest = () => {
 
     if (missingAnswers) {
       alert('Please answer all questions before continuing.');
-    } else {
-      navigate('../getParagraphQuestionsForTest', {
-        state: { selectedAnswers, providedAnswers },
-      });
+    } else 
+    // {
+    //   navigate('../getParagraphQuestionsForTest', {
+    //     state: { selectedAnswers, providedAnswers },
+    //   });
+    // }
+    {
+      const selectedAnswers = JSON.parse(localStorage.getItem("selectedAnswers"));
+      // const providedAnswers = JSON.parse(localStorage.getItem("providedAnswers"));
+      const requestBody = {
+        email,
+        selectedAnswers,
+        // providedAnswers,
+      };
+
+      axios.post(`${BASE_URL}/testresults`, requestBody)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // create a sample patch request using axios
+      const requestBody2 = {
+        email,
+        testStatus: "Test Taken",
+      };
+
+      axios.patch(`${BASE_URL}/updateCandidateTeststatus`, requestBody2)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      localStorage.clear();
+      // Update the candidate collection and set "test status" as "Completed"
+      navigate("../Results");
     }
   }
 
@@ -131,7 +166,7 @@ const getMCQQuestionsForTest = () => {
       <center>
         <div>
           <button className="btn" style={{ marginTop: "3px", backgroundColor: "#FFFFFF" }} onClick={handleNextClick}>
-            Next
+            Submit
           </button>
         </div>
       </center>

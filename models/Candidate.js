@@ -26,15 +26,15 @@ const Candidate = new mongoose.Schema({
   },
   mcqCount:{
     type : Number,
-    required : true,
+    // required : true,
   },
   codeCount : {
     type: Number,
-    required : true,
+    // required : true,
   },
   paragraphCount : {
     type: Number,
-    required : true,
+    // required : true,
   }
 });
 
