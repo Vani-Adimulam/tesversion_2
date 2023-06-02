@@ -1,4 +1,38 @@
-.choice-label input[type="radio"]:checked + span {
+/* .choice-label input[type="radio"]:checked + span {
+  accent-color: #1aeb4b;
+  } */
+
+  /* input[type=radio] {
+    accent-color: #1aeb4b;
+  } */
+  
+  /* .green-radio input[type="radio"] {
+    accent-color: green;
+  } */
+
+  .custom-radio input[type="radio"] {
+    display: none;
+  }
+  
+  .custom-radio label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+  }
+  
+  .custom-radio label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid green;
+    border-radius: 50%;
+  }
+  
+  .custom-radio input[type="radio"]:checked + label:before {
     background-color: green;
   }
+  
   

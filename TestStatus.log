@@ -8,3 +8,5 @@
 {"level":"info","message":"carlos@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-05-26 11:41:39"}
 {"level":"info","message":"logtest@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-05-26 11:51:15"}
 {"level":"info","message":"test@test.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-01 16:46:39"}
+{"level":"info","message":"test@test.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-02 11:06:47"}
+{"level":"info","message":"test@test.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-02 11:21:30"}
