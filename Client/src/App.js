@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import {  Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import CandidateForm from "./CandidateForm";
 import EvaluatorForm from "./EvaluatorForm";
 import Nav from "./Nav";
@@ -18,17 +18,18 @@ import Results from "./Test/Results";
 import Home from "./Home";
 import LogIn from "./LogIn";
 import AddQuestions from "./AddQuestions";
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const store = createContext();
 
 function App() {
   const [token, setToken] = useState(null);
   return (
     <div>
-      <ToastContainer />
+      
       <store.Provider value={[token, setToken]}>
         <Nav />
+        <ToastContainer/>
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/Login" element={<LogIn/>} />

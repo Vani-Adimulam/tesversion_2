@@ -14,3 +14,5 @@
 {"level":"info","message":"candidate112@email.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-03 01:18:09"}
 {"level":"info","message":"candidate111@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-03 01:54:29"}
 {"level":"info","message":"candidate113@email.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-03 01:57:16"}
+{"level":"info","message":"test@test.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-02 11:06:47"}
+{"level":"info","message":"test@test.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-02 11:21:30"}
