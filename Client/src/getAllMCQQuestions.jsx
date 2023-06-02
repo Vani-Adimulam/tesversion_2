@@ -3,7 +3,7 @@ import axios from "axios";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Pagination from "react-js-pagination";
-import "./getAllMCQQuestions.css";
+import "./getAllMCQQuestions.css"
 import { BASE_URL } from "./Service/helper";
 
 const AllMCQQuestions = () => {
@@ -81,13 +81,13 @@ const AllMCQQuestions = () => {
         }}
       >
         <Button
-          style={{ backgroundColor: "#6BD8BA", marginRight: "10px" }}
+          style={{ backgroundColor: "#6BD8BA", marginRight: "10px",border:"none" }}
           onClick={handleProfileClick}
         >
           Back To Dashboard
         </Button>
         <Button
-          style={{ backgroundColor: "#2B4D9D" }}
+          style={{ backgroundColor: "#2B4D9D",border:"none" }}
           onClick={handleNextClick}
         >
           View Paragraph questions
@@ -106,16 +106,16 @@ const AllMCQQuestions = () => {
                 <Form>
                   {/* //done changes in the defaultChecked property && Setting the readOnly prop on the Form.Check  */}
                   <Form.Check
-                    type="radio"
-                    id={`${question._id}-1`}
-                    label={
-                      <span className="choice-label">{question.choice1}</span>
-                    }
-                    name={question._id}
-                    value="1"
-                    defaultChecked={question.correct_choice === "1"}
-                    disabled
-                  />
+  type="radio"
+  id={`${question._id}-1`}
+  label={<span className="choice-label">{question.choice1}</span>}
+  name={question._id}
+  value="1"
+  defaultChecked={question.correct_choice === "1"}
+  disabled
+  className="custom-radio"
+/>
+
                   <Form.Check
                     type="radio"
                     id={`${question._id}-2`}
@@ -124,6 +124,7 @@ const AllMCQQuestions = () => {
                     value="2"
                     defaultChecked={question.correct_choice === "2"}
                     disabled
+                    className="custom-radio"
                   />
                   <Form.Check
                     type="radio"
@@ -133,6 +134,7 @@ const AllMCQQuestions = () => {
                     value="3"
                     defaultChecked={question.correct_choice === "3"}
                     disabled
+                    className="custom-radio"
                   />
                   <Form.Check
                     type="radio"
@@ -142,6 +144,7 @@ const AllMCQQuestions = () => {
                     value="4"
                     defaultChecked={question.correct_choice === "4"}
                     disabled
+                    className="custom-radio"
                   />
                 </Form>
               </div>
