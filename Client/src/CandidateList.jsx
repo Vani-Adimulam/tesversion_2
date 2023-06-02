@@ -156,7 +156,7 @@ const CandidateList = () => {
     navigate("/EvalQuestions", { state });
   };
   function handleProfileClick() {
-    navigate("/myprofile");
+    navigate("/myprofiledashboard");
   }
   
 

@@ -48,7 +48,7 @@ const CandidateForm = () => {
   };
   const navigate = useNavigate()
   function handleProfileClick() {
-    navigate("/myprofile");
+    navigate("/myprofiledashboard");
   }
 
   const submitHandler = (e) => {

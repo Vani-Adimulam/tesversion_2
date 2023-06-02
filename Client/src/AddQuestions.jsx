@@ -8,7 +8,7 @@ const AddQuestions = () => {
   const navigate = useNavigate();
   
   function handleProfileClick() {
-    navigate("/myprofile");
+    navigate("/myprofiledashboard");
   }
   
   const [selectedQuestionType, setSelectedQuestionType] = useState("");
