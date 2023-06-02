@@ -42,7 +42,7 @@ const EvaluatorForm = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (token) {
-      navigate("/myprofile", { state: { email: data.email } });
+      navigate("/myprofiledashboard", { state: { email: data.email } });
     }
   }, [token, navigate, data.email]);
 
