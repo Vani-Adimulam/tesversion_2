@@ -28,3 +28,4 @@
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-01 22:39:50"}
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-01 23:18:28"}
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-02 00:09:12"}
+{"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-02 10:52:11"}
