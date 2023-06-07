@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, Form, Button, Modal } from "react-bootstrap";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import "./McqForm.css";
 import { BASE_URL } from "./Service/helper";
-
 
 const AddQuestionForm = () => {
   const [question, setQuestion] = useState("");
@@ -14,6 +15,12 @@ const AddQuestionForm = () => {
   const [correct_choice, setCorrectChoice] = useState("");
   const [area, setArea] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const quillRef = useRef();
+
+  const handleQuestionChange = (value) => {
+    setQuestion(value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +33,7 @@ const AddQuestionForm = () => {
       !choice4 ||
       !correct_choice
     ) {
-      alert("please enter all the fields");
+      alert("Please enter all the fields");
       return;
     }
     try {
@@ -57,12 +64,19 @@ const AddQuestionForm = () => {
     setShowModal(false);
   };
 
- 
+  const toolbarOptions = [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }],
+    ["blockquote", "code-block"],
+  ];
+  
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Card style={{ width: "60rem",marginTop:"10px" }}>
-        <Card.Header style={{ fontFamily: "sans-serif"}}>
+      <Card style={{ width: "60rem", marginTop: "10px" }}>
+        <Card.Header style={{ fontFamily: "sans-serif" }}>
           <h3>Add Question</h3>
         </Card.Header>
         <Card.Body>
@@ -85,12 +99,11 @@ const AddQuestionForm = () => {
               <Form.Label>
                 <h4>Question</h4>
               </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter question"
+              <ReactQuill
+                ref={quillRef}
                 value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                maxLength="1500"
+                onChange={handleQuestionChange}
+                modules={{ toolbar: toolbarOptions }}
               />
             </Form.Group>
             <Form.Group controlId="choice1">
@@ -106,7 +119,6 @@ const AddQuestionForm = () => {
               />
             </Form.Group>
             <Form.Group controlId="choice2">
-            
               <Form.Label>
                 <h5>Choice 2</h5>
               </Form.Label>
@@ -174,8 +186,8 @@ const AddQuestionForm = () => {
                   fill="none"
                   className="svg"
                 >
-                  <line y2="19" y1="5" x2="12" x1="12"></line>
-                  <line y2="12" y1="12" x2="19" x1="5"></line>
+                  <line y2="19" y1="5" x2="12" x1="12" />
+                  <line y2="12" y1="12" x2="19" x1="5" />
                 </svg>
               </span>
             </button>
@@ -185,8 +197,7 @@ const AddQuestionForm = () => {
               <Modal.Title>Question added successfully!</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Your question has been added to the database. Thank you for your
-              contribution!
+              Your question has been added to the database. Thank you for your contribution!
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseModal}>
