@@ -167,7 +167,7 @@ const EvalQuestions = () => {
                       type="radio"
                       name={question._id}
                       value={1}
-                      defaultChecked={selectedAnswer === 1}
+                      defaultChecked={selectedAnswer === "1"}
                     />
                     <label className="form-check-label">{question.choice1}</label>
                   </div>
@@ -177,7 +177,7 @@ const EvalQuestions = () => {
                       type="radio"
                       name={question._id}
                       value={2}
-                      defaultChecked={selectedAnswer === 2}
+                      defaultChecked={selectedAnswer === "2"}
                     />
                     <label className="form-check-label">{question.choice2}</label>
                   </div>
@@ -187,7 +187,7 @@ const EvalQuestions = () => {
                       type="radio"
                       name={question._id}
                       value={3}
-                      defaultChecked={selectedAnswer === 3}
+                      defaultChecked={selectedAnswer === "3"}
                     />
                     <label className="form-check-label">{question.choice3}</label>
                   </div>
@@ -197,7 +197,7 @@ const EvalQuestions = () => {
                       type="radio"
                       name={question._id}
                       value={4}
-                      defaultChecked={selectedAnswer === 4}
+                      defaultChecked={selectedAnswer === "4"}
                     />
                     <label className="form-check-label">{question.choice4}</label>
                   </div>

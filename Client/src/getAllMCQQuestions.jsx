@@ -3,7 +3,8 @@ import axios from "axios";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Pagination from "react-js-pagination";
-import "./getAllMCQQuestions.css"
+import DOMPurify from "dompurify";
+import "./getAllMCQQuestions.css";
 import { BASE_URL } from "./Service/helper";
 
 const AllMCQQuestions = () => {
@@ -81,7 +82,7 @@ const AllMCQQuestions = () => {
         }}
       >
         <Button
-          style={{ backgroundColor: "#6BD8BA", marginRight: "10px",border:"none" }}
+          style={{ backgroundColor: "#6BD8BA", marginRight: "10px", border: "none" }}
           onClick={handleProfileClick}
         >
           Back To Dashboard
@@ -102,19 +103,19 @@ const AllMCQQuestions = () => {
                 className="card-body"
                 style={{ backgroundColor: "#BDCCDA", borderRadius: "5px" }}
               >
-                <h5 className="card-title">{question.question}</h5>
+                {/* Render question as HTML content using dangerouslySetInnerHTML */}
+                <h5 className="card-title" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(question.question) }}></h5>
                 <Form>
-                  {/* //done changes in the defaultChecked property && Setting the readOnly prop on the Form.Check  */}
                   <Form.Check
-  type="radio"
-  id={`${question._id}-1`}
-  label={<span className="choice-label">{question.choice1}</span>}
-  name={question._id}
-  value="1"
-  defaultChecked={question.correct_choice === "1"}
-  disabled
-  className="custom-radio"
-/>
+                    type="radio"
+                    id={`${question._id}-1`}
+                    label={<span className="choice-label">{question.choice1}</span>}
+                    name={question._id}
+                    value="1"
+                    defaultChecked={question.correct_choice === "1"}
+                    disabled
+                    className="custom-radio"
+                  />
 
                   <Form.Check
                     type="radio"
