@@ -73,18 +73,34 @@ const EvalQuestions = () => {
       console.log(result)
       const PassButton = document.getElementById('evaluate-pass');
       const FailButton = document.getElementById('evaluate-fail');
+      const OnHoldButton = document.getElementById('evaluate-OnHold');
 
       if (testResult === "Pass") {
         if (FailButton) {
           FailButton.parentNode.removeChild(FailButton);
         }
         PassButton.disabled = true;
+        if (OnHoldButton) {
+          OnHoldButton.parentNode.removeChild(OnHoldButton)
+        }
       }
       if (testResult === "Fail") {
         if (PassButton) {
           PassButton.parentNode.removeChild(PassButton);
         }
         FailButton.disabled = true;
+        if (OnHoldButton) {
+          OnHoldButton.parentNode.removeChild(OnHoldButton)
+        }
+      }
+      if (testResult === "On Hold") {
+        if (PassButton) {
+          PassButton.parentNode.removeChild(PassButton);
+        }
+        if (FailButton) {
+          FailButton.parentNode.removeChild(FailButton);
+        }
+        OnHoldButton.disabled = true;
       }
 
 
@@ -278,6 +294,22 @@ const EvalQuestions = () => {
             disabled={isButtonClicked}
           >
             Pass
+          </Button>
+          <Button
+            id={`evaluate-OnHold`}
+            variant="warning"
+            onClick={() => {
+              setResult("On Hold");
+              updateCandidateResult("On Hold", { email });
+              setIsButtonClicked(true);
+              navigate("/CandidateList");
+              window.location.reload();
+
+            }}
+            style={{ marginRight: "10px" }}
+            disabled={isButtonClicked}
+          >
+            On Hold
           </Button>
 
           <Button

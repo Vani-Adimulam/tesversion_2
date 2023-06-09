@@ -6,7 +6,6 @@ import Pagination from "react-js-pagination";
 import DOMPurify from "dompurify";
 import "./getAllMCQQuestions.css";
 import { BASE_URL } from "./Service/helper";
-
 const AllMCQQuestions = () => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
