@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table, Button, Modal, Form, FormControl } from "react-bootstrap";
+import { Table, Button, Modal, Form, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import axios from "axios";
 import pen from "./assets/pen.svg";
 import assessment from "./assets/assessment.png";
@@ -16,6 +16,8 @@ const CandidateList = () => {
   const [searchText, setSearchText] = useState("");
   const [testStatus, setTestStatus] = useState("");
   const [sortField, setSortField] = useState("");
+  const [result, setResult] = useState("On Hold")
+  console.log(result)
   const [sortDirection, setSortDirection] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,11 +25,11 @@ const CandidateList = () => {
       const result = await axios(`${BASE_URL}/all`);
       const candidates = result.data;
       setTestStatus(candidates.testStatus);
-      
+
       const emailList = candidates.map(candidate => candidate.email).join(",");
       const res = await axios.get(`${BASE_URL}/getTestResults?emails=${emailList}`);
       const testResultsMap = new Map(res.data.map(result => [result.email, result]));
-      
+
       const updatedCandidates = candidates.map(candidate => {
         const testResult = testResultsMap.get(candidate.email);
         if (testResult && testResult.totalScore) {
@@ -46,11 +48,11 @@ const CandidateList = () => {
           return candidate;
         }
       });
-      
+
       setCandidates(updatedCandidates);
       console.log(updatedCandidates);
     };
-    
+
     fetchData();
   }, []);
 
@@ -77,6 +79,15 @@ const CandidateList = () => {
 
   const handleEditSubmit = async (event) => {
     event.preventDefault();
+    if (editCandidate.result === "On Hold") {
+      try {
+        await axios.post(`${BASE_URL}/updateTestResult/${editCandidate.email}`,{result:result})
+        window.location.reload()
+      } catch (err) {
+        console.log(err.message)
+        alert('Failed to update the result.Please update result again')
+      } 
+    }
     try {
       await axios.put(`${BASE_URL}/edit/${editCandidate._id}`, {
         name: editCandidate.name,
@@ -160,20 +171,20 @@ const CandidateList = () => {
   function handleProfileClick() {
     navigate("/myprofiledashboard");
   }
-  
+
 
   return (
     <>
       <center>
         <h1 style={{ marginTop: "100px" }}>Candidates</h1>
-        <div style={{display:"flex",justifyContent:"space-evenly",marginBottom:"5px"}}>
-      <button
-      className="btn"
-          style={{ backgroundColor: "#E4E6EB",fontFamily:"fantasy"}}
-          onClick={handleProfileClick}
-        >
-          Back To Dashboard
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-evenly", marginBottom: "5px" }}>
+          <button
+            className="btn"
+            style={{ backgroundColor: "#E4E6EB", fontFamily: "fantasy" }}
+            onClick={handleProfileClick}
+          >
+            Back To Dashboard
+          </button>
         </div>
         <FormControl
           type="text"
@@ -191,22 +202,22 @@ const CandidateList = () => {
           }}
         >
           <Table striped bordered hover>
-            <thead style={{fontSize:"20px"}}>
+            <thead style={{ fontSize: "20px" }}>
               <tr>
-              <th onClick={() => handleSort("name")}>
+                <th onClick={() => handleSort("name")}>
                   Name {getSortIcon("name")}
                 </th>
                 <th onClick={() => handleSort("email")}>
                   Email {getSortIcon("email")}
                 </th>
-                <th onClick={()=> handleSort("testStatus")}>Test Status {getSortIcon("testStatus")}</th>
+                <th onClick={() => handleSort("testStatus")}>Test Status {getSortIcon("testStatus")}</th>
                 <th>Edit Candidate Data</th>
                 <th>Evaluate</th>
                 <th>Result</th>
                 <th>Total Marks</th>
               </tr>
             </thead>
-            <tbody style={{fontSize:"20px"}}>
+            <tbody style={{ fontSize: "20px" }}>
               {filteredCandidates.map((candidate) => (
                 <tr key={candidate._id}>
                   <td>{candidate.name}</td>
@@ -312,6 +323,16 @@ const CandidateList = () => {
                 readOnly
               />
             </Form.Group>
+            {
+              editCandidate.result === "On Hold" ? <FormGroup>
+                <FormLabel>Result</FormLabel>
+                <FormSelect as="select" onChange={(e) => setResult(e.target.value)}>
+                  <option value="On Hold">On Hold</option>
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                </FormSelect>
+              </FormGroup> : null
+            }
             {/* <Form.Group>
               <Form.Label>MCQ Count</Form.Label>
               <Form.Control
