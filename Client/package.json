@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "decode-base64": "^3.0.1",
     "dompurify": "^3.0.3",
     "katex": "^0.16.7",
     "mathjax": "^3.2.2",

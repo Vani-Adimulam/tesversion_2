@@ -14,6 +14,7 @@ const AddQuestionForm = () => {
   const [choice4, setChoice4] = useState("");
   const [correct_choice, setCorrectChoice] = useState("");
   const [area, setArea] = useState("");
+  const [image, setImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const quillRef = useRef();
@@ -37,15 +38,25 @@ const AddQuestionForm = () => {
       return;
     }
     try {
-      const response = await axios.post(`${BASE_URL}/addQuestionMCQ`, {
-        area,
-        question,
-        choice1,
-        choice2,
-        choice3,
-        choice4,
-        correct_choice,
-      });
+      const formData = new FormData();
+      formData.append("area", area);
+      formData.append("question", question);
+      formData.append("choice1", choice1);
+      formData.append("choice2", choice2);
+      formData.append("choice3", choice3);
+      formData.append("choice4", choice4);
+      formData.append("correct_choice", correct_choice);
+      formData.append("image", image);
+
+      const response = await axios.post(
+        `${BASE_URL}/addQuestionMCQ`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log(response.data);
       setArea("");
       setQuestion("");
@@ -71,7 +82,6 @@ const AddQuestionForm = () => {
     [{ script: "sub" }, { script: "super" }],
     ["blockquote", "code-block"],
   ];
-  
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -106,6 +116,17 @@ const AddQuestionForm = () => {
                 modules={{ toolbar: toolbarOptions }}
               />
             </Form.Group>
+            <Form.Group controlId="image">
+              <Form.Label>
+                <h5>Image</h5>
+              </Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </Form.Group>
+
             <Form.Group controlId="choice1">
               <Form.Label>
                 <h5>Choice 1</h5>
@@ -197,7 +218,8 @@ const AddQuestionForm = () => {
               <Modal.Title>Question added successfully!</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Your question has been added to the database. Thank you for your contribution!
+              Your question has been added to the database. Thank you for your
+              contribution!
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseModal}>
