@@ -26,9 +26,20 @@ const AllMCQQuestions = () => {
     axios
       .get(`${BASE_URL}/getMCQQuestions`)
       .then((response) => {
-        setQuestions(response.data);
-        setFilteredQuestions(response.data);
-        setAreas([...new Set(response.data.map((question) => question.area))]);
+        // Convert the image data to a base64 URL
+        const questionsWithImage = response.data.map((question) => {
+          if (question.image && question.image.data) {
+            const base64Image = question.image.data;
+            question.imageURL = `data:${question.image.contentType};base64,${base64Image}`;
+          }
+          return question;
+        });
+
+        setQuestions(questionsWithImage);
+        setFilteredQuestions(questionsWithImage);
+        setAreas([
+          ...new Set(questionsWithImage.map((question) => question.area)),
+        ]);
       })
       .catch((error) => {
         console.log(error);
@@ -38,10 +49,6 @@ const AllMCQQuestions = () => {
   function handleProfileClick() {
     navigate("/myprofiledashboard");
   }
-
-  // function handleNextClick() {
-  //   navigate("../getAllParagraphQuestions");
-  // }
 
   function handleAreaChange(event) {
     const selectedArea = event.target.value;
@@ -81,17 +88,15 @@ const AllMCQQuestions = () => {
         }}
       >
         <Button
-          style={{ backgroundColor: "#6BD8BA", marginRight: "10px", border: "none" }}
+          style={{
+            backgroundColor: "#6BD8BA",
+            marginRight: "10px",
+            border: "none",
+          }}
           onClick={handleProfileClick}
         >
           Back To Dashboard
         </Button>
-        {/* <Button
-          style={{ backgroundColor: "#2B4D9D" }}
-          onClick={handleNextClick}
-        >
-          View Paragraph questions
-        </Button> */}
       </div>
 
       <Row>
@@ -103,12 +108,27 @@ const AllMCQQuestions = () => {
                 style={{ backgroundColor: "#BDCCDA", borderRadius: "5px" }}
               >
                 {/* Render question as HTML content using dangerouslySetInnerHTML */}
-                <h5 className="card-title" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(question.question) }}></h5>
+                <h5
+                  className="card-title"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(question.question),
+                  }}
+                ></h5>
+                {question.imageURL && (
+                  <img
+                  style={{width:"300px",height:"100px",marginBottom:"5px"}}
+                    src={question.imageURL}
+                    alt="Question"
+                    className="question-image"
+                  />
+                )}
                 <Form>
                   <Form.Check
                     type="radio"
                     id={`${question._id}-1`}
-                    label={<span className="choice-label">{question.choice1}</span>}
+                    label={
+                      <span className="choice-label">{question.choice1}</span>
+                    }
                     name={question._id}
                     value="1"
                     defaultChecked={question.correct_choice === "1"}

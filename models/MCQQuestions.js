@@ -10,7 +10,11 @@ const MCQQuestionSchema = new Schema({
     type: String,
     required: true
   },
- choice1: {
+  image: {
+    data: Buffer,
+    contentType: String,
+  },
+  choice1: {
     type: String,
     required: true
   },
