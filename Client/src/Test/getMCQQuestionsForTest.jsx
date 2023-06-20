@@ -6,9 +6,16 @@ import DOMPurify from 'dompurify';
 
 const getMCQQuestionsForTest = () => {
   const navigate = useNavigate();
-  const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions')) || []);
-  const [selectedAnswers, setSelectedAnswers] = useState(JSON.parse(localStorage.getItem('selectedAnswers')) || {});
-  const [hasFetched, setHasFetched] = useState(localStorage.getItem('hasFetched') || false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [mcqquestions, setMCQQuestions] = useState(
+    JSON.parse(localStorage.getItem('mcqquestions')) || []
+  );
+  const [selectedAnswers, setSelectedAnswers] = useState(
+    JSON.parse(localStorage.getItem('selectedAnswers')) || {}
+  );
+  const [hasFetched, setHasFetched] = useState(
+    localStorage.getItem('hasFetched') || false
+  );
   const email = JSON.parse(localStorage.getItem('email'));
 
   useEffect(() => {
@@ -26,6 +33,7 @@ const getMCQQuestionsForTest = () => {
   useEffect(() => {
     // Check if the MCQ questions have already been fetched
     if (!hasFetched && mcqquestions.length === 0) {
+      setIsLoading(true);
       axios
         .get(`${BASE_URL}/getMCQQuestionsforTest/${email}`)
         .then((response) => {
@@ -38,22 +46,50 @@ const getMCQQuestionsForTest = () => {
             return question;
           });
 
-          localStorage.setItem('mcqquestions', JSON.stringify(questionsWithImage));
-          setMCQQuestions(questionsWithImage);
+          // Randomize the order of the questions
+          const randomizedQuestions = shuffleArray(questionsWithImage);
+
+          localStorage.setItem('mcqquestions', JSON.stringify(randomizedQuestions));
+          setMCQQuestions(randomizedQuestions);
           setHasFetched(true);
           localStorage.setItem('hasFetched', true);
         })
         .catch((error) => {
           console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false); // Set loading state to false after fetching is complete
+          console.log(isLoading);
         });
     }
   }, [hasFetched, mcqquestions, email]);
+
+  function shuffleArray(array) {
+    // Create a new array to avoid mutating the original array
+    const shuffledArray = [...array];
+    let currentIndex = shuffledArray.length;
+    let temporaryValue;
+    let randomIndex;
+
+    // While there remain elements to shuffle
+    while (currentIndex !== 0) {
+      // Pick a remaining element
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // Swap it with the current element
+      temporaryValue = shuffledArray[currentIndex];
+      shuffledArray[currentIndex] = shuffledArray[randomIndex];
+      shuffledArray[randomIndex] = temporaryValue;
+    }
+
+    return shuffledArray;
+  }
 
   function handleBeforeUnload(event) {
     event.preventDefault();
     event.returnValue = '';
   }
-
   function handleNextClick() {
     const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
 
@@ -116,11 +152,11 @@ const getMCQQuestionsForTest = () => {
         {mcqquestions.map((question) => (
           <div key={question._id} className="card" style={{ width: '100%', marginTop: '10px' }}>
             <div className="card-header">
-              <h3 dangerouslySetInnerHTML={{ __html: question.question }} />
+              <h3 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(question.question) }} />
             </div>
             {question.imageURL && (
               <div className="card-body">
-                <img src={question.imageURL} alt="Question Image" style={{ width: auto, height: auto }} />
+                <img src={question.imageURL} alt="Question Image" style={{ width: 'auto', height: 'auto' }} />
               </div>
             )}
             <div className="card-body">
