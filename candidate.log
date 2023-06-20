@@ -81,3 +81,8 @@
 {"level":"error","message":"Error in candidate login","timestamp":"2023-06-10 12:53:16"}
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-10 12:53:21"}
 {"level":"info","message":"request sent to MongoDB database matched with the data test@test.com login successfull","timestamp":"2023-06-10 13:05:59"}
+{"level":"info","message":"request sent to MongoDB database matched with the data testcandidate@test.com login successfull","timestamp":"2023-06-20 16:38:17"}
+{"level":"info","message":"request sent to MongoDB database matched with the data testcandidate@test.com login successfull","timestamp":"2023-06-20 16:42:58"}
+{"level":"info","message":"request sent to MongoDB database matched with the data testcandidate@test.com login successfull","timestamp":"2023-06-20 16:48:50"}
+{"level":"info","message":"request sent to MongoDB database matched with the data testcandidate@test.com login successfull","timestamp":"2023-06-20 16:49:50"}
+{"level":"info","message":"request sent to MongoDB database matched with the data testcandidate@test.com login successfull","timestamp":"2023-06-20 17:19:56"}

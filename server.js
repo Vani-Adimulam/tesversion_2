@@ -326,13 +326,14 @@ app.get("/getMCQQuestionsforTest/:email", async (req, res) => {
       res.status(500).json("Candidate not found");
     } else {
       const area = candidate[0].area;
+      // console.log(area)
       // const number = candidate[0].mcqCount;
       const questions = await MCQQuestion.aggregate([
         { $match: { area: area } },
         { $sort: { _id: 1 } },
         { $project: { correct_choice: 0 } }, // exclude correct_choice
       ]);
-      console.log(questions)
+      // console.log(questions)
       res.json({ questions });
       getTest.GetTest.log(
         "info",
@@ -348,7 +349,7 @@ app.get("/getMCQQuestionsforTest/:email", async (req, res) => {
     console.log(
       "Unable to create Test, Please select the correct number of questions"
     );
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });   
   }
 });
 
@@ -625,6 +626,25 @@ app.get("/*", function(req, res) {
     }
   );
 });
+
+// DELETE endpoint to delete a question
+app.delete("/deleteQuestion/:questionId", (req, res) => {
+  const questionId = req.params.questionId;
+
+  // Find the question by ID and delete it
+  MCQQuestion.findByIdAndDelete(questionId)
+    .then((deletedQuestion) => {
+      if (!deletedQuestion) {
+        return res.status(404).json({ message: "Question not found" });
+      }
+      res.json({ message: "Question deleted successfully" });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ message: "An error occurred while deleting the question" });
+    });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

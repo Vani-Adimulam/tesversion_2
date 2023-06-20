@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import DOMPurify from "dompurify";
+import { BsTrash } from "react-icons/bs"; // Import trash icon from react-icons
 import "./getAllMCQQuestions.css";
 import { BASE_URL } from "./Service/helper";
+
 const AllMCQQuestions = () => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
@@ -14,6 +16,7 @@ const AllMCQQuestions = () => {
   const [selectedArea, setSelectedArea] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [questionsPerPage] = useState(6);
+  const [showModal, setShowModal] = useState(false);
 
   const indexOfLastQuestion = currentPage * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
@@ -37,9 +40,7 @@ const AllMCQQuestions = () => {
 
         setQuestions(questionsWithImage);
         setFilteredQuestions(questionsWithImage);
-        setAreas([
-          ...new Set(questionsWithImage.map((question) => question.area)),
-        ]);
+        setAreas([...new Set(questionsWithImage.map((question) => question.area))]);
       })
       .catch((error) => {
         console.log(error);
@@ -61,9 +62,36 @@ const AllMCQQuestions = () => {
     setCurrentPage(1); // Reset to first page
   }
 
+  const deleteQuestion = (questionId) => {
+    axios
+      .delete(`${BASE_URL}/deleteQuestion/${questionId}`)
+      .then((response) => {
+        console.log(response);
+        // Handle successful deletion, such as updating the list of questions
+        const updatedQuestions = questions.filter(
+          (question) => question._id !== questionId
+        );
+        setQuestions(updatedQuestions);
+        setFilteredQuestions(updatedQuestions);
+        setShowModal(true); // Show the success modal
+        setTimeout(() => {
+          setShowModal(false); // Close the modal after a delay
+        }, 1500); // Adjust the delay as needed
+      })
+      .catch((error) => {
+        // Handle error
+        console.log(error);
+      });
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    window.location.reload(); // Refresh the page after deletion
+  };
+
   return (
     <Container style={{ marginTop: "90px" }}>
-      <h2 style={{ marginBottom: "30px" }}>MC Questions</h2>
+      <h2 style={{ marginBottom: "30px" }}>Multiple choice Questions</h2>
       <Form.Group as={Row}>
         <Col sm={4}>
           <Form.Control
@@ -116,7 +144,11 @@ const AllMCQQuestions = () => {
                 ></h5>
                 {question.imageURL && (
                   <img
-                  style={{width:"300px",height:"100px",marginBottom:"5px"}}
+                    style={{
+                      width: "300px",
+                      height: "100px",
+                      marginBottom: "5px",
+                    }}
                     src={question.imageURL}
                     alt="Question"
                     className="question-image"
@@ -168,8 +200,14 @@ const AllMCQQuestions = () => {
                   />
                 </Form>
               </div>
-              <div className="card-footer">
+              <div className="card-footer d-flex justify-content-between">
                 <small className="text-muted">Area: {question.area}</small>
+                <button
+                  className="delete-question-button"
+                  onClick={() => deleteQuestion(question._id)}
+                >
+                  <BsTrash className="trash-icon" />
+                </button>
               </div>
             </div>
           </Col>
@@ -185,6 +223,21 @@ const AllMCQQuestions = () => {
         linkClass="page-link"
         style={{ marginTop: "30px" }}
       />
+
+      {/* Modal for deletion success */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Question Deleted Successfully!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          The question has been deleted from the database.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
