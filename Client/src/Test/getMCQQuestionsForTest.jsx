@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../Service/helper';
+import DOMPurify from 'dompurify';
 
 const getMCQQuestionsForTest = () => {
   const navigate = useNavigate();
   const [mcqquestions, setMCQQuestions] = useState(JSON.parse(localStorage.getItem('mcqquestions')) || []);
   const [selectedAnswers, setSelectedAnswers] = useState(JSON.parse(localStorage.getItem('selectedAnswers')) || {});
   const [hasFetched, setHasFetched] = useState(localStorage.getItem('hasFetched') || false);
-  // const [providedAnswers] = useState(JSON.parse(localStorage.getItem("providedAnswers")) || {});
-  const email = JSON.parse(localStorage.getItem("email"));
+  const email = JSON.parse(localStorage.getItem('email'));
 
   useEffect(() => {
-    window.history.pushState(null, "", window.location.href);
+    window.history.pushState(null, '', window.location.href);
     window.onpopstate = () => {
-      window.history.pushState(null, "", window.location.href);
+      window.history.pushState(null, '', window.location.href);
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
 
@@ -29,8 +29,17 @@ const getMCQQuestionsForTest = () => {
       axios
         .get(`${BASE_URL}/getMCQQuestionsforTest/${email}`)
         .then((response) => {
-          localStorage.setItem('mcqquestions', JSON.stringify(response.data.questions));
-          setMCQQuestions(response.data.questions);
+          const questionsWithImage = response.data.questions.map((question) => {
+            if (question.image && question.image.data) {
+              const base64Image = question.image.data;
+              question.imageURL = `data:${question.image.contentType};base64,${base64Image}`;
+            }
+            question.question = DOMPurify.sanitize(question.question);
+            return question;
+          });
+
+          localStorage.setItem('mcqquestions', JSON.stringify(questionsWithImage));
+          setMCQQuestions(questionsWithImage);
           setHasFetched(true);
           localStorage.setItem('hasFetched', true);
         })
@@ -46,41 +55,33 @@ const getMCQQuestionsForTest = () => {
   }
 
   function handleNextClick() {
-    const missingAnswers = mcqquestions.some(
-      (question) => !selectedAnswers[question._id]
-    );
+    const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
 
     if (missingAnswers) {
       alert('Please answer all questions before continuing.');
-    } else 
-    // {
-    //   navigate('../getParagraphQuestionsForTest', {
-    //     state: { selectedAnswers, providedAnswers },
-    //   });
-    // }
-    {
-      const selectedAnswers = JSON.parse(localStorage.getItem("selectedAnswers"));
-      // const providedAnswers = JSON.parse(localStorage.getItem("providedAnswers"));
+    } else {
+      const selectedAnswers = JSON.parse(localStorage.getItem('selectedAnswers'));
       const requestBody = {
         email,
         selectedAnswers,
-        // providedAnswers,
       };
 
-      axios.post(`${BASE_URL}/testresults`, requestBody)
+      axios
+        .post(`${BASE_URL}/testresults`, requestBody)
         .then((response) => {
           console.log(response);
         })
         .catch((error) => {
           console.log(error);
         });
-      // create a sample patch request using axios
+
       const requestBody2 = {
         email,
-        testStatus: "Test Taken",
+        testStatus: 'Test Taken',
       };
 
-      axios.patch(`${BASE_URL}/updateCandidateTeststatus`, requestBody2)
+      axios
+        .patch(`${BASE_URL}/updateCandidateTeststatus`, requestBody2)
         .then((response) => {
           console.log(response);
         })
@@ -89,8 +90,7 @@ const getMCQQuestionsForTest = () => {
         });
 
       localStorage.clear();
-      // Update the candidate collection and set "test status" as "Completed"
-      navigate("../Results");
+      navigate('../Results');
     }
   }
 
@@ -100,21 +100,29 @@ const getMCQQuestionsForTest = () => {
       ...selectedAnswers,
       [questionId]: selectedAnswer,
     });
-    localStorage.setItem('selectedAnswers', JSON.stringify({
-      ...selectedAnswers,
-      [questionId]: selectedAnswer,
-    }));
+    localStorage.setItem(
+      'selectedAnswers',
+      JSON.stringify({
+        ...selectedAnswers,
+        [questionId]: selectedAnswer,
+      })
+    );
   }
 
   return (
-    <div style={{ backgroundColor: "#BDCCDA"}}>
-      <h2 style={{ marginTop: "90px" }}>MCQ Questions</h2>
+    <div style={{ backgroundColor: '#BDCCDA' }}>
+      <h2 style={{ marginTop: '90px' }}>MCQ Questions</h2>
       <div className="mcq-questions-list">
         {mcqquestions.map((question) => (
-          <div key={question._id} className="card" style={{ width: "100%", marginTop: "10px" }}>
+          <div key={question._id} className="card" style={{ width: '100%', marginTop: '10px' }}>
             <div className="card-header">
-              <h3>{question.question}</h3>
+              <h3 dangerouslySetInnerHTML={{ __html: question.question }} />
             </div>
+            {question.imageURL && (
+              <div className="card-body">
+                <img src={question.imageURL} alt="Question Image" style={{ width: auto, height: auto }} />
+              </div>
+            )}
             <div className="card-body">
               <label>
                 <input
@@ -165,7 +173,7 @@ const getMCQQuestionsForTest = () => {
       </div>
       <center>
         <div>
-          <button className="btn" style={{ marginTop: "3px", backgroundColor: "#FFFFFF" }} onClick={handleNextClick}>
+          <button className="btn" style={{ marginTop: '3px', backgroundColor: '#FFFFFF' }} onClick={handleNextClick}>
             Submit
           </button>
         </div>
