@@ -326,13 +326,13 @@ app.get("/getMCQQuestionsforTest/:email", async (req, res) => {
       res.status(500).json("Candidate not found");
     } else {
       const area = candidate[0].area;
-      const number = candidate[0].mcqCount;
+      // const number = candidate[0].mcqCount;
       const questions = await MCQQuestion.aggregate([
         { $match: { area: area } },
-        { $sample: { size: Number(number) } },
         { $sort: { _id: 1 } },
         { $project: { correct_choice: 0 } }, // exclude correct_choice
       ]);
+      console.log(questions)
       res.json({ questions });
       getTest.GetTest.log(
         "info",
