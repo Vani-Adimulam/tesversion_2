@@ -8,6 +8,7 @@ import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from 'react-toastify'
 import { BASE_URL } from "./Service/helper";
+import ExcelExport from "./ExcelExport";
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -17,7 +18,7 @@ const CandidateList = () => {
   const [testStatus, setTestStatus] = useState("");
   const [sortField, setSortField] = useState("");
   const [result, setResult] = useState("On Hold")
-  console.log(result)
+  // console.log(result)
   const [sortDirection, setSortDirection] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
@@ -186,6 +187,9 @@ const CandidateList = () => {
             Back To Dashboard
           </button>
         </div>
+        <div>
+        <ExcelExport data={candidates} />
+      </div>
         <FormControl
           type="text"
           placeholder="Search by email"
@@ -256,6 +260,7 @@ const CandidateList = () => {
           </Table>
         </div>
       </center>
+      
       <Modal show={showEditModal} onHide={handleEditModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Candidate</Modal.Title>
