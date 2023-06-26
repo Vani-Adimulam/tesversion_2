@@ -4,6 +4,7 @@ import './EvalQuestions.css'
 import { useLocation, useNavigate } from "react-router";
 import { BASE_URL } from "./Service/helper";
 import { Button } from "react-bootstrap";
+import DOMPurify from "dompurify";
 
 
 const EvalQuestions = () => {
@@ -49,21 +50,29 @@ const EvalQuestions = () => {
 
   useEffect(() => {
     if (testResults.length > 0) {
-      // console.log('This is the testResults: ', testResults);
-      const selectedAnswersIds = testResults.flatMap(result => Object.keys(result.selectedAnswers));
-      // console.log('Selected answers Ids: ', selectedAnswersIds);
-      axios.get(`${BASE_URL}/getMCQQuestions`, {
-        params: {
-          ids: selectedAnswersIds.join(",")
-        }
-      })
+      const selectedAnswersIds = testResults.flatMap(result =>
+        Object.keys(result.selectedAnswers)
+      );
+      axios
+        .get(`${BASE_URL}/getMCQQuestions`, {
+          params: {
+            ids: selectedAnswersIds.join(",")
+          }
+        })
         .then(response => {
-          setMCQQuestions(response.data);
-          // console.log(response.data);
+          const questionsWithImage = response.data.map(question => {
+            if (question.image && question.image.data) {
+              const base64Image = question.image.data;
+              question.imageURL = `data:${question.image.contentType};base64,${base64Image}`;
+            }
+            question.question = DOMPurify.sanitize(question.question);
+            return question;
+          });
+          setMCQQuestions(questionsWithImage);
         })
         .catch(error => console.error(error));
     }
-  }, [testResults]);
+  }, [testResults]);  
 
   useEffect(() => {
     if (isEvaluated) {
@@ -168,12 +177,16 @@ const EvalQuestions = () => {
           } else {
             wrongAnswers++;
           }
-
           return (
             <li key={question._id} style={{ marginBottom: "30px" }}>
               <div className="card">
                 <div className="card-body">
-                  <h3>{question.question}</h3>
+                <h3 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(question.question) }} /> 
+                {question.imageURL && (
+                  <div className="card-body">
+                    <img src={question.imageURL} alt="Question Image" style={{ width: 'auto', height: 'auto' }} />
+                  </div>
+                  )}
                   <p style={{ marginBottom: "10px" }}>
                     Correct answer: {question.correct_choice}
                   </p>
