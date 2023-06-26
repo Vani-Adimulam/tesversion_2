@@ -19,3 +19,5 @@
 {"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate test@test.com","timestamp":"2023-06-10 12:53:03"}
 {"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate test@test.com","timestamp":"2023-06-10 13:05:51"}
 {"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate testcandidate@test.com","timestamp":"2023-06-20 16:37:56"}
+{"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate newcan@email.com","timestamp":"2023-06-26 11:08:47"}
+{"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate ttttttt@email.com","timestamp":"2023-06-26 11:11:28"}

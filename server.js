@@ -525,14 +525,14 @@ app.post("/updateTestResult/:email", async (req, res) => {
     }
 
     const result = req.body.result;
-    const totalScore = req.body.totalScore;
-    const codeScore = req.body.codeScore;
-    const textScore = req.body.textScore;
+    // const totalScore = req.body.totalScore;
+    // const codeScore = req.body.codeScore;
+    // const textScore = req.body.textScore;
     const mcqScore = req.body.mcqScore;
     const testStatus = "Evaluated";
     const testResult = await TestResults.findOneAndUpdate(
       { email },
-      { result, mcqScore, codeScore, textScore, totalScore },
+      { result, totalScore:mcqScore},
       { new: true }
     );
     const candidateresult = await Candidate.findOneAndUpdate(
