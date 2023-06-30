@@ -147,6 +147,8 @@ const CandidateForm = () => {
                   <option value="SOFTWARE">Software</option>
                   <option value="EMBEDDED">Embedded</option>
                   <option value="VLSI">VLSI</option>
+                  <option value="VLSI_FRESHER">VLSI_FRESHER</option>
+
                 </select>
               </div>
 

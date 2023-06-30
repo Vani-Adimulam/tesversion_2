@@ -103,6 +103,7 @@ const AddQuestionForm = () => {
                 <option value="VLSI">VLSI</option>
                 <option value="EMBEDDED">EMBEDDED</option>
                 <option value="SOFTWARE">SOFTWARE</option>
+                <option value="VLSI_FRESHER">VLSI_FRESHER</option>
               </Form.Select>
             </Form.Group>
             <Form.Group controlId="question">
