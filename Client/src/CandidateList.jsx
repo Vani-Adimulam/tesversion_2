@@ -33,7 +33,8 @@ const CandidateList = () => {
 
       const updatedCandidates = candidates.map(candidate => {
         const testResult = testResultsMap.get(candidate.email);
-        if (testResult && testResult.totalScore) {
+        console.log(testResult)
+        if (testResult && testResult.totalScore!==undefined) {
           const selectedAnswers = testResult.selectedAnswers;
           const totalQuestions = Object.keys(selectedAnswers).length;
           // const total =
@@ -201,12 +202,12 @@ const CandidateList = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            width: "90rem",
+            width: "70rem",
             marginTop: "5px",
           }}
         >
           <Table striped bordered hover>
-            <thead style={{ fontSize: "20px" }}>
+            <thead style={{ fontSize: "15px" }}>
               <tr>
                 <th onClick={() => handleSort("name")}>
                   Name {getSortIcon("name")}
@@ -221,7 +222,7 @@ const CandidateList = () => {
                 <th>Total Marks</th>
               </tr>
             </thead>
-            <tbody style={{ fontSize: "20px" }}>
+            <tbody style={{ fontSize: "15px" }}>
               {filteredCandidates.map((candidate) => (
                 <tr key={candidate._id}>
                   <td>{candidate.name}</td>

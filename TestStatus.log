@@ -20,3 +20,7 @@
 {"level":"info","message":"test@test.test took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-10 12:13:47"}
 {"level":"info","message":"newcan@email.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-26 11:10:14"}
 {"level":"info","message":"ttttttt@email.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-26 11:12:52"}
+{"level":"info","message":"vlsi_f4@email.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-30 06:35:04"}
+{"level":"info","message":"vlsi_f1@email.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-30 07:44:09"}
+{"level":"info","message":"vlsi_f2@email.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-30 10:19:11"}
+{"level":"info","message":"yevgenyprigozhin@wagner.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-30 10:31:15"}
