@@ -1,9 +1,17 @@
-import React from "react";
+import { React, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 
 const Instructions = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Clear the localStorage data related to the assessment
+    localStorage.removeItem("mcqquestions");
+    localStorage.removeItem("selectedAnswers");
+    localStorage.removeItem("hasFetched");
+  }, []);
+
   const handleStart = () => {
     navigate("/getMCQQuestionsForTest");
   };

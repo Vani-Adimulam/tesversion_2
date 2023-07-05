@@ -35,7 +35,7 @@ const evaluated = require("./Loggers/Evaluationlog");
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb+srv://gorantlasantoshkumarreddy:assessment123@cluster0.fjz3f0l.mongodb.net/?retryWrites=true&w=majority",
+    process.env.MONGODB_URI,
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,
