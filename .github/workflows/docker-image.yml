@@ -21,6 +21,6 @@ jobs:
           fi
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag myDockerImage:$(date +%s)
+        run: docker build . --file Dockerfile --tag mydockerimage:$(date +%s)
 
       # Add more steps here for your deployment or other actions
