@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+
 # Install backend dependencies
 RUN npm ci --only=production
 
