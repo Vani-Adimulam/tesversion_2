@@ -314,7 +314,7 @@ app.get("/getParagraphQuestions", async (req, res) => {
     Viewpara.ViewPara.log("error", "cannot display para questions");
     res.status(500).json({ error: "Internal server error" });
   }
-});
+}); 
 
 // create an API to get random MCQ Questions from Question Bank given area
 // and number
