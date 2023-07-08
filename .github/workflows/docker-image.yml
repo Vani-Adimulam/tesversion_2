@@ -1,0 +1,26 @@
+name: Merge to Main Workflow
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Verify branch
+        run: |
+          if [[ ${{ github.event.pull_request.base.ref }} != 'main' ]]; then
+            echo "Not merging into main branch. Exiting workflow..."
+            exit 0
+          fi
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag myDockerImage:$(date +%s)
+
+      # Add more steps here for your deployment or other actions
