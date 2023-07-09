@@ -25,5 +25,5 @@ WORKDIR /app
 # Expose the port your backend server listens on (default is 3000)
 EXPOSE 7001
 
-# Start the backend server
-CMD ["npm", "start"]
+# Start the app
+CMD ["npm", "run", "dev"]
