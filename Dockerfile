@@ -33,4 +33,4 @@ EXPOSE 3000
 ENV BASE_URL=http://13.234.48.54
 
 # Start the app
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
