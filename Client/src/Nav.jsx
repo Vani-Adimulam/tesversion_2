@@ -43,7 +43,7 @@ const Nav = () => {
         }}
         className="navbar-brand"
       >
-        Sibay Online Assessment
+        Sibay Online Assessment 
       </span>
       <div className="d-flex">
         {showHomeLink && (
