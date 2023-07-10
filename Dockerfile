@@ -22,6 +22,9 @@ RUN npm ci --only=production && npm run build
 # Go back to the root directory
 WORKDIR /app
 
+# Change permissions of nodemon binary file
+RUN chmod +x /usr/local/lib/node_modules/nodemon/bin/nodemon.js
+
 # Expose the port your backend server listens on (default is 3000)
 EXPOSE 7001
 
