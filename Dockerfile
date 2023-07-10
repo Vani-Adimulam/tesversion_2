@@ -7,16 +7,25 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install backend and frontend dependencies
-RUN npm ci
+# Install backend dependencies
+RUN npm ci --only=production
 
 # Copy the backend code to the working directory
 COPY . .
 
-# Build the frontend assets
-RUN cd Client && npm ci && npm run build
+# Install nodemon globally
+RUN npm install -g nodemon
 
-# Expose the ports for both backend (7001) and frontend (3000)
+# Navigate to the frontend directory
+WORKDIR /app/Client
+
+# Install frontend dependencies and build the assets
+RUN npm ci --only=production && npm run build
+
+# Go back to the root directory
+WORKDIR /app
+
+# Expose the port your backend server listens on (default is 3000)
 EXPOSE 7001
 EXPOSE 3000
 
