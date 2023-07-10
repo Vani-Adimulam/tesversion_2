@@ -29,4 +29,4 @@ RUN npm install -g nodemon
 EXPOSE 7001
 
 # Start the app
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
