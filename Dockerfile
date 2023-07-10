@@ -25,9 +25,12 @@ RUN npm ci --only=production && npm run build
 # Go back to the root directory
 WORKDIR /app
 
-# Expose the port your backend server listens on (default is 3000)
+# Expose the ports your backend server and frontend assets listen on
 EXPOSE 7001
 EXPOSE 3000
+
+# Set the environment variable for the base URL
+ENV BASE_URL=http://13.234.48.54
 
 # Start the app
 CMD ["npm", "run", "dev"]
