@@ -22,8 +22,8 @@ RUN npm ci --only=production && npm run build
 # Go back to the root directory
 WORKDIR /app
 
-# Change permissions of nodemon binary file (Windows-specific)
-RUN powershell -Command "npm install -g nodemon"
+# Install nodemon globally
+RUN npm install -g nodemon
 
 # Expose the port your backend server listens on (default is 3000)
 EXPOSE 7001
