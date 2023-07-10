@@ -22,7 +22,9 @@ jobs:
 
       - name: Set Docker image tag
         id: set_tag
-        run: echo "::set-output name=tag::mydockerimage-$(date +%s)"
+        run: |
+          echo "mydockerimage-$(date +%s)" > image_tag.txt
+          echo "::set-output name=tag::mydockerimage-$(date +%s)"
 
       - name: Build the Docker image
         run: |
@@ -40,3 +42,7 @@ jobs:
           context: .
           push: true
           tags: prateekp2f/mydockerimage:${{ steps.set_tag.outputs.tag }}
+
+      - name: Save image tag to file
+        run: |
+          echo ${{ steps.set_tag.outputs.tag }} > $HOME/image_tag.txt
