@@ -18,14 +18,14 @@ const TestResult =  createLogger({
             level:"error",
             format:format.combine(format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),format.json())
         }),
-        new WinstonCloudWatch({
-            logGroupName: 'P2F-onlineassessment-logs',
-            logStreamName: 'online-assessment-logs-stream',
+        // new WinstonCloudWatch({
+            // logGroupName: 'P2F-onlineassessment-logs',
+            // logStreamName: 'online-assessment-logs-stream',
             // awsRegion: 'ap-south-1', // Replace with your desired AWS region
             // region : 'ap-south-1',
             // awsAccessKeyId: 'p2f-online-logger-user', // Replace with your AWS access key ID
             // awsSecretKey: 'f7PS7}IP' // Replace with your AWS secret access key
-          })
+        //   })
         
     ]
 })
