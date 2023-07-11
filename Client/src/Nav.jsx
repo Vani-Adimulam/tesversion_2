@@ -43,7 +43,7 @@ const Nav = () => {
         }}
         className="navbar-brand"
       >
-        P2F Online Assessment  
+        Online Assessment  
       </span>
       <div className="d-flex">
         {showHomeLink && (
