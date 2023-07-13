@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import McqForm from "./McqForm";
 import AddParagraphQuestionForm from "./AddParagraphQuestionForm";
 import { Form, Container, Row, Col} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { store } from "./App"
 
 const AddQuestions = () => {
   const navigate = useNavigate();
+  const [token] = useContext(store)
+
+  useEffect(()=>{
+    if(!token){
+      navigate('/login')
+    }
+  },[token,navigate])
   
   function handleProfileClick() {
     navigate("/myprofiledashboard");

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import DOMPurify from "dompurify";
 import { BsTrash } from "react-icons/bs"; // Import trash icon from react-icons
 import "./getAllMCQQuestions.css";
 import { BASE_URL } from "./Service/helper";
+import { store } from "./App";
 
 const AllMCQQuestions = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const AllMCQQuestions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [questionsPerPage] = useState(6);
   const [showModal, setShowModal] = useState(false);
+  const [token] = useContext(store); // Get the token from the context
 
   const indexOfLastQuestion = currentPage * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
@@ -27,7 +29,13 @@ const AllMCQQuestions = () => {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/getMCQQuestions`)
+      .get(`${BASE_URL}/getMCQQuestions`
+      ,{
+        headers: {
+          "x-token": token, // Include the token in the request headers
+        },
+      }        
+      )
       .then((response) => {
         // Convert the image data to a base64 URL
         const questionsWithImage = response.data.map((question) => {
@@ -47,6 +55,14 @@ const AllMCQQuestions = () => {
       });
   }, []);
 
+  
+  useEffect(() => {
+    if (!token) {
+      navigate("/login"); // Redirect to the login page if token is not available
+    }
+  }, [token, navigate]);
+  
+
   function handleProfileClick() {
     navigate("/myprofiledashboard");
   }
@@ -64,7 +80,13 @@ const AllMCQQuestions = () => {
 
   const deleteQuestion = (questionId) => {
     axios
-      .delete(`${BASE_URL}/deleteQuestion/${questionId}`)
+      .delete(`${BASE_URL}/deleteQuestion/${questionId}`
+      ,{
+        headers: {
+          "x-token": token, // Include the token in the request headers
+        },
+      } 
+      )
       .then((response) => {
         console.log(response);
         // Handle successful deletion, such as updating the list of questions

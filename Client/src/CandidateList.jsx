@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Button, Modal, Form, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import axios from "axios";
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from 'react-toastify'
 import { BASE_URL } from "./Service/helper";
 import ExcelExport from "./ExcelExport";
+import { store } from "./App"
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -21,7 +22,16 @@ const CandidateList = () => {
   // console.log(result)
   const [sortDirection, setSortDirection] = useState("");
   const navigate = useNavigate();
+  const [token] = useContext(store) || localStorage.getItem("token")
+
+  useEffect(()=>{
+    if(!token){
+      navigate('/login')
+    }
+  },[token,navigate])
+
   useEffect(() => {
+    
     const fetchData = async () => {
       const result = await axios(`${BASE_URL}/all`);
       const candidates = result.data;
