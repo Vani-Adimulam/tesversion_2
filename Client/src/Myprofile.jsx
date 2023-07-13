@@ -24,7 +24,9 @@ const MyProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (token) {
+    if (!token) {
+      navigate("/login"); // Redirect to the login page if token is not available
+    } else {
       localStorage.setItem("token", token);
       setIsLoading(true);
 
@@ -39,15 +41,14 @@ const MyProfile = () => {
         })
         .catch((err) => console.log(err))
         .finally(() => setIsLoading(false));
-    } else {
-      localStorage.removeItem("token");
-      setIsLoading(false);
     }
-  }, [token]);
+  }, [token, navigate]);
 
   const handleLogout = () => {
     setToken("");
-    navigate("/login");
+    localStorage.removeItem("token");
+    localStorage.removeItem("isLoggedIn")
+    navigate("/login"); // Redirect to the login page after logout
   };
 
   if (isLoading) {

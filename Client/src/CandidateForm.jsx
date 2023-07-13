@@ -1,84 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { store } from "./App";
 import { BASE_URL } from "./Service/helper";
 
 const CandidateForm = () => {
-  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [area, setArea] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [mcqCount, setMcqCount] = useState(0);
-  const [codeCount, setcodeCount] = useState(0);
-  const [paragraphCount, setParagraphcount] = useState(0);
+  const [token] = useContext(store); // Get the token from the context
+  const navigate = useNavigate();
 
   const resetForm = () => {
     setName("");
     setEmail("");
     setArea("");
-    setMcqCount("");
-    setcodeCount("");
-    setParagraphcount("");
-  };
-
-  const changeEmailHandler = (e) => {
-    setEmail(e.target.value);
   };
 
   const changeNameHandler = (e) => {
     setName(e.target.value);
   };
 
+  const changeEmailHandler = (e) => {
+    setEmail(e.target.value);
+  };
+
   const changeAreaHandler = (e) => {
     setArea(e.target.value);
   };
 
-  // const changeMcqCountHandler = (e) => {
-  //   setMcqCount(e.target.value);
-  // };
-
-  // const changeCodeCountHandler = (e) => {
-  //   setcodeCount(e.target.value);
-  // };
-
-  // const changeParagraphCountHandler = (e) => {
-  //   setParagraphcount(e.target.value);
-  // };
-  const navigate = useNavigate()
-  function handleProfileClick() {
+  const handleProfileClick = () => {
     navigate("/myprofiledashboard");
-  }
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-  
+
     // Trim the input values to remove leading and trailing spaces
-    const trimmedEmail = email.trim();
     const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
     const trimmedArea = area.trim();
-    
+
     // Check if any of the trimmed input values are empty strings
-    if (trimmedEmail === "" || trimmedName === "" || trimmedArea === "") {
+    if (trimmedName === "" || trimmedEmail === "" || trimmedArea === "") {
       setErrorMessage("Invalid input. Please fill in all fields.");
       return;
     }
-  
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(trimmedEmail)) {
       setErrorMessage("Invalid email address!");
       return;
     }
-  
+
     axios
       .post(`${BASE_URL}/register`, {
-        email: trimmedEmail,
         name: trimmedName,
+        email: trimmedEmail,
         area: trimmedArea,
-        mcqCount,
-        codeCount,
-        paragraphCount,
+      }, {
+        headers: {
+          "x-token": token, // Include the token in the request headers
+        },
       })
       .then((res) => {
         toast.success(res.data);
@@ -89,6 +75,13 @@ const CandidateForm = () => {
         setErrorMessage("Error occurred while registering");
       });
   };
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login"); // Redirect to the login page if token is not available
+    }
+  }, [token, navigate]);
+  
   return (
     <center>
       <div className="container" style={{ marginTop: "90px"}}>
