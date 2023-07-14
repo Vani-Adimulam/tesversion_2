@@ -110,3 +110,7 @@
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for vlsi_f2@email.com","timestamp":"2023-06-30 10:19:05"}
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for yevgenyprigozhin@wagner.com","timestamp":"2023-06-30 10:28:47"}
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for yevgenyprigozhin@wagner.com","timestamp":"2023-06-30 10:28:49"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ironman@marvel.com","timestamp":"2023-07-13 17:24:56"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ironman@marvel.com","timestamp":"2023-07-13 17:24:56"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for testcandid1@gmail.com","timestamp":"2023-07-13 17:25:54"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for testcandid1@gmail.com","timestamp":"2023-07-13 17:25:55"}
