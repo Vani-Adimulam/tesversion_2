@@ -93,3 +93,5 @@
 {"level":"info","message":"request sent to MongoDB database matched with the data vlsi_f1@email.com login successfull","timestamp":"2023-06-30 07:44:00"}
 {"level":"info","message":"request sent to MongoDB database matched with the data vlsi_f2@email.com login successfull","timestamp":"2023-06-30 10:19:02"}
 {"level":"info","message":"request sent to MongoDB database matched with the data yevgenyprigozhin@wagner.com login successfull","timestamp":"2023-06-30 10:28:43"}
+{"level":"info","message":"request sent to MongoDB database matched with the data ironman@marvel.com login successfull","timestamp":"2023-07-13 17:24:54"}
+{"level":"info","message":"request sent to MongoDB database matched with the data testcandid1@gmail.com login successfull","timestamp":"2023-07-13 17:25:52"}

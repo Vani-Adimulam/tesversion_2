@@ -72,7 +72,7 @@ app.post("/addEvaluator", async (req, res) => {
 });
 
 //candidate register route
-app.post("/register", middleware,async (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     const { email } = req.body;
     const { name } = req.body;
@@ -216,7 +216,7 @@ app.post("/addQuestionMCQ", upload.single("image"), middleware, async (req, res)
 });
 
 //add a post API for Paragraph question with subtype field and other fields as question, answer.
-app.post("/addParagraphQuestion", middleware, async (req, res) => {
+app.post("/addParagraphQuestion", async (req, res) => {
   const { question, area, subtype, answer } = req.body;
   const newQuestion = new ParagraphQuestion({
     question,
@@ -243,7 +243,7 @@ app.post("/addParagraphQuestion", middleware, async (req, res) => {
 
 // a get api to fetch and send all questions and fields?
 
-app.get("/getMCQQuestions", middleware, async (req, res) => {
+app.get("/getMCQQuestions", async (req, res) => {
   try {
     const { ids } = req.query;
     const idArr = ids ? ids.split(",") : null;
@@ -392,7 +392,7 @@ app.get("/getParagraphQuestionsforTest/:email/", async (req, res) => {
   }
 });
 
-app.get("/myprofile", middleware, async (req, res) => {
+app.get("/myprofile", async (req, res) => {
   try {
     let exist = await Evaluator.find({
       id: req.user.id,
@@ -432,7 +432,7 @@ app.post("/testresults", async (req, res) => {
 
 //update the candidate
 //10-05-23 API modified to fetch total candidate data
-app.put("/edit/:id", middleware, async (req, res) => {
+app.put("/edit/:id", async (req, res) => {
   try {
     const {
       email,
@@ -462,7 +462,7 @@ app.put("/edit/:id", middleware, async (req, res) => {
   }
 });
 
-app.get("/all", middleware, async (req, res) => {
+app.get("/all", async (req, res) => {
   try {
     const candidates = await Candidate.find({});
     viewcandidate.ViewCandidate.log(
@@ -480,7 +480,7 @@ app.get("/all", middleware, async (req, res) => {
   }
 });
 
-app.patch("/updateCandidateTeststatus", middleware, async (req, res) => {
+app.patch("/updateCandidateTeststatus", async (req, res) => {
   try {
     const { email, testStatus } = req.body;
     const candidate = await Candidate.findOne({ email });
@@ -504,7 +504,7 @@ app.patch("/updateCandidateTeststatus", middleware, async (req, res) => {
   }
 });
 
-app.get("/getTestResults", middleware, async (req, res) => {
+app.get("/getTestResults", async (req, res) => {
   try {
     const emails = req.query.emails.split(",");
     const testResults = await TestResults.find({ email: { $in: emails } });
@@ -516,7 +516,7 @@ app.get("/getTestResults", middleware, async (req, res) => {
 });
 
 // Create a put request to alter and update the candidate and add a field called result and give the value "Pass"
-app.post("/updateTestResult/:email", middleware, async (req, res) => {
+app.post("/updateTestResult/:email", async (req, res) => {
   try {
     const email = req.params.email;
     const candidate = await Candidate.findOne({ email });
@@ -560,7 +560,7 @@ app.post("/updateTestResult/:email", middleware, async (req, res) => {
 });
 
 // Write an API to get the Test Result of a Candidate by hitting the Test Result table
-app.get("/getTestResult/:email", middleware, async (req, res) => {
+app.get("/getTestResult/:email", async (req, res) => {
   try {
     const email = req.params.email;
     const candidate = await Candidate.findOne({ email });
@@ -576,7 +576,7 @@ app.get("/getTestResult/:email", middleware, async (req, res) => {
   }
 });
 
-app.get("/getAllQuestions/:area", middleware, async (req, res) => {
+app.get("/getAllQuestions/:area", async (req, res) => {
   try {
     const area = req.params.area;
     const mcqquestions = await MCQQuestion.find({ area: area })
@@ -597,7 +597,7 @@ app.get("/getAllQuestions/:area", middleware, async (req, res) => {
   }
 });
 
-app.get("/getCandidateDetails/:email", middleware, async (req, res) => {
+app.get("/getCandidateDetails/:email", async (req, res) => {
   try {
     const email = req.params.email;
     const candidate = await Candidate.find({ email: email });
@@ -628,7 +628,7 @@ app.get("/*", function(req, res) {
 });
 
 // DELETE endpoint to delete a question
-app.delete("/deleteQuestion/:questionId", middleware, (req, res) => {
+app.delete("/deleteQuestion/:questionId", (req, res) => {
   const questionId = req.params.questionId;
 
   // Find the question by ID and delete it
