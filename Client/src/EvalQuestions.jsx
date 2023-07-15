@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import './EvalQuestions.css'
 import { useLocation, useNavigate } from "react-router";
 import { BASE_URL } from "./Service/helper";
 import { Button } from "react-bootstrap";
 import DOMPurify from "dompurify";
+import { store } from "./App";
 
 
 const EvalQuestions = () => {
@@ -25,6 +26,16 @@ const EvalQuestions = () => {
   const email = location.state.email;
   const testStatus = location.state.testStatus;
   const isEvaluated = testStatus === 'Evaluated';
+  const [token, setToken] = useContext(store) || localStorage.getItem("token")
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (!token && !storedToken) {
+      navigate("/login");
+    } else if (!token && storedToken) {
+      setToken(storedToken);
+    }
+  }, [token, navigate, setToken]);
   useEffect(() => {
     axios.get(`${BASE_URL}/getTestResults?emails=${email}`)
       .then(response => {

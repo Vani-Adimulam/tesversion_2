@@ -19,54 +19,18 @@ const CandidateList = () => {
   const [testStatus, setTestStatus] = useState("");
   const [sortField, setSortField] = useState("");
   const [result, setResult] = useState("On Hold")
-  // console.log(result)
   const [sortDirection, setSortDirection] = useState("");
   const navigate = useNavigate();
-  const [token] = useContext(store) || localStorage.getItem("token")
-
-  useEffect(()=>{
-    if(!token){
-      navigate('/login')
-    }
-  },[token,navigate])
+  const [token, setToken] = useContext(store) || localStorage.getItem("token")
 
   useEffect(() => {
-    
-    const fetchData = async () => {
-      const result = await axios(`${BASE_URL}/all`);
-      const candidates = result.data;
-      setTestStatus(candidates.testStatus);
-
-      const emailList = candidates.map(candidate => candidate.email).join(",");
-      const res = await axios.get(`${BASE_URL}/getTestResults?emails=${emailList}`);
-      const testResultsMap = new Map(res.data.map(result => [result.email, result]));
-
-      const updatedCandidates = candidates.map(candidate => {
-        const testResult = testResultsMap.get(candidate.email);
-        console.log(testResult)
-        if (testResult && testResult.totalScore!==undefined) {
-          const selectedAnswers = testResult.selectedAnswers;
-          const totalQuestions = Object.keys(selectedAnswers).length;
-          // const total =
-          //   candidate.mcqCount * 1 +
-          //   candidate.codeCount * 5 +
-          //   candidate.paragraphCount * 5;
-          return {
-            ...candidate,
-            totalScore: testResult.totalScore,
-            total: totalQuestions,
-          };
-        } else {
-          return candidate;
-        }
-      });
-
-      setCandidates(updatedCandidates);
-      console.log(updatedCandidates);
-    };
-
-    fetchData();
-  }, []);
+    const storedToken = localStorage.getItem("token");
+    if (!token && !storedToken) {
+      navigate("/login");
+    } else if (!token && storedToken) {
+      setToken(storedToken);
+    }
+  }, [token, navigate, setToken]);
 
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
@@ -75,9 +39,43 @@ const CandidateList = () => {
     };
   }, []);
 
-  //name,area,mcqCount,codeCount,paragraphCount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios(`${BASE_URL}/all`);
+        const candidates = result.data;
+        setTestStatus(candidates.testStatus);
+
+        const emailList = candidates.map(candidate => candidate.email).join(",");
+        const res = await axios.get(`${BASE_URL}/getTestResults?emails=${emailList}`);
+        const testResultsMap = new Map(res.data.map(result => [result.email, result]));
+
+        const updatedCandidates = candidates.map(candidate => {
+          const testResult = testResultsMap.get(candidate.email);
+          if (testResult && testResult.totalScore !== undefined) {
+            const selectedAnswers = testResult.selectedAnswers;
+            const totalQuestions = Object.keys(selectedAnswers).length;
+            return {
+              ...candidate,
+              totalScore: testResult.totalScore,
+              total: totalQuestions,
+            };
+          } else {
+            return candidate;
+          }
+        });
+
+        setCandidates(updatedCandidates);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleEditModalClose = () => setShowEditModal(false);
-  //modified this function to readonly data when status is testtaken or evaluated instead of disabling the button
+
   const handleEditModalShow = (candidate) => {
     const readOnlyFields =
       candidate.testStatus === "Test Taken" ||
@@ -93,12 +91,12 @@ const CandidateList = () => {
     event.preventDefault();
     if (editCandidate.result === "On Hold") {
       try {
-        await axios.post(`${BASE_URL}/updateTestResult/${editCandidate.email}`,{result:result})
+        await axios.post(`${BASE_URL}/updateTestResult/${editCandidate.email}`, { result: result })
         window.location.reload()
       } catch (err) {
         console.log(err.message)
-        alert('Failed to update the result.Please update result again')
-      } 
+        alert('Failed to update the result. Please update the result again')
+      }
     }
     try {
       await axios.put(`${BASE_URL}/edit/${editCandidate._id}`, {
@@ -173,7 +171,6 @@ const CandidateList = () => {
 
   const handleEvaluateModalShow = (candidate) => {
     if (candidate.testStatus === "Test Not Taken" || candidate.testStatus === "Test Cancelled") {
-      // Display warning message here (e.g., using an alert or toast notification library)
       toast.warn("Test is not taken or test has been cancelled. Evaluation cannot be performed.")
       return;
     }
@@ -199,8 +196,8 @@ const CandidateList = () => {
           </button>
         </div>
         <div>
-        <ExcelExport data={candidates} />
-      </div>
+          <ExcelExport data={candidates} />
+        </div>
         <FormControl
           type="text"
           placeholder="Search by email"
@@ -339,15 +336,15 @@ const CandidateList = () => {
                 readOnly
               />
             </Form.Group>
-            {
-              editCandidate.result === "On Hold" ? <FormGroup>
+            {editCandidate.result === "On Hold" &&
+              <FormGroup>
                 <FormLabel>Result</FormLabel>
                 <FormSelect as="select" onChange={(e) => setResult(e.target.value)}>
                   <option value="On Hold">On Hold</option>
                   <option value="Pass">Pass</option>
                   <option value="Fail">Fail</option>
                 </FormSelect>
-              </FormGroup> : null
+              </FormGroup>
             }
             {/* <Form.Group>
               <Form.Label>MCQ Count</Form.Label>
