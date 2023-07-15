@@ -7,13 +7,16 @@ import { store } from "./App"
 
 const AddQuestions = () => {
   const navigate = useNavigate();
-  const [token] = useContext(store)
+  const [token, setToken] = useContext(store) || localStorage.getItem("token")
 
-  useEffect(()=>{
-    if(!token){
-      navigate('/login')
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (!token && !storedToken) {
+      navigate("/login");
+    } else if (!token && storedToken) {
+      setToken(storedToken);
     }
-  },[token,navigate])
+  }, [token, navigate, setToken]);
   
   function handleProfileClick() {
     navigate("/myprofiledashboard");

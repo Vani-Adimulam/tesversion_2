@@ -11,8 +11,17 @@ const CandidateForm = () => {
   const [email, setEmail] = useState("");
   const [area, setArea] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [token] = useContext(store); // Get the token from the context
   const navigate = useNavigate();
+  const [token, setToken] = useContext(store) || localStorage.getItem("token")
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (!token && !storedToken) {
+      navigate("/login");
+    } else if (!token && storedToken) {
+      setToken(storedToken);
+    }
+  }, [token, navigate, setToken]);
 
   const resetForm = () => {
     setName("");
@@ -75,12 +84,6 @@ const CandidateForm = () => {
         setErrorMessage("Error occurred while registering");
       });
   };
-
-  useEffect(() => {
-    if (!token) {
-      navigate("/login"); // Redirect to the login page if token is not available
-    }
-  }, [token, navigate]);
   
   return (
     <center>

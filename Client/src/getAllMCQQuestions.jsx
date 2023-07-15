@@ -18,7 +18,6 @@ const AllMCQQuestions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [questionsPerPage] = useState(6);
   const [showModal, setShowModal] = useState(false);
-  const [token] = useContext(store); // Get the token from the context
 
   const indexOfLastQuestion = currentPage * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
@@ -26,6 +25,17 @@ const AllMCQQuestions = () => {
     indexOfFirstQuestion,
     indexOfLastQuestion
   );
+
+  const [token, setToken] = useContext(store) || localStorage.getItem("token")
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (!token && !storedToken) {
+      navigate("/login");
+    } else if (!token && storedToken) {
+      setToken(storedToken);
+    }
+  }, [token, navigate, setToken]);
 
   useEffect(() => {
     axios
@@ -55,12 +65,6 @@ const AllMCQQuestions = () => {
       });
   }, []);
 
-  
-  useEffect(() => {
-    if (!token) {
-      navigate("/login"); // Redirect to the login page if token is not available
-    }
-  }, [token, navigate]);
   
 
   function handleProfileClick() {

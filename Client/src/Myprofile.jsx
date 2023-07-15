@@ -10,6 +10,7 @@ const MyProfile = () => {
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isTokenRetrieved, setIsTokenRetrieved] = useState(false); // New state variable
   const navigate = useNavigate();
 
   const getTokenFromStorage = () => {
@@ -17,6 +18,7 @@ const MyProfile = () => {
     if (storedToken && !token) {
       setToken(storedToken);
     }
+    setIsTokenRetrieved(true); // Mark the token as retrieved
   };
 
   useEffect(() => {
@@ -24,6 +26,10 @@ const MyProfile = () => {
   }, []);
 
   useEffect(() => {
+    if (!isTokenRetrieved) {
+      return; // Skip the API request until the token is retrieved
+    }
+
     if (!token) {
       navigate("/login"); // Redirect to the login page if token is not available
     } else {
@@ -42,7 +48,7 @@ const MyProfile = () => {
         .catch((err) => console.log(err))
         .finally(() => setIsLoading(false));
     }
-  }, [token, navigate]);
+  }, [token, navigate, isTokenRetrieved]);
 
   const handleLogout = () => {
     setToken("");
