@@ -35,7 +35,7 @@ const evaluated = require("./Loggers/Evaluationlog");
 // Connect to MongoDB
 mongoose
   .connect(
-    process.env.MONGODB_URI,
+    process.env. MONGODB_PROD_URI,
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,
