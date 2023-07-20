@@ -645,7 +645,7 @@ app.get("/getCandidateDetails/:email", async (req, res) => {
 //       }
 //     }
 //   );
-// });
+// }); 
 
 // DELETE endpoint to delete a question
 app.delete("/deleteQuestion/:questionId", (req, res) => {
