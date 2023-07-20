@@ -13,31 +13,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Build the Docker image for Dev
+        run: docker build . --file Dockerfile --tag prateekp2f/mydockerimage:dev
+        if: ${{ github.ref == 'dev' }}
+
+      - name: Build the Docker image for Prod
+        run: docker build . --file Dockerfile --tag prateekp2f/mydockerimage:prod
+        if: ${{ github.ref == 'main' }}
+
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build the Docker image for Dev
-        run: docker build . --file Dockerfile --tag prateekp2f/mydockerimage:dev
-        if: ${{ github.ref == 'refs/heads/dev' }}
-
-      - name: Build the Docker image for Prod
-        run: docker build . --file Dockerfile --tag prateekp2f/mydockerimage:prod
-        if: ${{ github.ref == 'refs/heads/main' }}
-
       - name: Push Docker image to Docker Hub for Dev
         run: docker push prateekp2f/mydockerimage:dev
-        if: ${{ github.ref == 'refs/heads/dev' }}
+        if: ${{ github.ref == 'dev' }}
 
       - name: Push Docker image to Docker Hub for Prod
         run: docker push prateekp2f/mydockerimage:prod
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'main' }}
 
       - name: Call Webhook for Dev Environment
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+          if [ "${{ github.ref }}" = "dev" ]; then
             curl -X POST http://13.234.48.54:5000/webhook?env=dev
           fi
         env:
@@ -45,7 +45,7 @@ jobs:
 
       - name: Call Webhook for Prod Environment
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          if [ "${{ github.ref }}" = "main" ]; then
             curl -X POST http://13.234.48.54:5000/webhook?env=prod
           fi
         env:
