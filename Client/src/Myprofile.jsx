@@ -23,6 +23,11 @@ const MyProfile = () => {
 
   useEffect(() => {
     getTokenFromStorage();
+    return () => {
+      // Cleanup function to reset state when component is unmounted
+      setData({});
+      setIsLoading(true);
+    };
   }, []);
 
   useEffect(() => {
