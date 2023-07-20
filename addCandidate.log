@@ -27,3 +27,8 @@
 {"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate yevgenyprigozhin@wagner.com","timestamp":"2023-06-30 10:28:34"}
 {"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate test@test.test","timestamp":"2023-07-13 14:25:47"}
 {"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate ironman@marvel.com","timestamp":"2023-07-13 15:30:39"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-19 16:36:40"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-19 16:37:24"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-19 16:47:02"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-19 16:51:03"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-19 17:00:19"}

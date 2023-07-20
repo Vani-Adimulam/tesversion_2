@@ -33,7 +33,7 @@ const getTest = require("./Loggers/getTest");
 const evaluated = require("./Loggers/Evaluationlog");
 
 const getMongoDBUrl = () => {
-  const databaseName = process.env.NODE_ENV === 'PROD' ? 'PROD' : 'DEV';
+  const databaseName = process.env.NODE_ENV === 'prod' ? 'prod' : 'dev';
   return process.env[`MONGODB_${process.env.NODE_ENV}_URI`] + databaseName;
 };
 
