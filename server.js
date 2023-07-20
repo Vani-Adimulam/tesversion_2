@@ -30,7 +30,7 @@ const viewcandidate = require("./Loggers/ViewCandidate");
 const testresult = require("./Loggers/testresult");
 const TestStatus = require("./Loggers/testStatus");
 const getTest = require("./Loggers/getTest");
-const evaluated = require("./Loggers/Evaluationlog"); 
+const evaluated = require("./Loggers/Evaluationlog");
 
 const getMongoDBUrl = () => {
   const databaseName = process.env.NODE_ENV === 'prod' ? 'prod' : 'dev';
