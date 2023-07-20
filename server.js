@@ -32,18 +32,30 @@ const TestStatus = require("./Loggers/testStatus");
 const getTest = require("./Loggers/getTest");
 const evaluated = require("./Loggers/Evaluationlog");
 
-// Connect to MongoDB
+const getMongoDBUrl = () => {
+  const databaseName = process.env.NODE_ENV === 'PROD' ? 'PROD' : 'DEV';
+  return process.env[`MONGODB_${process.env.NODE_ENV}_URI`] + databaseName;
+};
+
 mongoose
-  .connect(
-    process.env. MONGODB_PROD_URI,
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-      // useCreateIndex: true
-    }
-  )
-  .then(() => console.log("DB Connection established"))
-  .catch((err) => console.log(`DB Connection error: ${err.message}`));
+  .connect(getMongoDBUrl(), { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Error connecting to MongoDB:', err));
+
+// Connect to MongoDB
+// mongoose
+//   .connect(
+//     process.env. MONGODB_PROD_URI,
+//     {
+//       useUnifiedTopology: true,
+//       useNewUrlParser: true,
+//       // useCreateIndex: true
+//     }
+//   )
+//   .then(() => console.log("DB Connection established"))
+//   .catch((err) => console.log(`DB Connection error: ${err.message}`));
+
+
 
 app.use(express.json());
 
@@ -394,19 +406,27 @@ app.get("/getParagraphQuestionsforTest/:email/", async (req, res) => {
 
 app.get("/myprofile", async (req, res) => {
   try {
+    if (!req.user || !req.user.id || !req.user.email) {
+      return res.status(400).send("User not found or invalid request");
+    }
+
     let exist = await Evaluator.find({
-      id: req.user.id,
+      id: req.user.id,  
       email: req.user.email,
     });
+
     if (!exist) {
-      return res.status(400).send("User not found");
+      return res.status(400).send("User not found"); 
     }
+
     res.json(exist);
   } catch (err) {
     console.log(err);
     return res.status(500).send("Server Error");
   }
 });
+
+
 
 app.post("/testresults", async (req, res) => {
   try {
@@ -611,21 +631,21 @@ app.get("/getCandidateDetails/:email", async (req, res) => {
   }
 });
 
-const _dirname = path.dirname("");
-const builPath = path.join(_dirname, "./Client/build");
-// app.use(express.static(builPath))
-app.use(express.static(path.join(builPath)));
-app.get("/*", function(req, res) {
-  res.sendFile(
-    "index.html",
-    { root: path.join(_dirname, "./Client/build") },
-    function(err) {
-      if (err) {
-        res.status(500).send(err);
-      }
-    }
-  );
-});
+// const _dirname = path.dirname("");
+// const builPath = path.join(_dirname, "./Client/build");
+// // app.use(express.static(builPath))
+// app.use(express.static(path.join(builPath)));
+// app.get("/*", function(req, res) {
+//   res.sendFile(
+//     "index.html",
+//     { root: path.join(_dirname, "./Client/build") },
+//     function(err) {
+//       if (err) {
+//         res.status(500).send(err);
+//       }
+//     }
+//   );
+// });
 
 // DELETE endpoint to delete a question
 app.delete("/deleteQuestion/:questionId", (req, res) => {
