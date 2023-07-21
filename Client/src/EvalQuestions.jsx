@@ -23,6 +23,7 @@ const EvalQuestions = () => {
   let wrongAnswers = 0;
 
   const location = useLocation();
+  console.log(location)
   const email = location.state.email;
   const eval_email = location.state.eval_email;
   const testStatus = location.state.testStatus;
@@ -129,7 +130,8 @@ const EvalQuestions = () => {
   }, [isEvaluated]);
 
   function handleProfileClick() {
-    navigate("/myprofiledashboard", { state : { email : eval_email }});
+    let email = eval_email;
+    navigate("/myprofiledashboard", { state : { email : email }});
   }
 
   async function updateCandidateResult(result, email) {
