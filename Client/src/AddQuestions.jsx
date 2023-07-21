@@ -2,12 +2,14 @@ import React, { useContext, useState, useEffect } from "react";
 import McqForm from "./McqForm";
 import AddParagraphQuestionForm from "./AddParagraphQuestionForm";
 import { Form, Container, Row, Col} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { store } from "./App"
 
 const AddQuestions = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [token, setToken] = useContext(store) || localStorage.getItem("token")
+  const eval_email = location.state?.email;
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -19,7 +21,7 @@ const AddQuestions = () => {
   }, [token, navigate, setToken]);
   
   function handleProfileClick() {
-    navigate("/myprofiledashboard");
+    navigate("/myprofiledashboard", { state : { email : eval_email }});
   }
   
   const [selectedQuestionType, setSelectedQuestionType] = useState("");
