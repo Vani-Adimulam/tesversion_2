@@ -22,7 +22,7 @@
 JWT_SECRET=your_jwt_secret_here
 
 # MongoDB URLs for Development and Production environments
-MONGODB_DEV_URI=mongodb://localhost:27017/dev_database
+MONGODB_DEV_URI=replace_with_your_dev_mongodb_url
 MONGODB_PROD_URI=replace_with_your_production_mongodb_url
 
 # Node.js environment (development or production)
