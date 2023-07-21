@@ -1,18 +1,20 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { store } from "./App";
 import { BASE_URL } from "./Service/helper";
 
 const CandidateForm = () => {
+  const location = useLocation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [area, setArea] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [token, setToken] = useContext(store) || localStorage.getItem("token")
+  const eval_email = location.state?.email;
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -42,7 +44,7 @@ const CandidateForm = () => {
   };
 
   const handleProfileClick = () => {
-    navigate("/myprofiledashboard");
+    navigate("/myprofiledashboard", { state : { email : eval_email }});
   };
 
   const submitHandler = (e) => {

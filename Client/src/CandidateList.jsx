@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Table, Button, Modal, Form, FormControl, FormGroup, FormLabel, FormSelect } from "react-bootstrap";
 import axios from "axios";
 import pen from "./assets/pen.svg";
@@ -12,6 +12,7 @@ import ExcelExport from "./ExcelExport";
 import { store } from "./App"
 
 const CandidateList = () => {
+  const location = useLocation();
   const [candidates, setCandidates] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editCandidate, setEditCandidate] = useState({});
@@ -21,7 +22,8 @@ const CandidateList = () => {
   const [result, setResult] = useState("On Hold")
   const [sortDirection, setSortDirection] = useState("");
   const navigate = useNavigate();
-  const [token, setToken] = useContext(store) || localStorage.getItem("token")
+  const [token, setToken] = useContext(store) || localStorage.getItem("token")  
+  const eval_email = location.state?.email;
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -174,11 +176,12 @@ const CandidateList = () => {
       toast.warn("Test is not taken or test has been cancelled. Evaluation cannot be performed.")
       return;
     }
-    const state = { email: candidate.email, testStatus: candidate.testStatus, result: candidate.result };
+    const state = { email: candidate.email, testStatus: candidate.testStatus, result: candidate.result, eval_email: eval_email };
     navigate("/EvalQuestions", { state });
   };
   function handleProfileClick() {
-    navigate("/myprofiledashboard");
+    console.log(eval_email)
+    navigate("/myprofiledashboard", { state : { email : eval_email }});
   }
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import DOMPurify from "dompurify";
 import { BsTrash } from "react-icons/bs"; // Import trash icon from react-icons
@@ -10,6 +10,7 @@ import { BASE_URL } from "./Service/helper";
 import { store } from "./App";
 
 const AllMCQQuestions = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -18,6 +19,7 @@ const AllMCQQuestions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [questionsPerPage] = useState(6);
   const [showModal, setShowModal] = useState(false);
+  const eval_email = location.state?.email;
 
   const indexOfLastQuestion = currentPage * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
@@ -68,7 +70,7 @@ const AllMCQQuestions = () => {
   
 
   function handleProfileClick() {
-    navigate("/myprofiledashboard");
+    navigate("/myprofiledashboard", { state : { email : eval_email }});
   }
 
   function handleAreaChange(event) {

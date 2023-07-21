@@ -4,10 +4,9 @@
   "description": "p2f online assement website",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server",
-    "client": "npm start --prefix client",
-    "dev": "npm run server & npm run client"
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "nodemon server.js",
+    "frontend": "cd Client && npm start"
   },
   "author": "santoshreddy",
   "license": "ISC",
@@ -18,7 +17,6 @@
     "axios": "^1.3.5",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.3",
-    "concurrently": "^8.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
@@ -38,6 +36,7 @@
     "winston-aws-cloudwatch": "^3.0.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "eslint-plugin-react": "^7.32.2"
   }
 }

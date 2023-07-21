@@ -404,19 +404,21 @@ app.get("/getParagraphQuestionsforTest/:email/", async (req, res) => {
   }
 });
 
-app.get("/myprofile", async (req, res) => {
+app.get("/myprofile/:email", async (req, res) => { 
   try {
-    if (!req.user || !req.user.id || !req.user.email) {
-      return res.status(400).send("User not found or invalid request");
+    const email = req.params.email;
+    console.log(email);
+
+    if (!email) {
+      return res.status(400).send("Email not provided");
     }
 
-    let exist = await Evaluator.find({
-      id: req.user.id,  
-      email: req.user.email,
+    let exist = await Evaluator.findOne({
+      email: email,
     });
 
     if (!exist) {
-      return res.status(400).send("User not found"); 
+      return res.status(400).send("User not found");
     }
 
     res.json(exist);
@@ -425,8 +427,6 @@ app.get("/myprofile", async (req, res) => {
     return res.status(500).send("Server Error");
   }
 });
-
-
 
 app.post("/testresults", async (req, res) => {
   try {

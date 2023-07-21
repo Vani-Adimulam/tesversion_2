@@ -24,6 +24,7 @@ const EvalQuestions = () => {
 
   const location = useLocation();
   const email = location.state.email;
+  const eval_email = location.state.eval_email;
   const testStatus = location.state.testStatus;
   const isEvaluated = testStatus === 'Evaluated';
   const [token, setToken] = useContext(store) || localStorage.getItem("token")
@@ -128,7 +129,7 @@ const EvalQuestions = () => {
   }, [isEvaluated]);
 
   function handleProfileClick() {
-    navigate("/myprofiledashboard");
+    navigate("/myprofiledashboard", { state : { email : eval_email }});
   }
 
   async function updateCandidateResult(result, email) {

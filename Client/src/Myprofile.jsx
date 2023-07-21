@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { store } from "./App";
 import axios from "axios";
 import { BASE_URL } from "./Service/helper";
@@ -7,6 +7,7 @@ import { BASE_URL } from "./Service/helper";
 const MyProfile = () => {
   const location = useLocation();
   const email = location.state?.email; // Add a conditional check for email property
+  // console.log(email)
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +20,22 @@ const MyProfile = () => {
       setToken(storedToken);
     }
     setIsTokenRetrieved(true); // Mark the token as retrieved
+  };
+
+  const handleCandidateListClick = () => {
+    navigate("/CandidateList", { state: { email: email } });
+  };
+
+  const handleAddCandidateClick = () => {
+    navigate("/CandidateForm", { state: { email: email } });
+  };
+
+  const handleViewQuestionsClick = () => {
+    navigate("/getAllMCQQuestions", { state: { email: email } });
+  };
+
+  const handleAddQuestionsClick = () => {
+    navigate("/AddQuestions", { state: { email: email } });
   };
 
   useEffect(() => {
@@ -40,9 +57,9 @@ const MyProfile = () => {
     } else {
       localStorage.setItem("token", token);
       setIsLoading(true);
-
+      console.log(email)
       axios
-        .get(`${BASE_URL}/myprofile`, {
+        .get(`${BASE_URL}/myprofile/${email}`, {
           headers: {
             "x-token": token,
           },
@@ -84,8 +101,7 @@ const MyProfile = () => {
               </button>
             </div>
             <div className="card-body">
-              <Link
-                to="/CandidateList"
+            <button
                 className="btn"
                 style={{
                   marginLeft: "5px",
@@ -93,12 +109,13 @@ const MyProfile = () => {
                   fontFamily: "fantasy",
                   marginTop: "2px",
                 }}
+                onClick={handleCandidateListClick}
               >
                 Manage Candidate
-              </Link>
+              </button>
             </div>
             <div className="card-body">
-              <Link
+              <button
                 to="/CandidateForm"
                 className="btn"
                 style={{
@@ -106,12 +123,13 @@ const MyProfile = () => {
                   backgroundColor: "#01717B",
                   fontFamily: "fantasy",
                 }}
+                onClick={handleAddCandidateClick}
               >
                 Add Candidate
-              </Link>
+              </button>
             </div>
             <div className="card-body">
-              <Link
+              <button
                 to="/getAllMCQQuestions"
                 className="btn"
                 style={{
@@ -119,12 +137,13 @@ const MyProfile = () => {
                   backgroundColor: "#1E5BB6",
                   fontFamily: "fantasy",
                 }}
+                onClick={handleViewQuestionsClick}
               >
                 View Questions
-              </Link>
+              </button>
             </div>
             <div className="card-body">
-              <Link
+              <button
                 to="/AddQuestions"
                 className="btn"
                 style={{
@@ -132,9 +151,10 @@ const MyProfile = () => {
                   backgroundColor: "#B1D7E7",
                   fontFamily: "fantasy",
                 }}
+                onClick={handleAddQuestionsClick}
               >
                 Add Questions
-              </Link>
+              </button>
             </div>
           </div>
         </center>
