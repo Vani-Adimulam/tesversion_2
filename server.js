@@ -34,7 +34,7 @@ const evaluated = require("./Loggers/Evaluationlog");
 
 const getMongoDBUrl = () => {
   const databaseName = process.env.NODE_ENV === 'prod' ? 'prod' : 'dev';
-  return process.env[`MONGODB_${process.env.NODE_ENV}_URI`] + databaseName;
+  return process.env[`MONGODB_URI_${process.env.NODE_ENV.toUpperCase()}`];
 };
 
 mongoose
@@ -111,6 +111,7 @@ app.post("/register", async (req, res) => {
       `request sent to MongoDB database checked with existing data, it is a new data so,added a candidate ${email}`
     );
   } catch (err) {
+    console.log(err);
     addCandidateLogger.addCandidateLogger.log(
       "error",
       "error in adding candidate"

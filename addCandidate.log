@@ -36,3 +36,9 @@
 {"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 10:57:35"}
 {"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 11:03:40"}
 {"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 11:04:28"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 15:15:08"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 15:19:27"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 15:21:03"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 15:25:17"}
+{"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 15:47:44"}
+{"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate rogerfederer@gmail.com","timestamp":"2023-07-21 15:49:48"}
