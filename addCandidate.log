@@ -42,3 +42,5 @@
 {"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 15:25:17"}
 {"level":"error","message":"error in adding candidate","timestamp":"2023-07-21 15:47:44"}
 {"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate rogerfederer@gmail.com","timestamp":"2023-07-21 15:49:48"}
+{"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate veerasatya@gmail.com","timestamp":"2023-07-21 16:22:13"}
+{"level":"info","message":"request sent to MongoDB database checked with existing data, it is a new data so,added a candidate yanlidong@gmail.com","timestamp":"2023-07-21 22:12:52"}
