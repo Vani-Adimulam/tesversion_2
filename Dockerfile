@@ -29,8 +29,18 @@ WORKDIR /app
 EXPOSE 7001
 EXPOSE 3000
 
-# Set the environment variable for the base URL
-ENV BASE_URL=http://13.234.48.54
+# Set the environment variables for MongoDB URI and JWT_SECRET
+ARG MONGODB_URI_DEV
+ARG MONGODB_URI_PROD
+ARG JWT_SECRET
+
+# Set default values for the arguments if not provided during build
+ARG NODE_ENV=dev
+ENV NODE_ENV=$NODE_ENV
+
+ENV MONGODB_URI_DEV=$MONGODB_URI_DEV
+ENV MONGODB_URI_PROD=$MONGODB_URI_PROD
+ENV JWT_SECRET=$JWT_SECRET
 
 # Start the app
 CMD ["npm", "start"]
