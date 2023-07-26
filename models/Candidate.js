@@ -20,6 +20,7 @@ const Candidate = new mongoose.Schema({
     type : String,
     required: true,
   },
+
   area : {
     type : String,
     required : true,
@@ -35,6 +36,12 @@ const Candidate = new mongoose.Schema({
   paragraphCount : {
     type: Number,
     // required : true,
+  },
+  atsId:{
+    type:String,
+    default:"",
+    require:true
+    //for applicant tracking system 
   }
 });
 

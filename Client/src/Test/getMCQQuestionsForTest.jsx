@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../Service/helper';
+import { ATS_URL, BASE_URL } from '../Service/helper';
 import DOMPurify from 'dompurify';
 
 const getMCQQuestionsForTest = () => {
@@ -17,6 +17,8 @@ const getMCQQuestionsForTest = () => {
     localStorage.getItem('hasFetched') || false
   );
   const email = JSON.parse(localStorage.getItem('email'));
+  const atsId = JSON.parse(localStorage.getItem('Id'));
+  console.log(atsId)
 
   useEffect(() => {
     window.history.pushState(null, '', window.location.href);
@@ -90,7 +92,7 @@ const getMCQQuestionsForTest = () => {
     event.preventDefault();
     event.returnValue = '';
   }
-  function handleNextClick() {
+  async function handleNextClick() {
     const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
 
     if (missingAnswers) {
@@ -124,6 +126,14 @@ const getMCQQuestionsForTest = () => {
         .catch((error) => {
           console.log(error);
         });
+
+      ///Post the data to the Applicant Tracking System when applicant completed the test
+      try {
+        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: email, comment: "Applicant completed the test successfully.", commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+          .then(res => console.log(res))
+      } catch (err) {
+        console.log(err.message)
+      }
 
       localStorage.clear();
       navigate('../Results');
@@ -210,7 +220,7 @@ const getMCQQuestionsForTest = () => {
       <center>
         <div>
           <button className="btn" style={{ marginTop: '3px', backgroundColor: '#FFFFFF' }} onClick={handleNextClick}>
-            Submit
+            Submit You Answers
           </button>
         </div>
       </center>

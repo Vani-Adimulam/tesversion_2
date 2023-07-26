@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import './EvalQuestions.css'
 import { useLocation, useNavigate } from "react-router";
-import { BASE_URL } from "./Service/helper";
+import { ATS_URL, BASE_URL } from "./Service/helper";
 import { Button } from "react-bootstrap";
 import DOMPurify from "dompurify";
 import { store } from "./App";
@@ -166,6 +166,19 @@ const EvalQuestions = () => {
     }
   }
 
+  //****** Update the test result to Applicant Tracking System 
+  const submitTestResultToAts =async (appResult,mcqScore,total)=>{
+       ///Post the data to the Applicant Tracking System when applicant completed the test
+      try {
+        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: email, comment: `Applicant evaluated successfully & Result is : ${appResult} & Score :${mcqScore} / ${total} `, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+          .then(res => console.log(res))
+      } catch (err) {
+        console.log(err.message)
+      }
+  }
+  ///// Update the test result to Applicant Tracking System 
+
+
   return (
     <div style={{ marginTop: '90px' }}>
       <header className="bg-#D6D6D6 text-dark p-3">
@@ -315,6 +328,7 @@ const EvalQuestions = () => {
               setResult("Pass");
               updateCandidateResult("Pass", { email });
               setIsButtonClicked(true);
+              submitTestResultToAts("Pass",mcqScore,total)
               navigate("/CandidateList");
               window.location.reload();
             }}
@@ -329,6 +343,7 @@ const EvalQuestions = () => {
               setResult("On Hold");
               updateCandidateResult("On Hold", { email });
               setIsButtonClicked(true);
+              submitTestResultToAts("On Hold",mcqScore,total)
               navigate("/CandidateList");
               window.location.reload();
 
@@ -346,6 +361,7 @@ const EvalQuestions = () => {
               setResult("Fail");
               updateCandidateResult("Fail", { email });
               setIsButtonClicked(true);
+              submitTestResultToAts("fail",mcqScore,total)
               navigate("/CandidateList");
               window.location.reload();
             }}

@@ -30,4 +30,11 @@
 {"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-06-30 10:31:15"}
 {"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-07-13 17:27:53"}
 {"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-07-21 15:57:44"}
+<<<<<<< Updated upstream
 {"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-07-21 22:15:14"}
+=======
+{"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-07-21 17:32:00"}
+{"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-07-21 17:41:39"}
+{"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-07-21 18:50:19"}
+{"level":"info","message":"Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API","timestamp":"2023-07-22 11:20:46"}
+>>>>>>> Stashed changes

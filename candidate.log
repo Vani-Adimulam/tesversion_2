@@ -96,4 +96,12 @@
 {"level":"info","message":"request sent to MongoDB database matched with the data ironman@marvel.com login successfull","timestamp":"2023-07-13 17:24:54"}
 {"level":"info","message":"request sent to MongoDB database matched with the data testcandid1@gmail.com login successfull","timestamp":"2023-07-13 17:25:52"}
 {"level":"info","message":"request sent to MongoDB database matched with the data testdev@p2f.com login successfull","timestamp":"2023-07-21 15:55:34"}
+<<<<<<< Updated upstream
 {"level":"info","message":"request sent to MongoDB database matched with the data yanlidong@gmail.com login successfull","timestamp":"2023-07-21 22:13:05"}
+=======
+{"level":"info","message":"request sent to MongoDB database matched with the data d@gmail.com login successfull","timestamp":"2023-07-21 17:05:00"}
+{"level":"info","message":"request sent to MongoDB database matched with the data ats@gmail.com login successfull","timestamp":"2023-07-21 17:05:14"}
+{"level":"info","message":"request sent to MongoDB database matched with the data ast1@gmail.com login successfull","timestamp":"2023-07-21 17:38:50"}
+{"level":"info","message":"request sent to MongoDB database matched with the data suryaats@gmail.com login successfull","timestamp":"2023-07-21 18:49:34"}
+{"level":"info","message":"request sent to MongoDB database matched with the data atsapplicant@gmail.com login successfull","timestamp":"2023-07-22 11:20:01"}
+>>>>>>> Stashed changes

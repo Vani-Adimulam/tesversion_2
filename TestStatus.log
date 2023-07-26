@@ -26,4 +26,11 @@
 {"level":"info","message":"yevgenyprigozhin@wagner.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-06-30 10:31:15"}
 {"level":"info","message":"testcandid1@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-07-13 17:27:53"}
 {"level":"info","message":"testdev@p2f.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-07-21 15:57:44"}
+<<<<<<< Updated upstream
 {"level":"info","message":"yanlidong@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-07-21 22:15:14"}
+=======
+{"level":"info","message":"ats@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-07-21 17:32:00"}
+{"level":"info","message":"ast1@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-07-21 17:41:39"}
+{"level":"info","message":"suryaats@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-07-21 18:50:19"}
+{"level":"info","message":"atsapplicant@gmail.com took the test and submitted,\"updateCandidateTeststatus\" API is triggered and updated the status in database","timestamp":"2023-07-22 11:20:46"}
+>>>>>>> Stashed changes
