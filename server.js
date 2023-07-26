@@ -92,6 +92,7 @@ app.post("/register", async (req, res) => {
     const { mcqCount } = req.body;
     const { codeCount } = req.body;
     const { paragraphCount } = req.body;
+    const { atsId} = req.body;
     let exist = await Candidate.findOne({ email });
     if (exist) {
       return res.send("Candidate Already Exist");
@@ -103,6 +104,7 @@ app.post("/register", async (req, res) => {
       mcqCount,
       codeCount,
       paragraphCount,
+      atsId
     });
     await newUser.save();
     res.status(200).send("Registered Successfully");

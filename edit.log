@@ -18,5 +18,11 @@
 {"level":"info","message":" edit candidate api is triggered by the evaluator && test got edited and updated data is saved to the database","timestamp":"2023-07-13 17:32:53"}
 {"level":"info","message":" edit candidate api is triggered by the evaluator && test got edited and updated data is saved to the database","timestamp":"2023-07-13 17:33:16"}
 {"level":"info","message":" edit candidate api is triggered by the evaluator && test got edited and updated data is saved to the database","timestamp":"2023-07-13 17:34:12"}
+<<<<<<< Updated upstream
 {"level":"info","message":" edit candidate api is triggered by the evaluator && testdev got edited and updated data is saved to the database","timestamp":"2023-07-21 16:11:56"}
 {"level":"info","message":" edit candidate api is triggered by the evaluator && atsId got edited and updated data is saved to the database","timestamp":"2023-07-21 18:31:43"}
+=======
+{"level":"info","message":" edit candidate api is triggered by the evaluator && add2 got edited and updated data is saved to the database","timestamp":"2023-07-21 18:37:22"}
+{"level":"info","message":" edit candidate api is triggered by the evaluator && surya got edited and updated data is saved to the database","timestamp":"2023-07-21 18:51:33"}
+{"level":"info","message":" edit candidate api is triggered by the evaluator && atsapplicant got edited and updated data is saved to the database","timestamp":"2023-07-22 11:22:03"}
+>>>>>>> Stashed changes

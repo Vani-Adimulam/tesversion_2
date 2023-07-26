@@ -116,5 +116,16 @@
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for testcandid1@gmail.com","timestamp":"2023-07-13 17:25:55"}
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for testdev@p2f.com","timestamp":"2023-07-21 15:55:35"}
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for testdev@p2f.com","timestamp":"2023-07-21 15:55:35"}
+<<<<<<< Updated upstream
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for yanlidong@gmail.com","timestamp":"2023-07-21 22:13:07"}
 {"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for yanlidong@gmail.com","timestamp":"2023-07-21 22:13:07"}
+=======
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ats@gmail.com","timestamp":"2023-07-21 17:05:17"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ats@gmail.com","timestamp":"2023-07-21 17:05:17"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ast1@gmail.com","timestamp":"2023-07-21 17:38:52"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ast1@gmail.com","timestamp":"2023-07-21 17:38:52"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for suryaats@gmail.com","timestamp":"2023-07-21 18:49:36"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for suryaats@gmail.com","timestamp":"2023-07-21 18:49:36"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for atsapplicant@gmail.com","timestamp":"2023-07-22 11:20:03"}
+{"level":"info","message":"getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for atsapplicant@gmail.com","timestamp":"2023-07-22 11:20:04"}
+>>>>>>> Stashed changes

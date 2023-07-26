@@ -1,5 +1,6 @@
-// export const BASE_URL = "http://localhost:7001" 
-export const BASE_URL = ""
+export const BASE_URL = "http://localhost:7001" 
+export const ATS_URL="http://localhost:9005" ///For Applicant tracking system 
+// export const BASE_URL = ""
 
 // Before deployment, comment out BASE_URL
 // For local , Use BASE_URL : localhost:7001

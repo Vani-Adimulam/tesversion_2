@@ -7,7 +7,7 @@ import assessment from "./assets/assessment.png";
 import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from 'react-toastify'
-import { BASE_URL } from "./Service/helper";
+import { ATS_URL, BASE_URL } from "./Service/helper";
 import ExcelExport from "./ExcelExport";
 import { store } from "./App"
 
@@ -94,6 +94,7 @@ const CandidateList = () => {
     if (editCandidate.result === "On Hold") {
       try {
         await axios.post(`${BASE_URL}/updateTestResult/${editCandidate.email}`, { result: result })
+        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: editCandidate.email, comment: `Applicant test result changed from  onHold to ${result}`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
         window.location.reload()
       } catch (err) {
         console.log(err.message)
