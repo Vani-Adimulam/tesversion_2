@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:7001" 
+export const BASE_URL = "" 
 export const ATS_URL="http://localhost:9005" ///For Applicant tracking system 
 // export const BASE_URL = ""
 

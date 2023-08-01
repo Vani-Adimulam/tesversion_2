@@ -633,22 +633,7 @@ app.get("/getCandidateDetails/:email", async (req, res) => {
     console.log(error);
   }
 });
-
-// const _dirname = path.dirname("");
-// const builPath = path.join(_dirname, "./Client/build");
-// // app.use(express.static(builPath))
-// app.use(express.static(path.join(builPath)));
-// app.get("/*", function(req, res) {
-//   res.sendFile(
-//     "index.html",
-//     { root: path.join(_dirname, "./Client/build") },
-//     function(err) {
-//       if (err) {
-//         res.status(500).send(err);
-//       }
-//     }
-//   );
-// }); 
+ 
 
 // DELETE endpoint to delete a question
 app.delete("/deleteQuestion/:questionId", (req, res) => {
@@ -666,6 +651,22 @@ app.delete("/deleteQuestion/:questionId", (req, res) => {
       console.log(error);
       res.status(500).json({ message: "An error occurred while deleting the question" });
     });
+});
+///Frontend Integration:
+const _dirname = path.dirname("");
+const builPath = path.join(_dirname, "./Client/build");
+// app.use(express.static(builPath))
+app.use(express.static(path.join(builPath)));
+app.get("/*", function(req, res) {
+  res.sendFile(
+    "index.html",
+    { root: path.join(_dirname, "./Client/build") },
+    function(err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  );
 });
 
 
