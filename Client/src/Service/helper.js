@@ -1,5 +1,5 @@
 export const BASE_URL = "" 
-export const ATS_URL="http://localhost:9005" ///For Applicant tracking system 
+export const ATS_URL="http://13.235.50.224" ///For Applicant tracking system 
 // export const BASE_URL = ""
 
 // Before deployment, comment out BASE_URL
