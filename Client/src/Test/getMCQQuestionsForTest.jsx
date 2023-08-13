@@ -129,7 +129,7 @@ const getMCQQuestionsForTest = () => {
 
       ///Post the data to the Applicant Tracking System when applicant completed the test
       try {
-        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: email, comment: "Applicant completed the test successfully.", commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
           .then(res => console.log(res))
       } catch (err) {
         console.log(err.message)

@@ -94,7 +94,7 @@ const CandidateList = () => {
     if (editCandidate.result === "On Hold") {
       try {
         await axios.post(`${BASE_URL}/updateTestResult/${editCandidate.email}`, { result: result })
-        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: editCandidate.email, comment: `Applicant test result changed from  onHold to ${result}`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: editCandidate.email, comment: `The applicant's test result has been updated from On Hold to <b> ${result} </b>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
         window.location.reload()
       } catch (err) {
         console.log(err.message)

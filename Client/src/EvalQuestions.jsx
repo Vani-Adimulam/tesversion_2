@@ -167,10 +167,10 @@ const EvalQuestions = () => {
   }
 
   //****** Update the test result to Applicant Tracking System 
-  const submitTestResultToAts =async (appResult,mcqScore,total)=>{
+  const submitTestResultToAts =async (appResult,mcqScore,total,other)=>{
        ///Post the data to the Applicant Tracking System when applicant completed the test
       try {
-        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: email, comment: `Applicant evaluated successfully & Result is : ${appResult} & Score :${mcqScore} / ${total} `, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        await axios.put(`${ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant's evaluation has been completed successfully. The obtained result is: ${appResult}, with a score of ${mcqScore} out of ${total}.${other} `, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
           .then(res => console.log(res))
       } catch (err) {
         console.log(err.message)
@@ -328,7 +328,7 @@ const EvalQuestions = () => {
               setResult("Pass");
               updateCandidateResult("Pass", { email });
               setIsButtonClicked(true);
-              submitTestResultToAts("Pass",mcqScore,total)
+              submitTestResultToAts("<b> Pass </b>",mcqScore,total,"")
               navigate("/CandidateList");
               window.location.reload();
             }}
@@ -343,10 +343,9 @@ const EvalQuestions = () => {
               setResult("On Hold");
               updateCandidateResult("On Hold", { email });
               setIsButtonClicked(true);
-              submitTestResultToAts("On Hold",mcqScore,total)
+              submitTestResultToAts(`<b> On Hold </b>`,mcqScore,total,`To determine whether the applicant passes or fails, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`)
               navigate("/CandidateList");
               window.location.reload();
-
             }}
             style={{ marginRight: "10px" }}
             disabled={isButtonClicked}
@@ -361,7 +360,7 @@ const EvalQuestions = () => {
               setResult("Fail");
               updateCandidateResult("Fail", { email });
               setIsButtonClicked(true);
-              submitTestResultToAts("fail",mcqScore,total)
+              submitTestResultToAts("<b> Fail <b>",mcqScore,total,"")
               navigate("/CandidateList");
               window.location.reload();
             }}
