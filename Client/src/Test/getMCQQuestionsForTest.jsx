@@ -54,7 +54,7 @@ const getMCQQuestionsForTest = () => {
           localStorage.setItem('mcqquestions', JSON.stringify(randomizedQuestions));
           setMCQQuestions(randomizedQuestions);
           setHasFetched(true);
-          localStorage.setItem('hasFetched', true);
+          localStorage.setItem('hasFetched', true);    
         })
         .catch((error) => {
           console.log(error);
@@ -220,7 +220,7 @@ const getMCQQuestionsForTest = () => {
       <center>
         <div>
           <button className="btn" style={{ marginTop: '3px', backgroundColor: '#FFFFFF' }} onClick={handleNextClick}>
-            Submit You Answers
+            Submit Your Answers
           </button>
         </div>
       </center>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo from "./assets/p2f-semi-logo-img.png";
+// import logo from "./assets/p2f-semi-logo-img.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 const Nav = () => {
@@ -27,7 +27,7 @@ const Nav = () => {
       className="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed fixed-top"
       style={{ justifyContent: "space-between" }}
     >
-      <img src={logo} alt="" style={{ height: "40px", marginLeft: "15px" }} />
+      {/* <img src={logo} alt="" style={{ height: "40px", marginLeft: "15px" }} /> */}
       <span
         style={{
           float: "left",
@@ -43,7 +43,7 @@ const Nav = () => {
         }}
         className="navbar-brand"
       >
-        P2F Online Assessment  
+        Online Assessment Test
       </span>
       <div className="d-flex">
         {showHomeLink && (

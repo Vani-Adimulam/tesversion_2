@@ -1,18 +1,18 @@
 import React from "react";
-import {Carousel,Container, Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image } from "react-bootstrap";
 import info from "./assets/infographic-img2.png"
 import info2 from "./assets/infographic-img.png"
-import wipro from "./assets/wiprologo-kXmF--621x414@LiveMint.webp"
-import HCL from "./assets/HCL-1-2.jpg";
-import altran from "./assets/download (1).jpg";
-import logo from "./assets/logo.webp"
+// import wipro from "./assets/wiprologo-kXmF--621x414@LiveMint.webp"
+// import HCL from "./assets/HCL-1-2.jpg";
+// import altran from "./assets/download (1).jpg";
+// import logo from "./assets/logo.webp"
 
 const Home = () => {
   return (
     <div >
       <Row className="justify-content-center">
         <Col md={8} className="text-center" style={{marginTop:"100px"}}>
-          <h1 className="display-1">Welcome to P2F Online Assessment</h1>
+          <h1 className="display-1">Welcome to Online Assessment</h1>
           <h6>
             Are you an individual looking to test your own knowledge? We've got
             you covered.
@@ -34,12 +34,12 @@ const Home = () => {
             are unable to build a high quality pool of resources with specialized
             skills due to their large overheads and previous generation financial
             models. As a result, they can only subcontract and act as a distribution
-            channel for niche, specialized smaller firms such as P2F that have built
+            channel for niche, specialized smaller firms such as that have built
             enduring supply chains at the right cost.
           </p>
 
           <p className="lead">
-            Since inception, P2F’s expert teams have successfully taped out tens of
+            Since inception,Expert teams have successfully taped out tens of
             complex SoCs in various domains and industry segments for major
             semiconductor and technology businesses worldwide. Our engineers are
             extremely comfortable working across a variety of technology nodes,
@@ -58,7 +58,7 @@ const Home = () => {
         </Col>
       </Row>
 
-      <div>
+      {/* <div>
       <h1 style={{textAlign:"center",fontFamily:"inherit"}}>Our Clients</h1>
       <Carousel>
       <Carousel.Item>
@@ -109,7 +109,7 @@ const Home = () => {
         </Container>
       </Carousel.Item>
     </Carousel>
-      </div>
+      </div> */}
     </div>
   );
 };
