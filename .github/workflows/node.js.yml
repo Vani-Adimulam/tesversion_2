@@ -24,7 +24,7 @@ jobs:
 
     - name: Install Server Dependencies
       working-directory: ./
-      # run: npm ci
+      run: npm ci
 
     # - name: Install Client Dependencies
     #   working-directory: ./client
@@ -35,7 +35,7 @@ jobs:
     #   run: npm run build
 
     - name: Start Server
-      working-directory: ./server
+      working-directory: ./
       run: pm2 restart tesapp
     # - run : pm2 restart atsserver
     # - name: adding env file let see
