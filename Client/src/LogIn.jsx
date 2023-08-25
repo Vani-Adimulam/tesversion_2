@@ -21,6 +21,7 @@ import Registrationform from "./Registrationform";
 const LogIn = () => {
   const [selectedOption, setSelectedOption] = useState("evaluator");
   // console.log(selectedOption)
+  // console.log("hello world")
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
