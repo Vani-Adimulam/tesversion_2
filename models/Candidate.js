@@ -37,6 +37,11 @@ const Candidate = new mongoose.Schema({
     type: Number,
     // required : true,
   },
+  isApproved : {
+    type: Boolean,
+    required : true,
+    default:true
+  },
   atsId:{
     type:String,
     default:"",

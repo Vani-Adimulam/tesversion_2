@@ -34,9 +34,9 @@ jobs:
     #   working-directory: ./client
     #   run: npm run build
 
-    - name: Start Server
-      working-directory: ./
-      run: pm2 restart tesapp
+    # - name: Start Server
+      # working-directory: ./
+      # run: pm2 restart tesapp
     # - run : pm2 restart atsserver
     # - name: adding env file let see
     #   run: |

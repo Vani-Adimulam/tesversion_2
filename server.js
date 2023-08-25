@@ -82,7 +82,7 @@ app.post("/addEvaluator", async (req, res) => {
     return res.status(500).send("Server error");
   }
 });
-
+     
 //candidate register route
 app.post("/register", async (req, res) => {
   try {
@@ -92,13 +92,17 @@ app.post("/register", async (req, res) => {
     const { mcqCount } = req.body;
     const { codeCount } = req.body;
     const { paragraphCount } = req.body;
-    const { atsId} = req.body;
+    const { atsId } = req.body;
+    const { isApproved } = req.body;
+
+    console.log(isApproved)
     let exist = await Candidate.findOne({ email });
     if (exist) {
       return res.send("Candidate Already Exist");
     }
     let newUser = new Candidate({
       email,
+      isApproved,
       name,
       area,
       mcqCount,
@@ -106,8 +110,9 @@ app.post("/register", async (req, res) => {
       paragraphCount,
       atsId
     });
-    await newUser.save();
+    await newUser.save();  
     res.status(200).send("Registered Successfully");
+    // res.status(200).json({details:newUser})
     addCandidateLogger.addCandidateLogger.log(
       "info",
       `request sent to MongoDB database checked with existing data, it is a new data so,added a candidate ${email}`
@@ -329,7 +334,7 @@ app.get("/getParagraphQuestions", async (req, res) => {
     Viewpara.ViewPara.log("error", "cannot display para questions");
     res.status(500).json({ error: "Internal server error" });
   }
-}); 
+});
 
 // create an API to get random MCQ Questions from Question Bank given area
 // and number
@@ -364,7 +369,7 @@ app.get("/getMCQQuestionsforTest/:email", async (req, res) => {
     console.log(
       "Unable to create Test, Please select the correct number of questions"
     );
-    res.status(500).json({ error: "Internal Server Error" });   
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -407,7 +412,7 @@ app.get("/getParagraphQuestionsforTest/:email/", async (req, res) => {
   }
 });
 
-app.get("/myprofile/:email", async (req, res) => { 
+app.get("/myprofile/:email", async (req, res) => {
   try {
     const email = req.params.email;
     console.log(email);
@@ -555,7 +560,7 @@ app.post("/updateTestResult/:email", async (req, res) => {
     const testStatus = "Evaluated";
     const testResult = await TestResults.findOneAndUpdate(
       { email },
-      { result, totalScore},
+      { result, totalScore },
       { new: true }
     );
     const candidateresult = await Candidate.findOneAndUpdate(
@@ -633,7 +638,7 @@ app.get("/getCandidateDetails/:email", async (req, res) => {
     console.log(error);
   }
 });
- 
+
 
 // DELETE endpoint to delete a question
 app.delete("/deleteQuestion/:questionId", (req, res) => {
@@ -652,16 +657,109 @@ app.delete("/deleteQuestion/:questionId", (req, res) => {
       res.status(500).json({ message: "An error occurred while deleting the question" });
     });
 });
+
+//Aproval of the registration of the candicate:
+
+const pendingCandidateSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  area: {
+    type: String,
+    required: true,
+  }
+});
+
+const PendingCandidate = mongoose.model('PendingCandidate', pendingCandidateSchema);
+
+module.exports = PendingCandidate;
+
+// Endpoint to submit candidate information
+app.post('/candidate/register', async (req, res) => {
+  const { name, email, branch } = req.body;
+
+  // Store candidate information temporarily (e.g., in memory or a pending collection)
+  const newPendingCandidate = new PendingCandidate({ name, email, branch });
+  await newPendingCandidate.save();
+
+  return res.status(200).json({ message: 'Candidate information submitted for evaluation' });
+});
+// Candidate approval endpoint
+app.post('/candidate/approve', async (req, res) => {
+  const { id, isApproved } = req.body;
+
+  try {
+    // Retrieve the candidate by ID
+    const candidate = await Candidate.findById(id);
+
+    if (!candidate) {
+      return res.status(404).json({ error: 'Candidate not found' });
+    }
+
+    if (isApproved) {
+      // Insert candidate into the database if approved
+      await candidate.save();
+      return res.status(200).json({ message: 'Candidate approved and added to database' });
+    } else {
+      // Delete candidate from the database if rejected
+      await candidate.remove();
+      return res.status(200).json({ message: 'Candidate rejected and not added to database' });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// Endpoint for evaluator to review pending candidates and make decisions
+app.get('/evaluator/dashboard', async (req, res) => {
+  const pendingCandidates = await PendingCandidate.find();
+  res.status(200).json({ pendingCandidates });
+});
+// Endpoint for evaluator to review pending candidates and make decisions on sava on database
+
+app.post('/evaluator/decide', async (req, res) => {
+  const { candidateId, isApproved } = req.body;
+
+  const pendingCandidate = await PendingCandidate.findById(candidateId);
+  if (!pendingCandidate) {
+    return res.status(404).json({ error: 'Candidate not found' });
+  }
+
+  if (isApproved) {
+    const newCandidate = new Candidate({
+      name: pendingCandidate.name,
+      email: pendingCandidate.email,
+      branch: pendingCandidate.branch,
+    });
+    await newCandidate.save();
+  }
+
+  // Remove pending candidate whether approved or rejected
+  await pendingCandidate.remove();
+
+  return res.status(200).json({ message: 'Decision processed successfully' });
+});
+
+
+
+
 ///Frontend Integration:
 const _dirname = path.dirname("");
 const builPath = path.join(_dirname, "./Client/build");
 // app.use(express.static(builPath))
 app.use(express.static(path.join(builPath)));
-app.get("/*", function(req, res) {
+app.get("/*", function (req, res) {
   res.sendFile(
     "index.html",
     { root: path.join(_dirname, "./Client/build") },
-    function(err) {
+    function (err) {
       if (err) {
         res.status(500).send(err);
       }
@@ -670,7 +768,8 @@ app.get("/*", function(req, res) {
 });
 
 
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
- 

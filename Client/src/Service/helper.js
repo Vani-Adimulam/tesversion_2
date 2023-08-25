@@ -1,6 +1,8 @@
-// export const BASE_URL = "" 
-// export const ATS_URL="http://52.66.206.75" ///For Applicant tracking system 
-export const BASE_URL = "http://13.233.45.223"
+export const BASE_URL = "" 
+// export const BASE_URL = "http://13.233.45.223" current version
+// export const BASE_URL = "http://localhost:7001"
+
+
 export const ATS_URL="http://13.233.161.128" ///For Applicant tracking system 
 
 

@@ -99,9 +99,14 @@ const LogIn = () => {
             </div>
             <hr />
             <div>
-              {selectedOption === "candidate" && <CandidateLogin />}
+              {/* {selectedOption === "candidate" && <CandidateLogin />}
               {selectedOption === "registration" && <Registrationform />}
-              {selectedOption === "evaluator" && <EvaluatorForm />}
+              {selectedOption === "evaluator" && <EvaluatorForm />} */}
+              {
+                selectedOption=== "evaluator" ? <EvaluatorForm/> : <>{
+                  selectedOption=== "candidate" ? <CandidateLogin/>:<Registrationform/> 
+                  }</>
+              }
             </div>
           </div>
         </div>

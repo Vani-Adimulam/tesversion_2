@@ -72,6 +72,7 @@ const Registrationform = () => {
                 name: trimmedName,
                 email: trimmedEmail,
                 area: trimmedArea,
+                isApproved:false
             }, {
                 headers: {
                     "x-token": token, // Include the token in the request headers
