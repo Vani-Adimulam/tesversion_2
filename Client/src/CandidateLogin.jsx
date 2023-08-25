@@ -45,13 +45,13 @@ const CandidateLogin = () => {
  
 
   return (
-    <div className="container" style={{marginTop:"100px"}}>
+    <div className="container">
       <div className="row justify-content-center mt-5">
-        <div className="col-md-6 col-lg-4">
+        <div className="">
           <div className="card shadow">
-            <div className="card-body">
-              <h2 className="card-title text-center">CandidateLogin</h2>
-              <form onSubmit={submitHandler} className="form">
+            <div  className="card-body">
+              <h2 className="card-title text-center">Candidate Login</h2>
+              <form style={{border:"2px solid green",maxWidth:"100%"}} onSubmit={submitHandler} className="form">
                 <span className="title">Welcome to our online assessment portal</span>
                 <p className="description">
                   We're excited that you've chosen to take this test and we

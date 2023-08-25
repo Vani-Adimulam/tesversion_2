@@ -47,12 +47,12 @@ const EvaluatorForm = () => {
   }, [token, navigate, data.email]);
 
   return (
-    <div className="container" style={{ marginTop: "100px" }}>
-      <div className="row justify-content-center mt-5">
-        <div className="col-md-6 col-lg-4">
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="">
           <div className="card shadow">
-            <div className="card-body">
-              <h2 className="card-title text-center">Evaluator Login</h2>
+            <div style={{width:"100%"}} className="card-body">
+              <h2 className="card-title text-center">Evaluator Login</h2><hr/>
               <form onSubmit={submitHandler} autoComplete="off">
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
@@ -97,6 +97,7 @@ const EvaluatorForm = () => {
                         id="Path_10"></path>
                     </svg>
                   </button>
+                  
                 </div>
                 {errorMessage && (
                   <div className="mt-3 text-center text-danger">
