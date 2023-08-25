@@ -44,7 +44,7 @@ const LogIn = () => {
         <div style={{ marginTop: "100px", }}>
           <div style={{ width: "50%", margin: "0px auto" }}>
             <div style={{ display: "flex" }}>
-              <div style={{ width: "50%" }} onClick={() => setSelectedOption("candidate")}>
+              <div style={{ width: "" ,padding:"10px"}} onClick={() => setSelectedOption("candidate")}>
                 <div>
                   <input
                     type="radio"
@@ -61,7 +61,7 @@ const LogIn = () => {
                 </div>
 
               </div>
-              <div style={{ width: "50%" }} onClick={() => {
+              <div style={{ width: "",padding:"10px" }} onClick={() => {
                 setSelectedOption("elalutator")
               }
               }>
@@ -80,7 +80,7 @@ const LogIn = () => {
                 </div>
               </div>
 
-              <div style={{ width: "50%" }} onClick={() => {
+              <div style={{ width: "",padding:"10px" }} onClick={() => {
                 setSelectedOption("registration")
 
               }
