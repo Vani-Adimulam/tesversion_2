@@ -41,6 +41,7 @@ const AddQuestions = () => {
               </Form.Label>
               <Form.Control
                 as="select"
+                className="form-select"
                 value={selectedQuestionType}
                 onChange={handleQuestionTypeChange}
               >

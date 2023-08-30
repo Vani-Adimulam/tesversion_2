@@ -12,7 +12,7 @@ const getMCQQuestionsForTest = () => {
   );
   const [selectedAnswers, setSelectedAnswers] = useState(
     JSON.parse(localStorage.getItem('selectedAnswers')) || {}
-  );
+  ); 
   const [hasFetched, setHasFetched] = useState(
     localStorage.getItem('hasFetched') || false
   );

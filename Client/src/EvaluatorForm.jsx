@@ -35,7 +35,7 @@ const EvaluatorForm = () => {
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage("Email or password is not valid");
+        setErrorMessage("Email or password is invalid.");
       });
   };
 
@@ -80,6 +80,11 @@ const EvaluatorForm = () => {
                     required
                   />
                 </div>
+                {errorMessage && (
+                  <div className="mt-3 text-center text-danger">
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="text-center">
                   <button className="cta">
                     <span className="hover-underline-animation">Login</span>
@@ -99,11 +104,7 @@ const EvaluatorForm = () => {
                   </button>
                   
                 </div>
-                {errorMessage && (
-                  <div className="mt-3 text-center text-danger">
-                    {errorMessage}
-                  </div>
-                )}
+                
               </form>
             </div>
           </div>

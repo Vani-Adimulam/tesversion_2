@@ -110,7 +110,7 @@ app.post("/register", async (req, res) => {
       paragraphCount,
       atsId
     });
-    await newUser.save();  
+    await newUser.save();
     res.status(200).send("Registered Successfully");
     // res.status(200).json({details:newUser})
     addCandidateLogger.addCandidateLogger.log(
@@ -137,17 +137,22 @@ app.post("/verify-emails", async (req, res) => {
     );
     if (!candidate) {
       logger.Logger.log("error", "Error in candidate login");
-      return res.status(404).json({ status: "Email not found" });
+      return res.status(404).json({ status: "The email address you entered is not registered." });
     }
 
     if (candidate.testStatus !== "Test Not Taken") {
-      return res.status(401).json({ status: "Test already taken" });
+      return res.status(401).json({ status: "Test already taken." });
     }
 
     if (candidate.testStatus === "Test Cancelled") {
       return res.status(401).json({ status: "Test cancelled" });
     }
-    res.status(200).json({ status: "Success" });
+    if(candidate.isApproved === false){
+      res.status(403).json({ status: "Your registration has been successful. You will need to wait for evaluator approval before you can start your test." });
+    }else{
+      res.status(200).json({ status: "Success" });
+    }
+    
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -415,7 +420,7 @@ app.get("/getParagraphQuestionsforTest/:email/", async (req, res) => {
 app.get("/myprofile/:email", async (req, res) => {
   try {
     const email = req.params.email;
-    console.log(email);
+    // console.log(email);
 
     if (!email) {
       return res.status(400).send("Email not provided");
@@ -658,7 +663,37 @@ app.delete("/deleteQuestion/:questionId", (req, res) => {
     });
 });
 
-//Aproval of the registration of the candicate:
+//Aproval of the registration of the candicate:   
+app.get("/pending/approvals", async (req, res) => {
+  try {
+    const pending = await Candidate.find({ isApproved: false });
+    res.status(200).send(pending)
+  } catch (err) {
+    res.status(500).json({ msg: err.message })
+  }
+})
+// updating approval of the candicate
+app.patch("/confirm/approval/:id/:decide", async (req, res) => {
+  const { id, decide } = req.params
+  if (decide === "true") {
+    const data = await Candidate.findByIdAndUpdate(id, { isApproved: decide }, { new: true })
+    res.send(data)
+  } else if(decide === "false") {
+    const data = await Candidate.findByIdAndDelete(id)
+    res.send(data)
+  } else{
+    res.send("please select any one action")
+  }
+
+})
+//Sending the no of pending approvals 
+app.get("/pending/approvals/count",async(req,res)=>{
+  const noOfPendingApprovals= await Candidate.countDocuments({
+    isApproved:false
+  })
+  res.status(200).json({pendingRequests:noOfPendingApprovals})
+})
+
 
 const pendingCandidateSchema = new mongoose.Schema({
   name: {
@@ -668,7 +703,7 @@ const pendingCandidateSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-  },
+  },  
   area: {
     type: String,
     required: true,

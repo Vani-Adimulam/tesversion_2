@@ -12,7 +12,9 @@ const MyProfile = () => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isTokenRetrieved, setIsTokenRetrieved] = useState(false); // New state variable
+  const [PendingCount,setPendingCount]=useState(0)
   const navigate = useNavigate();
+
 
   const getTokenFromStorage = () => {
     const storedToken = localStorage.getItem("token");
@@ -37,14 +39,22 @@ const MyProfile = () => {
   const handleAddQuestionsClick = () => {
     navigate("/AddQuestions", { state: { email: email } });
   };
-
+  const handlePendingApprovals =()=>{
+    navigate("/pendingApprovals",{ state: { email: email } })
+  }
+  const count=async()=>{
+    await axios.get(`${BASE_URL}/pending/approvals/count`).then(res=>setPendingCount(res.data.pendingRequests)).catch(err=>console.log(err))
+  }
+  
   useEffect(() => {
+    count()
     getTokenFromStorage();
     return () => {
       // Cleanup function to reset state when component is unmounted
       setData({});
       setIsLoading(true);
     };
+    
   }, []);
 
   useEffect(() => {
@@ -57,7 +67,7 @@ const MyProfile = () => {
     } else {
       localStorage.setItem("token", token);
       setIsLoading(true);
-      console.log(email)
+      // console.log(email)
       axios
         .get(`${BASE_URL}/myprofile/${email}`, {
           headers: {
@@ -82,26 +92,20 @@ const MyProfile = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+ 
   return (
     <div style={{ backgroundColor: "#F0F1F4" }}>
       {data && (
         <center>
           <br />
           <div className="card" style={{ width: "18rem", marginTop: "90px" }}>
+          <br />
+            <h5 className="card-title">Welcome {email}</h5>
+           
+
+           
             <div className="card-body">
-              <h5 className="card-title">Welcome {email}</h5>
-              <br />
               <button
-                style={{ backgroundColor: "#F19E18", fontFamily: "fantasy" }}
-                className="btn"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
-            <div className="card-body">
-            <button
                 className="btn"
                 style={{
                   marginLeft: "5px",
@@ -154,6 +158,24 @@ const MyProfile = () => {
                 onClick={handleAddQuestionsClick}
               >
                 Add Questions
+              </button>
+            </div>
+            <div className="card-body">
+              <button
+                style={{ fontFamily: "fantasy" }}
+                className="btn btn-warning"
+                onClick={handlePendingApprovals}
+              >
+                Pending Approvals({PendingCount})
+              </button>
+            </div>
+            <div className="card-body">
+              <button
+                style={{ fontFamily: "fantasy" }}
+                className="btn btn-danger"
+                onClick={handleLogout}
+              >
+                Logout
               </button>
             </div>
           </div>

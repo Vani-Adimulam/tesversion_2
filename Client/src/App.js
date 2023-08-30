@@ -20,6 +20,7 @@ import LogIn from "./LogIn";
 import AddQuestions from "./AddQuestions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PendingApprovals from "./PendingApprovals";
 export const store = createContext();
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
             <Route path="/Login" element={<LogIn/>} />
             <Route path="/login" element={<EvaluatorForm />} />
             <Route path="/myprofiledashboard" element={<Myprofile />} />
+            <Route path="/pendingApprovals" element={<PendingApprovals />} />
             <Route path="/CandidateForm" element={<CandidateForm />} />
             <Route path="/verify-emails" element={<CandidateLogin />} />
             <Route path="/CandidateList" element={<CandidateList />} />

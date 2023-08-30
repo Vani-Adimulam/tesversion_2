@@ -4,9 +4,6 @@ import { toast } from 'react-toastify'
 import axios from "axios";
 import "./CandidateLogin.css";
 import { BASE_URL } from "./Service/helper";
-
-
-
 const CandidateLogin = () => {
   const [data, setData] = useState({
     email: "",
@@ -22,7 +19,7 @@ const CandidateLogin = () => {
     localStorage.setItem("email", JSON.stringify(data["email"]));
     axios
       .post(`${BASE_URL}/verify-emails`, data)
-      .then((res) => {
+      .then((res) => { 
         if (res.status === 200) {
           toast.success("Login Successfully")
           navigate("/instructions");
@@ -32,11 +29,8 @@ const CandidateLogin = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
-        setErrorMessage("Email not registered or Test Already Taken");
-        toast.error("Email not registered")
-        toast.warn("Test already taken")
-        toast("your test may have cancelled",{
+        setErrorMessage(error.response.data.status);
+        toast(error.response.data.status,{
         className:"toast-message"})
       });
   };
@@ -68,6 +62,11 @@ const CandidateLogin = () => {
                   onChange={changeHandler}
                   required
                 />
+                {errorMessage && (
+                  <div className="mt-3 text-center text-danger">
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="text-center">
                   <button className="cta">
                     <span className="hover-underline-animation">Login</span>
@@ -87,11 +86,7 @@ const CandidateLogin = () => {
                     </svg>
                   </button>
                 </div>
-                {errorMessage && (
-                  <div className="mt-3 text-center text-danger">
-                    {errorMessage}
-                  </div>
-                )}
+                
               </form>
             </div>
           </div>
