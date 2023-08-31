@@ -197,7 +197,8 @@ app.post("/loginEvaluator", async (req, res) => {
 });
 
 // API endpoint for adding a question to the "questions" collection
-app.post("/addQuestionMCQ", upload.single("image"), middleware, async (req, res) => {
+//Remove middle ware for token issue.
+app.post("/addQuestionMCQ", upload.single("image"), async (req, res) => {
   try {
     const {
       area,

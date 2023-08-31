@@ -272,3 +272,4 @@
 {"level":"info","message":"evaluator Request sent to database email and password are matched with the data ,ats@mail.com login successfull","timestamp":"2023-08-22 09:45:16"}
 {"level":"error","message":"Evaluator login error","timestamp":"2023-08-22 09:45:16"}
 {"level":"info","message":"evaluator Request sent to database email and password are matched with the data ,test@tes.com login successfull","timestamp":"2023-08-22 09:57:53"}
+{"level":"info","message":"evaluator Request sent to database email and password are matched with the data ,tes@gmail.com login successfull","timestamp":"2023-08-31 09:58:40"}
