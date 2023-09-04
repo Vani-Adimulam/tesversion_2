@@ -13,6 +13,7 @@ const PendingApprovals = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const eval_email = location.state?.email;
   const navigate = useNavigate();
+  console.log("Hello world")
 
   useEffect(() => { 
     getPendingApprovals();
