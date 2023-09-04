@@ -2,9 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from './Service/helper';
 import Pagination from 'react-js-pagination';
-import { useNavigate } from 'react-router';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 const PendingApprovals = () => {
+  const location = useLocation();
   const [pendingApprovals, setPendingApprovals] = useState([]);
   const [pendingApprovalsStatus,setPendingApprovalsStatus] = useState("Loading Pending Approvals .Please wait...")
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,7 +14,7 @@ const PendingApprovals = () => {
   const eval_email = location.state?.email;
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => { 
     getPendingApprovals();
   }, []);
 

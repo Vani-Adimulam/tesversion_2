@@ -6,7 +6,7 @@ import { BASE_URL } from "./Service/helper";
 
 const MyProfile = () => {
   const location = useLocation();
-  const email = location.state?.email; // Add a conditional check for email property
+  const email = location.state?.email || "TES APP"; // Add a conditional check for email property
   // console.log(email)
   const [token, setToken] = useContext(store);
   const [data, setData] = useState({});
