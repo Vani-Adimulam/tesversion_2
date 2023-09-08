@@ -30,8 +30,7 @@ const CandidateLogin = () => {
       })
       .catch((error) => {
         setErrorMessage(error.response.data.status);
-        toast(error.response.data.status,{
-        className:"toast-message"})
+        toast.warning(error.response.data.status)
       });
   };
 
