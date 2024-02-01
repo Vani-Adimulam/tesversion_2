@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 
 import EvaluatorForm from "./EvaluatorForm";
 import CandidateLogin from "./CandidateLogin";
-import BG from './assets/10-Online-Examination-Software-Features-That-Make-Online-Exams-A-Breeze-01.png'
+// import BG from './assets/10-Online-Examination-Software-Features-That-Make-Online-Exams-A-Breeze-01.png'
 import Registrationform from "./Registrationform";
 
 const LogIn = () => {
@@ -35,7 +35,7 @@ const LogIn = () => {
   return (
     <div
       style={{
-        backgroundImage: `url(${BG})`,
+        // backgroundImage: `url(${BG})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "100vh",
