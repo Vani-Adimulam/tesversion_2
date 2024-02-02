@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import logo from "./assets/onlinetest_web_application-removebg-preview-removebg-preview.png"
 // import logo from "./assets/p2f-semi-logo-img.png";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
@@ -23,33 +24,32 @@ const Nav = () => {
     localStorage.setItem("showHomeLink", JSON.stringify(showHomeLink));
   }, [isLoggedIn, showHomeLink]);
   return (
-    <div
-      className="navbar navbar-expand-lg navbar-fixed fixed-top"
+    <div className="navbar navbar-expand-lg navbar-fixed fixed-top"
       style={{ justifyContent: "space-between", backgroundColor: '#ffffff', margin: '0'}}
     >
-      {/* <img src={logo} alt="" style={{ height: "40px", marginLeft: "15px" }} /> */}
+      <img src={logo} alt="logo" style={{ height: "50px", marginLeft: "15px" }} />
       <span
         style={{
-          float: "left",
-          fontSize: "40px",
+          // float: "",
+          fontSize: "35px",
           fontWeight: "650",
-          backgroundImage:
-            "linear-gradient(to right, blue, orange)",
-          WebkitBackgroundClip: "text",
-          MozBackgroundClip: "text",
-          backgroundClip: "text",
-          color: "transparent",
-          marginLeft: "100px",
+          color:"#40a3e6",
+          // backgroundImage:
+          //   "linear-gradient(to right, blue, orange)",
+          // WebkitBackgroundClip: "text",
+          // MozBackgroundClip: "text",
+          // backgroundClip: "text",
+          // color: "transparent",
         }}
         className="navbar-brand"
       >
-        Online Assessment Test
+       testmaster
       </span>
       <div className="d-flex">
         {showHomeLink && (
           <Link to="/" className="navbar-brand" onClick={handleHomeClick}>
             {/* <FontAwesomeIcon icon={faHouse} /> */}
-            <span>Home</span>
+            <span style={{fontFamily: 'Poppins, sans-serif'}}>Home</span>
           </Link>
         )}
         {!isLoggedIn && showHomeLink && (
@@ -59,7 +59,7 @@ const Nav = () => {
             onClick={handleLogInClick}
           >
             {/* <FontAwesomeIcon icon={faRightToBracket} /> */}
-            <span>Login</span>
+            <span  style={{fontFamily: 'Poppins, sans-serif'}}>Login</span>
           </Link>
         )}
         {isLoggedIn && showHomeLink }
